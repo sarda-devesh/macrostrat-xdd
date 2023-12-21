@@ -11,7 +11,7 @@ project.
 - New units can be discovered by proximity to known entities
 
 This research plan will be developed further during early 2024. The starting point is with two exploratory projects
-taking different approaches to the problem.
+by UW–Madison computer science students, who are each taking a different approaches to the problem.
 
 - [`UW-Macrostrat/factsheet-generator`](https://github.com/UW-Macrostrat/factsheet-generator):
   An LLM-assisted generator for geological "fact sheets" that operates over the
