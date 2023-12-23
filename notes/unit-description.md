@@ -1,24 +1,21 @@
-
 # Macrostrat stratigraphic concepts and database tables
 
 Geologic units are contained in the `macrostrat.units` table.
 
-They are Macrostrat's fundamental unit of description for a rock described for a particular place/region
-(in a "stratigraphic column").
-
+They are Macrostrat's fundamental unit of description for a rock described for a particular place/region (in a "stratigraphic column").
 
 ```sql
 SET search_path TO  macrostrat, public;
 ```
 
-## Unit context and names 
+## Unit context and names
 
-Geologic units are not confined to one location, but are often spatially expansive. They are often referred to by "stratigraphic names", 
+Geologic units are not confined to one location, but are often spatially expansive. They are often referred to by "stratigraphic names",
 semi-standardized proper nouns which identify rock units for geologists.
 
 - This set of relationships is important to linking geologic units to the scientific literature.
-- They often are referred to with predictable suffixes (e.g., *Omkyk **Member***, *Morrison **Formation***, *Tonto **Group***)
-  which helps with discovery and extraction
+- They often are referred to with predictable suffixes (e.g., \*Omkyk **Member\***, \*Morrison **Formation\***, \*Tonto **Group\***)
+    which helps with discovery and extraction
 
 The below query expresses the links between a 'geologic unit', our fundamental unit of
 description of a rock seen in a place, and the 'stratigraphic names' that tend to
