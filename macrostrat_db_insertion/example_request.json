@@ -1,0 +1,33 @@
+{
+    "run_id": "run_2024-04-29_18:56:40.697006",
+    "extraction_pipeline_id": "0",
+    "model_id": "meta-llama/Meta-Llama-3-8B-Instruct_PROMPT_0",
+    "results": [
+        {
+            "text": {
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "652102064f5dbdaca31cdc9d",
+                "hashed_text": "c8c89ab45db09711df194fb7104ee90b9fd8ee7f673b52b87c5858f0636f64aa",
+                "weaviate_id": "efd46bbb-4c4d-4d96-92c3-7f07056c63d8",
+                "paragraph_text": "The Castelo dos Sonhos Formation is a relic of a sedimentary basin that likely formed near the coast, where sediments that were eroded from higher elevations accumulated in alluvial fans and, occasionally, aeolian dunes.\nFigure 4 shows a schematic column of the broad stratigraphy of the Castelo dos Sonhos Formation. Most of the formation consists of medium to coarse-grained, cross-bedded sandstones that are described locally as metamorphosed arenites.\nMost of the gold mineralization in the Castelo dos Sonhos Formation lies in a central band where the various conglomerate lithologies dominate. At the base and top of this band, the conglomerates are interlayered with arenites, which become more frequent as one moves away from the conglomeratic band, either downward into the older rocks (the lower arenite) or upward into the younger rocks (the upper arenite)."
+            },
+            "relationships": [
+                {
+                    "src": "Castelo dos Sonhos Formation",
+                    "relationship_type": "strat_name_to_lith",
+                    "dst": "medium to coarse-grained, cross-bedded sandstones"
+                },
+                {
+                    "src": "arenites",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "metamorphosed"
+                },
+                {
+                    "src": "conglomerates",
+                    "relationship_type": "att_bedform",
+                    "dst": "central band"
+                }
+            ]
+        }
+    ]
+}
