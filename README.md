@@ -22,6 +22,18 @@ We describe each of the components in detail here.
 
 [Weaviate DB](https://weaviate.io/) is a vector database that we populate with paragraphs from xDD. The workers utilize [weaviate's Python library](https://weaviate.io/developers/weaviate/client-libraries/python) to fetch the paragraphs from Weaviate to process. 
 
+## Job Manager
+
+The job manager uses a Redis job queue to communicate tasks to workers. The manager pulls paragraph ids from Weaviate which is sent to the workers. 
+
+You can build and start the Redis server along with the manager like so:
+```
+$ cd job_manager
+$ docker-compose up --build
+```
+
+Be sure to have a `.env` file to specify configurations for the Redis server, Weaviate, etc. 
+
 ## Worker Containers
 
 We have developed two different LLM/ML based approaches to extract rock descriptions from paragraphs. Both approaches process text by paragraph and output relevant relationship triplets:
