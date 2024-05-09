@@ -22,15 +22,26 @@ We describe each of the components in detail here.
 
 [Weaviate DB](https://weaviate.io/) is a vector database that we populate with paragraphs from xDD. The workers utilize [weaviate's Python library](https://weaviate.io/developers/weaviate/client-libraries/python) to fetch the paragraphs from Weaviate to process. 
 
+## Job Manager
+
+The job manager uses a Redis job queue to communicate tasks to workers. The manager pulls paragraph ids from Weaviate which is sent to the workers. 
+
+You can build and start the Redis server along with the manager like so:
+```
+$ cd job_manager
+$ docker-compose up --build
+```
+
+Be sure to have a `.env` file to specify configurations for the Redis server, Weaviate, etc. 
+
 ## Worker Containers
 
-We have developed two different LLM/ML based approaches to extract rock descriptions from paragraphs:
+We have developed two different LLM/ML based approaches to extract rock descriptions from paragraphs. Both approaches process text by paragraph and output relevant relationship triplets:
 
-- [`UW-Macrostrat/factsheet-generator`](https://github.com/UW-Macrostrat/factsheet-generator):
-  An LLM-assisted generator for geological "fact sheets" that operates over the
-  scientific literature (_Bill Xia_). This project implements "retrieval augmented generation"
-  over pre-generated embeddings to find relevant text windows in a corpus of documents. The most
-  relevant regions are then fed to a LLM for final fact synthesis.
+- [`UW-Macrostrat/llm-kg-generator`](https://github.com/UW-Macrostrat/llm-kg-generator/):
+  Utilizes LLMs for few-shot extraction of relationship triplets (_Bill Xia_). Prompt engineering is employed to provide LLMs
+  with guidance and background knowledge necessary for their tasks. Refer to the repository, for more details on how to
+  run the container in tandem with the job manager.
 
 - [`UW-Macrostrat/unsupervised-kg`](https://github.com/UW-Macrostrat/unsupervised-kg):
   Knowledge graph construction to discover new geologic entities in the
