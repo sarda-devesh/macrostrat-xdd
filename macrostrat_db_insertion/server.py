@@ -39,7 +39,7 @@ def load_flask_app(config_file):
 
 # Connect to the database
 MAX_TRIES = 5
-CONFIG_FILE_PATH = "dev_macrostrat.json"
+CONFIG_FILE_PATH = "actual_macrostrat.json"
 app, db = load_flask_app(CONFIG_FILE_PATH)
 CORS(app)
 re_processor = REProcessor("id_maps")
@@ -276,14 +276,104 @@ def get_user_id(user_name):
 
     return True, user_id
 
+def get_model_internal_details(request):
+    # Extract the expected values
+    expected_fields = ["model_name", "model_version"]
+    model_values = {}
+    for field in expected_fields:
+        if field not in request:
+            return False, "Request missing field " + field
+        model_values[field] = str(request[field])
+    
+    # Try to insert the model
+    model_name = model_values["model_name"]
+    models_tables = db.metadata.tables['macrostrat_kg_new.models']
+    try:
+        # Try to insert the model
+        model_insert_statement = INSERT_STATEMENT(models_tables).values(**{
+            "model_name" : model_name
+        })
+        model_insert_statement = model_insert_statement.on_conflict_do_nothing(index_elements=["model_name"])
+        db.session.execute(model_insert_statement)
+        db.session.commit()
+    except:
+        error_msg =  "Failed to insert model " + model_name + " due to error: " + traceback.format_exc()
+        return False, error_msg
+
+    # Try to get the model id
+    data_to_return = {}
+    try:
+        # Execute the select query
+        models_select_statement = SELECT_STATEMENT(models_tables)
+        models_select_statement = models_select_statement.where(models_tables.c.model_name == model_name)
+        models_result = db.session.execute(models_select_statement).all()
+
+        # Ensure we got a result
+        if len(models_result) == 0:
+            raise Exception("Got zero rows matching query " + str(models_select_statement))
+        
+        # Extract the sources id
+        first_row = models_result[0]._mapping
+        data_to_return["internal_model_id"] = str(first_row["model_id"])
+    except:
+        error_msg =  "Failed to get id for model " + model_name + " due to error: " + traceback.format_exc()
+        return False, error_msg
+    
+    # Try to insert the model version
+    model_version = model_values["model_version"]
+    versions_table = db.metadata.tables['macrostrat_kg_new.model_versions']
+    try:
+        # Try to insert the model version
+        version_insert_statement = INSERT_STATEMENT(versions_table).values(**{
+            "model_id" : data_to_return["internal_model_id"],
+            "model_version" : model_version
+        })
+        version_insert_statement = version_insert_statement.on_conflict_do_nothing(index_elements=["model_id", "model_version"])
+        db.session.execute(version_insert_statement)
+        db.session.commit()
+    except:
+        error_msg =  "Failed to insert version " + model_version + " for model " + model_name + " due to error: " + traceback.format_exc()
+        return False, error_msg
+
+    # Try to get the model version
+    try:
+        # Execute the select query
+        version_select_statement = SELECT_STATEMENT(versions_table)
+        version_select_statement = version_select_statement.where(versions_table.c.model_id == data_to_return["internal_model_id"])
+        version_select_statement = version_select_statement.where(versions_table.c.model_version == model_version)
+        version_result = db.session.execute(version_select_statement).all()
+
+        # Ensure we got a result
+        if len(version_result) == 0:
+            raise Exception("Got zero rows matching query " + str(version_select_statement))
+        
+        # Extract the sources id
+        first_row = version_result[0]._mapping
+        data_to_return["internal_version_id"] = str(first_row["version_id"])
+    except:
+        error_msg =  "Failed to get id for version " + model_version + " for model " + model_name + " due to error: " + traceback.format_exc()
+        return False, error_msg
+
+    data_to_return["model_id"] = model_name + "_" + model_version
+
+    return True, data_to_return
+
 def process_input_request(request_data):
     # Get the metadata fields
-    metadata_fields = ["run_id", "extraction_pipeline_id", "model_id"]
+    metadata_fields = ["run_id", "extraction_pipeline_id"]
     metadata_values = {}
     for field_name in metadata_fields:
         if field_name not in request_data:
             return False, "Request data is missing field " + str(field_name)
         metadata_values[field_name] = request_data[field_name]
+
+    # Add the model fields to the metadata
+    sucessful, model_fields = get_model_internal_details(request_data)
+    if not sucessful:
+        return sucessful, model_fields
+
+    for key_name in model_fields:
+        metadata_values[key_name] = model_fields[key_name]
 
     # Determine if this is user provided feedback
     if "user_name" in request_data:
@@ -296,7 +386,10 @@ def process_input_request(request_data):
     try:
         metadata_table = db.metadata.tables['macrostrat_kg_new.metadata']
         metadata_insert_statement = INSERT_STATEMENT(metadata_table).values(**metadata_values)
-        metadata_insert_statement = metadata_insert_statement.on_conflict_do_nothing(index_elements=["run_id"])
+        metadata_insert_statement = metadata_insert_statement.on_conflict_do_update(index_elements=["run_id"], set_ = {
+            "internal_model_id" : metadata_values["internal_model_id"],
+            "internal_version_id" : metadata_values["internal_version_id"]
+        })
         db.session.execute(metadata_insert_statement)
         db.session.commit()
     except Exception:
