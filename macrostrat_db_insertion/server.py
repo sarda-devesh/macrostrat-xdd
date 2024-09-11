@@ -8,15 +8,25 @@ from sqlalchemy.orm import declarative_base
 import json
 import traceback
 from datetime import datetime, timezone
+import os
 
 from re_detail_adder import *
 
-DEFAULT_SCHEMA = "macrostrat_kg_new"
-def load_flask_app(config_file):
-    # Load the config file
-    with open(config_file, 'r') as reader:
-        config = json.load(reader)
+ENV_VAR_PREFIX = "macrostrat_xdd"
+REQUIRED_VALUES = ["username", "password", "host", "port", "database", "schema"]
+def load_config():
+    config_values = {}
+    for required_name in REQUIRED_VALUES:
+        # Read in the environment variable
+        env_variable_name = ENV_VAR_PREFIX + "_" + required_name
+        env_variable_value = os.environ.get(env_variable_name)
+        if env_variable_value is None:
+            raise Exception("Environment variable " + env_variable_name + " is not set")
+        config_values[required_name] = env_variable_value
+    
+    return config_values
 
+def load_flask_app(config):
     # Create the app 
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = sqlalchemy.URL.create(
@@ -29,7 +39,7 @@ def load_flask_app(config_file):
     )
 
     # Create the db
-    Base = declarative_base(metadata = sqlalchemy.MetaData(schema = DEFAULT_SCHEMA))
+    Base = declarative_base(metadata = sqlalchemy.MetaData(schema = config["schema"]))
     db = SQLAlchemy(model_class=Base)
     db.init_app(app)
     with app.app_context():
@@ -39,8 +49,9 @@ def load_flask_app(config_file):
 
 # Connect to the database
 MAX_TRIES = 5
-CONFIG_FILE_PATH = "actual_macrostrat.json"
-app, db = load_flask_app(CONFIG_FILE_PATH)
+config = load_config()
+print(config)
+app, db = load_flask_app(config)
 CORS(app)
 re_processor = REProcessor("id_maps")
 
