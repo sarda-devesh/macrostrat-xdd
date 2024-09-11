@@ -2,16 +2,10 @@ FROM ubuntu:22.04
 RUN apt-get update && apt update -y && apt upgrade -y
 
 RUN apt install -y g++ \
-         make \
          wget \
-         unzip \
-         vim \
          git \
-         curl \
-         htop \
-         dstat \
-         python3-pip --fix-missing
-
+         curl 
+         
 RUN wget \
    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
    && bash Miniconda3-latest-Linux-x86_64.sh -b -p /conda \
