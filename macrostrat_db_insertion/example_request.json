@@ -1,8 +1,8 @@
 {
     "run_id": "run_2024-04-29_18:56:40.697006",
     "extraction_pipeline_id": "0",
-    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct_PROMPT",
-    "model_version" : "0",
+    "model_name": "example_model",
+    "model_version" : "example_version",
     "results": [
         {
             "text": {
