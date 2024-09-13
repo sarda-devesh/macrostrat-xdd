@@ -59,7 +59,7 @@ $ cd macrostrat_db_insertion
 $ export CURRENT_DIR=`pwd`
 $ cd docker
 $ docker build -t db_insert .
-$ docker run -d -v $CURRENT_DIR:/working_dir/ --name=db_insert db_insert:latest sleep infinity
+$ docker run -d -v $CURRENT_DIR:/working_dir/ --name=db_insert -p 9543:9543 db_insert:latest sleep infinity
 $ docker exec -it db_insert bash
 $ conda activate db_insert_env
 ```

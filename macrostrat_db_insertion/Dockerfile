@@ -1,18 +1,11 @@
-FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
-RUN apt update
+FROM ubuntu:22.04
+RUN apt-get update && apt update -y && apt upgrade -y
 
 RUN apt install -y g++ \
-         make \
          wget \
-         unzip \
-         vim \
          git \
-         sudo \
-         curl \
-         htop \
-         dstat \
-         python3-pip
-
+         curl 
+         
 RUN wget \
    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
    && bash Miniconda3-latest-Linux-x86_64.sh -b -p /conda \
@@ -25,7 +18,13 @@ RUN conda init
 RUN source ~/.bashrc
 
 RUN mkdir /working_dir
+COPY . /working_dir
 WORKDIR /working_dir
-COPY environment.yml environment.yml
 
+# Create and activate conda environment
 RUN conda env create -f environment.yml
+SHELL ["conda", "run", "-n", "db_insert_env", "/bin/bash", "-c"]
+
+# The code to run when the container is started
+EXPOSE 9543
+ENTRYPOINT ["conda", "run", "-n", "db_insert_env", "python3", "server.py"]
