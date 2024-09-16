@@ -418,7 +418,7 @@ def record_run():
 
 
 @app.route("/health", methods=["GET"])
-def record_run():
+def health():
     """Health check endpoint"""
 
     return jsonify({"status": "Server Running"}), 200
