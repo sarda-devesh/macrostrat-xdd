@@ -416,5 +416,13 @@ def record_run():
 
     return jsonify({"sucess" : "Sucessfully processed the run"}), 200
 
+
+@app.route("/health", methods=["GET"])
+def record_run():
+    """Health check endpoint"""
+
+    return jsonify({"status": "Server Running"}), 200
+
+
 if __name__ == "__main__":
    app.run(host = "0.0.0.0", port = 9543, debug = True)
