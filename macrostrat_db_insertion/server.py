@@ -20,8 +20,6 @@ def load_config():
         # Read in the environment variable
         env_variable_name = ENV_VAR_PREFIX + "_" + required_name
         env_variable_value = os.environ.get(env_variable_name)
-        if env_variable_value is None:
-            raise Exception("Environment variable " + env_variable_name + " is not set")
         config_values[required_name] = env_variable_value
 
     return config_values
