@@ -57,9 +57,8 @@ We have provided a conda environment that contains all of the necessary dependen
 ```
 $ cd macrostrat_db_insertion
 $ export CURRENT_DIR=`pwd`
-$ cd docker
-$ docker build -t db_insert .
-$ docker run -d -v $CURRENT_DIR:/working_dir/ --name=db_insert -p 9543:9543 db_insert:latest sleep infinity
+$ docker build -t db_insert:latest .
+$ docker run -d -v $CURRENT_DIR:/working_dir/ --name=db_insert --entrypoint /bin/bash -p 9543:9543 db_insert:latest -c "sleep infinity"
 $ docker exec -it db_insert bash
 $ conda activate db_insert_env
 ```

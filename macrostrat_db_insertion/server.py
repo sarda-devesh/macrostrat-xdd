@@ -7,30 +7,19 @@ from sqlalchemy import select as SELECT_STATEMENT
 from sqlalchemy.orm import declarative_base
 import json
 import traceback
+import requests
 from datetime import datetime, timezone
 import os
 
 from re_detail_adder import *
 
-ENV_VAR_PREFIX = "macrostrat_xdd"
-REQUIRED_VALUES = ["username", "password", "host", "port", "database", "schema"]
-def load_config():
-    config_values = {}
-    for required_name in REQUIRED_VALUES:
-        # Read in the environment variable
-        env_variable_name = ENV_VAR_PREFIX + "_" + required_name
-        env_variable_value = os.environ.get(env_variable_name)
-        config_values[required_name] = env_variable_value
-
-    return config_values
-
-def load_flask_app(config):
+def load_flask_app(schema_name):
     # Create the app
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['uri']
 
     # Create the db
-    Base = declarative_base(metadata = sqlalchemy.MetaData(schema = config["schema"]))
+    Base = declarative_base(metadata = sqlalchemy.MetaData(schema = schema_name))
     db = SQLAlchemy(model_class=Base)
     db.init_app(app)
     with app.app_context():
@@ -40,380 +29,514 @@ def load_flask_app(config):
 
 # Connect to the database
 MAX_TRIES = 5
-config = load_config()
-print(config)
-app, db = load_flask_app(config)
+SCHEMA_NAME = os.environ['macrostrat_xdd_schema_name']
+app, db = load_flask_app(SCHEMA_NAME)
 CORS(app)
 re_processor = REProcessor("id_maps")
 
-ENTITY_TYPE_TO_ID_MAP = {
-    "strat_name" : "macrostrat_strat_id",
-    "lith" : "macrostrat_lith_id",
-    "lith_att" : "macrostrat_lith_att_id"
-}
-def get_db_entity_id(run_id, entity_name, entity_type, source_id):
-    # Create the entity value
-    entity_unique_rows = ["run_id", "entity_name", "entity_type", "source_id"]
-    entities_table = db.metadata.tables['macrostrat_kg_new.entities']
-    entities_values = {
-        "run_id" : run_id,
-        "entity_name" : entity_name,
-        "entity_type" : entity_type,
-        "source_id" : source_id
-    }
+def get_complete_table_name(table_name):
+    return SCHEMA_NAME + "." + table_name
 
-    # Get the entity id
-    entity_id = re_processor.get_entity_id(entity_name, entity_type)
-    if entity_id != -1:
-        key_name = ENTITY_TYPE_TO_ID_MAP[entity_type]
-        entities_values[key_name] = entity_id
+def verify_key_presents(input, required_keys):
+    for key in required_keys:
+        if key not in input:
+            return "Request missing field " + key
+    
+    return None
 
-    # Try to create this entity
-    try:
-        entities_insert_statement = INSERT_STATEMENT(entities_table).values(**entities_values)
-        entities_insert_statement = entities_insert_statement.on_conflict_do_nothing(index_elements = entity_unique_rows)
-        db.session.execute(entities_insert_statement)
-        db.session.commit()
-    except:
-        error_msg =  "Failed to insert entity " + entity_name +  " for run " + str(run_id) + " due to error: " + traceback.format_exc()
-        return False, error_msg
+def get_model_metadata(request_data, additional_data):
+    # Verify that we have the required metada
+    verify_result = verify_key_presents(request_data, ["model_name", "model_version"])
+    if verify_result is not None:
+        return False, verify_result
 
-    # Get this entity id
-    entity_id = ""
+    # Verify that the model already exists and gets its internal model id
+    models_table_name = get_complete_table_name("model")
+    models_table = db.metadata.tables[models_table_name]
+    model_name = request_data["model_name"]
     try:
         # Execute the select query
-        entities_select_statement = SELECT_STATEMENT(entities_table)
-        entities_select_statement = entities_select_statement.where(entities_table.c.run_id == run_id)
-        entities_select_statement = entities_select_statement.where(entities_table.c.entity_name == entity_name)
-        entities_select_statement = entities_select_statement.where(entities_table.c.entity_type == entity_type)
-        entities_result = db.session.execute(entities_select_statement).all()
+        models_select_statement = SELECT_STATEMENT(models_table)
+        models_select_statement = models_select_statement.where(models_table.c.name == model_name)
+        models_result = db.session.execute(models_select_statement).all()
 
         # Ensure we got a result
-        if len(entities_result) == 0:
-            raise Exception("Got zero rows matching query " + str(entities_select_statement))
+        if len(models_result) == 0:
+            return False, "Failed to find model " + model_name + " in table " + models_table_name
 
         # Extract the sources id
-        first_row = entities_result[0]._mapping
-        entity_id = str(first_row["entity_id"])
+        first_row = models_result[0]._mapping
+        additional_data["internal_model_id"] = str(first_row["id"])
     except:
-        error_msg =  "Failed to get sources id for entity " + str(entity_name)
-        error_msg += " for run " + str(run_id) + " due to error: " + traceback.format_exc()
+        error_msg =  "Failed to get id for model " + model_name + " from table " + models_table_name + " due to error: " + traceback.format_exc()
+        return False, error_msg
+    
+    # Try to insert the model version into the the table
+    model_version = request_data["model_version"]
+    versions_table_name = get_complete_table_name("model_version")
+    versions_table = db.metadata.tables[versions_table_name]
+    try:
+        # Try to insert the model version
+        insert_request_values = {
+            "model_id" : additional_data["internal_model_id"],
+            "name" : model_version
+        }
+        version_insert_statement = INSERT_STATEMENT(versions_table).values(**insert_request_values)
+        version_insert_statement = version_insert_statement.on_conflict_do_nothing(index_elements = list(insert_request_values.keys()))
+        db.session.execute(version_insert_statement)
+        db.session.commit()
+    except:
+        error_msg =  "Failed to insert version " + model_version + " for model " + model_name + " into table " + versions_table_name + " due to error: " + traceback.format_exc()
+        return False, error_msg
+    
+    # Get the version id for this model and version
+    try:
+        # Execute the select query
+        version_select_statement = SELECT_STATEMENT(versions_table)
+        version_select_statement = version_select_statement.where(versions_table.c.model_id == additional_data["internal_model_id"])
+        version_select_statement = version_select_statement.where(versions_table.c.name == model_version)
+        version_result = db.session.execute(version_select_statement).all()
+
+        # Ensure we got a result
+        if len(version_result) == 0:
+            return False, "Failed to find model " + model_name + " and version " + model_version + " in table " + versions_table_name
+
+        # Extract the sources id
+        first_row = version_result[0]._mapping
+        additional_data["internal_version_id"] = str(first_row["id"])
+    except:
+        error_msg =  "Failed to get id for version " + model_version + " for model " + model_name + " in table " + versions_table_name + " due to error: " + traceback.format_exc()
         return False, error_msg
 
-    return True, entity_id
+    return True, None
+
+def construct_bibjson(ref):
+    """Construct a bibjson object from a reference object
+    Note: we haven't rigorously checked this against the spec yet.
+    But it's fine for now...
+    """
+    assert ref["success"]["hits"] == 1
+    data = ref["success"]["data"][0]
+    data["xdd_id"] = data.pop("_gddid")
+    data.pop("abstract", None)
+    return data
+
+
+def find_doi(bibjson):
+    if "identifier" not in bibjson:
+        return None
+    for ident in bibjson["identifier"]:
+        if ident["type"] == "doi":
+            return ident["id"]
+    return None
+
+
+def find_link(bibjson):
+    if "link" not in bibjson:
+        return None
+    for link in bibjson["link"]:
+        if link["type"] == "publisher":
+            return link["url"]
+    return None
+
+PUBLICATIONS_URL = "https://xdd.wisc.edu/api/articles"
+def record_publication(source_text, request_additional_data):
+    # See if already have a result for this publication
+    paper_id = source_text["paper_id"]
+    publication_table_name = get_complete_table_name("publication")
+    publications_table = db.metadata.tables[publication_table_name]
+    found_existing_publication = False
+    try:
+        publication_select_statement = SELECT_STATEMENT(publications_table)
+        publication_select_statement = publication_select_statement.where(publications_table.c.paper_id == paper_id)
+        publication_result = db.session.execute(publication_select_statement).all()
+        found_existing_publication = len(publication_result) > 0
+    except:
+        return False, "Failed to check for paper " + paper_id + " in table " + publication_table_name + " due to error: " + traceback.format_exc()
+    
+    if found_existing_publication:
+        return True, None
+
+    # If not generate the citation and insert the publication
+    try:
+        # Populate the insert request values
+        insert_request_values = { "paper_id" : paper_id}
+
+        # Make the request and get the result
+        result = requests.get(PUBLICATIONS_URL, params = {"docid" : paper_id})
+        data = result.json()
+
+        # Add in the bibjson
+        citation_json = construct_bibjson(data)
+        insert_request_values["citation"] = citation_json
+
+        # Add in the doi and url
+        doi = find_doi(citation_json)
+        if doi is not None:
+            insert_request_values["doi"] = doi
+
+        url = find_link(citation_json)
+        if url is not None:
+            insert_request_values["url"] = url
+        
+        # Make the insert request
+        publication_insert_request = INSERT_STATEMENT(publications_table).values(**insert_request_values)
+        result = db.session.execute(publication_insert_request)
+        db.session.commit()
+    except:
+        return False, "Failed to insert publication for paper " + paper_id + " into table " + publication_table_name + " due to error: " + traceback.format_exc() 
+
+def record_source_text(source_text, request_additional_data):
+    # Verify that we have the required fields
+    required_source_fields = ["preprocessor_id", "paper_id", "hashed_text", "weaviate_id", "paragraph_text"]
+    source_verify_result = verify_key_presents(source_text, required_source_fields)
+    if source_verify_result is not None:
+        return False, source_verify_result
+    
+    # First record the publication
+    sucess, error_msg = record_publication(source_text, request_additional_data)
+    if not sucess:
+        return sucess, error_msg
+
+    # Try to record this source
+    paragraph_weaviate_id = source_text["weaviate_id"]
+    internal_run_id = request_additional_data["internal_run_id"]
+    sources_table_name = get_complete_table_name("source_text")
+    sources_table = db.metadata.tables[sources_table_name]
+    try:
+        # Get the sources values
+        sources_values = {}
+        for key_name in required_source_fields:
+            sources_values[key_name] = source_text[key_name]
+        sources_values["model_run_id"] = internal_run_id
+        
+        sources_insert_statement = INSERT_STATEMENT(sources_table).values(**sources_values)
+        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["model_run_id", "weaviate_id"])
+        db.session.execute(sources_insert_statement)
+        db.session.commit()
+    except:
+        return False, "Failed to insert paragraph with weaviate id " + source_text["weaviate_id"] + " into table " + sources_table_name + " due to error: " + traceback.format_exc()
+
+    # Then try to get the internal source id
+    try:
+        source_id_select_statement = SELECT_STATEMENT(sources_table.c.id)
+        source_id_select_statement = source_id_select_statement.where(sources_table.c.model_run_id == internal_run_id)
+        source_id_select_statement = source_id_select_statement.where(sources_table.c.weaviate_id == paragraph_weaviate_id)
+        source_id_result = db.session.execute(source_id_select_statement).all()
+
+        # Ensure we got a result
+        if len(source_id_result) == 0:
+            return False, "Found zero rows in " + sources_table_name + " table having run id of " + internal_run_id + " and weaviate para " + paragraph_weaviate_id
+        first_row = source_id_result[0]._mapping
+        request_additional_data["internal_source_id"] = first_row["id"]
+    except:
+        return False, "Failed to find internal source id for run " +  internal_run_id + " and weavite paragraph " + paragraph_weaviate_id + " due to error: " + traceback.format_exc()
+
+    return True, None
+
+def get_lith_id(lithology):
+    try:
+        result = requests.get("https://macrostrat.org/api/v2/defs/lithologies", params = {"lith" : lithology.lower()})
+        result_data = result.json()
+
+        # Ensure the request has a result
+        if "success" not in result_data or "data" not in result_data["success"] or len(result_data["success"]["data"]) == 0:
+            return True, None
+
+        # Extract that result
+        first_result = result_data["success"]["data"][0]
+        return True, first_result["lith_id"]
+    except:
+        return False, "Failed to get id for lith " + lithology + " due to error: " + traceback.format_exc()
+
+def get_lith_att_id(lith_attribute):
+    try:
+        result = requests.get("https://macrostrat.org/api/v2/defs/lithology_attributes", params = {"lith_att" : lith_attribute.lower()})
+        result_data = result.json()
+
+        # Ensure the request has a result
+        if "success" not in result_data or "data" not in result_data["success"] or len(result_data["success"]["data"]) == 0:
+            return True, None
+
+        # Extract that result
+        first_result = result_data["success"]["data"][0]
+        return True, first_result["lith_att_id"]
+    except:
+        return False, "Failed to get id for lith attribute " + lith_attribute + " due to error: " + traceback.format_exc()
+
+def get_strat_id(strat_name):
+    try:
+        result = requests.get("https://macrostrat.org/api/v2/defs/strat_names", params = {"strat_name_like" : strat_name.lower()})
+        result_data = result.json()
+
+        # Ensure the request has a result
+        if "success" not in result_data or "data" not in result_data["success"] or len(result_data["success"]["data"]) == 0:
+            return True, None
+
+        # Extract that result
+        first_result = result_data["success"]["data"][0]
+        return True, first_result["strat_name_id"]
+    except:
+        return False, "Failed to get id for strat name " + strat_name + " due to error: " + traceback.format_exc()
+
+ENTITY_TYPE_MAPPING = {
+    "lith" : ("lith_id", get_lith_id),
+    "lith_att" : ("lith_att_id", get_lith_att_id),
+    "strat_name" : ("strat_name_id", get_strat_id)
+}
+
+def record_entity_type(entity_type):
+    # Record this is an entity type
+    entity_type_table_name = get_complete_table_name("entity_type")
+    entity_type_table = db.metadata.tables[entity_type_table_name]
+    try:
+        # Try to insert the model version
+        entity_type_insert_values = {
+            "name" : entity_type,
+        }
+        entity_type_insert_statement = INSERT_STATEMENT(entity_type_table).values(**entity_type_insert_values)
+        entity_type_insert_statement = entity_type_insert_statement.on_conflict_do_nothing(index_elements = list(entity_type_insert_values.keys()))
+        db.session.execute(entity_type_insert_statement)
+        db.session.commit()
+    except:
+        return False, "Failed to insert entity type " + entity_type + " into table " + entity_type_table_name + " due to error: " + traceback.format_exc()
+
+    return True, None
+
+def get_entity_id(entity_name, entity_type, request_additional_data):
+    # Record the entity type
+    success, err_msg = record_entity_type(entity_type)
+    if not success:
+        return success, err_msg
+    
+    # Determine the values to write to the entities table
+    entity_insert_request_values = {
+        "name" : entity_name,
+        "type" : entity_type,
+        "model_run_id" : request_additional_data["internal_run_id"],
+        "source_id" : request_additional_data["internal_source_id"]
+    }
+
+    # Add in the start and end indexs
+    lower_para_text = request_additional_data["paragraph_txt"].lower()
+    lower_name = entity_name.lower()
+    if lower_name in lower_para_text:
+        start_idx = lower_para_text.index(lower_name)
+        entity_insert_request_values["start_index"] = start_idx
+        entity_insert_request_values["end_index"] = start_idx + len(lower_name)
+    
+    # See if we can link to a macrostrat id
+    if entity_type in ENTITY_TYPE_MAPPING:
+        key_name, id_getter = ENTITY_TYPE_MAPPING[entity_type]
+        sucess, id_val = id_getter(entity_name)
+
+        # First ensure the request sucessed
+        if not sucess:
+            return success, id_val
+
+        # Else ensure we can record the value
+        if id_val is not None:
+            entity_insert_request_values[key_name] = id_val
+    
+    # Insert in the result into the table
+    entity_table_name = get_complete_table_name("entity")
+    entity_table = db.metadata.tables[entity_table_name]
+    try:
+        # Execute the request
+        entity_insert_request = INSERT_STATEMENT(entity_table).values(**entity_insert_request_values)
+        entity_insert_request = entity_insert_request.on_conflict_do_update(constraint='entity_unique', set_ = entity_insert_request_values)
+        result = db.session.execute(entity_insert_request)
+        db.session.commit()
+
+        # Get the internal id
+        result_insert_keys = result.inserted_primary_key
+        if len(result_insert_keys) == 0:
+            return False, "Insert statement " + str(entity_insert_request) + " returned zero primary keys"
+
+        return True, result_insert_keys[0]
+    except:
+        return False, "Failed to entity " + entity_name + " of type " + entity_type + " into table " + entity_table_name + " due to error:" + traceback.format_exc()
+
+def record_single_entity(entity, request_additional_data):
+    # Ensure that we have the required metadata fields
+    entity_required_fields = verify_key_presents(entity, ["entity", "entity_type"])
+    if entity_required_fields is not None:
+        return False, entity_required_fields
+
+    return get_entity_id(entity["entity"], entity["entity_type"], request_additional_data)
+
+def record_relationship_type(relationship_type):
+    # Record this is an entity type
+    relationship_type_table_name = get_complete_table_name("relationship_type")
+    relationship_type_table = db.metadata.tables[relationship_type_table_name]
+    try:
+        # Try to insert the model version
+        relationship_type_insert_values = {
+            "name" : relationship_type,
+        }
+        relationship_type_insert_statement = INSERT_STATEMENT(relationship_type_table).values(**relationship_type_insert_values)
+        relationship_type_insert_statement = relationship_type_insert_statement.on_conflict_do_nothing(index_elements = list(relationship_type_insert_values.keys()))
+        db.session.execute(relationship_type_insert_statement)
+        db.session.commit()
+    except:
+        return False, "Failed to insert entity type " + relationship_type + " into table " + relationship_type_table_name + " due to error: " + traceback.format_exc()
+
+    return True, None
 
 RELATIONSHIP_DETAILS = {
     "strat" : ("strat_to_lith", "strat_name", "lith"),
     "att" : ("lith_to_attribute", "lith", "lith_att")
 }
-def record_relationship(run_id, source_id, relationship):
-    # Verify the fields
-    expected_fields = ["src", "relationship_type", "dst"]
-    relationship_values = {}
-    for field in expected_fields:
-        if field not in relationship:
-            return False, "Request relationship missing field " + field
-        relationship_values[field] = relationship[field]
-
+def record_relationship(relationship, request_additional_data):
+    # Ensure that we have the required metadata fields
+    relationship_required_fields = verify_key_presents(relationship, ["src", "relationship_type", "dst"])
+    if relationship_required_fields is not None:
+        return False, relationship_required_fields
+    
     # Extract the types
     provided_relationship_type = relationship["relationship_type"]
-    db_relationship_type, src_entity_type, dst_entity_type = "", "", ""
+    db_relationship_type, src_entity_type, dst_entity_type = None, None, None
     for key_name in RELATIONSHIP_DETAILS:
         if provided_relationship_type.startswith(key_name):
             db_relationship_type, src_entity_type, dst_entity_type = RELATIONSHIP_DETAILS[key_name]
             break
-
+    
     # Ignore this type
-    if len(db_relationship_type) == 0 or len(src_entity_type) == 0 or len(dst_entity_type) == 0:
+    if db_relationship_type is None or src_entity_type is None or dst_entity_type is None:
         return True, ""
-
+    
+    # Record the relationship type
+    success, err_msg = record_relationship_type(db_relationship_type)
+    if not success:
+        return success, err_msg
+    
     # Get the entity ids
-    sucessful, src_entity_id = get_db_entity_id(run_id, relationship_values["src"], src_entity_type, source_id)
-    if not sucessful:
-        return sucessful, src_entity_id
+    success, src_entity_id = get_entity_id(relationship["src"], src_entity_type, request_additional_data)
+    if not success:
+        return success, src_entity_id
 
-    sucessful, dst_entity_id = get_db_entity_id(run_id, relationship_values["dst"], dst_entity_type, source_id)
-    if not sucessful:
-        return sucessful, dst_entity_id
+    success, dst_entity_id = get_entity_id(relationship["dst"], dst_entity_type, request_additional_data)
+    if not success:
+        return success, dst_entity_id
 
-    # Record the relationship
-    db_relationship_insert_values = {
-        "run_id" : run_id,
-        "src_entity_id" : src_entity_id,
-        "dst_entity_id" : dst_entity_id,
-        "source_id" : source_id,
-        "relationship_type" : db_relationship_type
-    }
-    unique_columns = ["run_id", "src_entity_id", "dst_entity_id", "relationship_type", "source_id"]
-    relationship_tables = db.metadata.tables['macrostrat_kg_new.relationship']
+    # Now record the relationship
+    relationship_table_name = get_complete_table_name("relationship")
+    relationship_table = db.metadata.tables[relationship_table_name]
     try:
-        relationship_insert_statement = INSERT_STATEMENT(relationship_tables).values(**db_relationship_insert_values)
-        relationship_insert_statement = relationship_insert_statement.on_conflict_do_nothing(index_elements = unique_columns)
+        # Get the sources values
+        relationship_insert_values = {
+            "type" : db_relationship_type,
+            "model_run_id" : request_additional_data["internal_run_id"],
+            "source_id" : request_additional_data["internal_source_id"],
+            "src_entity_id" : src_entity_id,
+            "dst_entity_id" : dst_entity_id
+        }
+        
+        relationship_insert_statement = INSERT_STATEMENT(relationship_table).values(**relationship_insert_values)
+        relationship_insert_statement = relationship_insert_statement.on_conflict_do_nothing(index_elements = ["model_run_id", "src_entity_id", "dst_entity_id", "source_id"])
         db.session.execute(relationship_insert_statement)
         db.session.commit()
     except:
-        error_msg = "Failed to insert relationship type " + str(provided_relationship_type) + " for source " + str(source_id)
-        error_msg += " for run " + str(run_id) + " due to error: " + traceback.format_exc()
-        return False, error_msg
+        return False, "Failed to insert relationship with src " + relationship["src"] + " and dst " + relationship["dst"] + " into table " + relationship_table_name + " due to error: " + traceback.format_exc()
+    
+    return True, None
 
-    return True, ""
-
-def record_for_result(run_id, request):
-    # Ensure txt exists
-    if "text" not in request:
-        return False, "result is missing text field"
-
-    source_fields = ["preprocessor_id", "paper_id", "hashed_text", "weaviate_id", "paragraph_text"]
-    source_values = {"run_id" : run_id}
-    text_data = request["text"]
-    for field_name in source_fields:
-        if field_name not in text_data:
-            return False, "Request text is missing field " + str(field_name)
-        source_values[field_name] = text_data[field_name]
-
-    # Remove non ascii data from text
-    paragraph_txt = source_values["paragraph_text"]
-    source_values["paragraph_text"] = paragraph_txt.encode("ascii", errors="ignore").decode()
-
-    sources_table = db.metadata.tables['macrostrat_kg_new.sources']
-    try:
-        # Try to insert the sources
-        sources_insert_statement = INSERT_STATEMENT(sources_table).values(**source_values)
-        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements=["run_id", "weaviate_id"])
-        db.session.execute(sources_insert_statement)
-        db.session.commit()
-    except:
-        error_msg =  "Failed to insert paragraph " + str(source_values["weaviate_id"])
-        error_msg += " for run " + str(source_values["run_id"]) + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
-    # Deal with case if we have no relationships
-    if "relationships" not in request:
-        return True, ""
-
-    # Get the sources id
-    source_id = ""
-    try:
-        # Execute the select query
-        sources_select_statement = SELECT_STATEMENT(sources_table)
-        sources_select_statement = sources_select_statement.where(sources_table.c.run_id == run_id)
-        sources_select_statement = sources_select_statement.where(sources_table.c.weaviate_id == source_values["weaviate_id"])
-        sources_result = db.session.execute(sources_select_statement).all()
-
-        # Ensure we got a result
-        if len(sources_result) == 0:
-            raise Exception("Got zero rows matching query " + str(sources_select_statement))
-
-        # Extract the sources id
-        first_row = sources_result[0]._mapping
-        source_id = str(first_row["source_id"])
-    except:
-        error_msg =  "Failed to get sources id for paragraph " + str(source_values["weaviate_id"])
-        error_msg += " for run " + str(source_values["run_id"]) + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
+def record_for_result(single_result, request_additional_data):
+    # Ensure that we have the required metadata fields
+    result_required_fields = verify_key_presents(single_result, ["text"])
+    if result_required_fields is not None:
+        return False, result_required_fields
+    
+    # Record the source text
+    sucess, error_msg = record_source_text(single_result["text"], request_additional_data)
+    if not sucess:
+        return sucess, error_msg
+    
     # Record the relationships
-    if "relationships" in request:
-        for relationship in request["relationships"]:
-            sucessful, message = record_relationship(run_id, source_id, relationship)
+    request_additional_data["paragraph_txt"] = single_result["text"]["paragraph_text"]
+    if "relationships" in single_result:
+        for relationship in single_result["relationships"]:
+            sucessful, message = record_relationship(relationship, request_additional_data)
             if not sucessful:
                 return sucessful, message
-
-    # Record the entities
-    if "just_entities" in request:
-        required_entity_keys = ["entity", "entity_type"]
-        for entity_data in request["just_entities"]:
-            # Ensure that it has all the required keys
-            for key in required_entity_keys:
-                if key not in entity_data:
-                    return False, "Provided just entities missing key " + str(key)
-
-            # Only record strats
-            entity_type = entity_data["entity_type"]
-            if not entity_type.startswith("strat"):
-                continue
-
-            # Record the entity
-            sucessful, entity_id = get_db_entity_id(run_id, entity_data["entity"], "strat_name", source_id)
+    
+    # Record just the entities
+    if "just_entities" in single_result:
+        for entity in single_result["just_entities"]:
+            sucessful, err_msg = record_single_entity(entity, request_additional_data)
             if not sucessful:
-                return sucessful, entity_id
-
-    return True, ""
-
-def get_user_id(user_name):
-    # Create the users rows
-    users_table = db.metadata.tables['macrostrat_kg_new.users']
-    users_row_values = {
-        "user_name" : user_name
-    }
-
-    # Try to create this user
-    try:
-        users_insert_statement = INSERT_STATEMENT(users_table).values(**users_row_values)
-        users_insert_statement = users_insert_statement.on_conflict_do_nothing(index_elements = ["user_name"])
-        db.session.execute(users_insert_statement)
-        db.session.commit()
-    except:
-        error_msg =  "Failed to insert user " + user_name + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
-    # Get this entity id
-    user_id = ""
-    try:
-        # Execute the select query
-        users_select_statement = SELECT_STATEMENT(users_table)
-        users_select_statement = users_select_statement.where(users_table.c.user_name == user_name)
-        users_result = db.session.execute(users_select_statement).all()
-
-        # Ensure we got a result
-        if len(users_result) == 0:
-            raise Exception("Got zero rows matching query " + str(users_select_statement))
-
-        # Extract the sources id
-        first_row = users_result[0]._mapping
-        user_id = str(first_row["user_id"])
-    except:
-        error_msg =  "Failed to get id for user " + str(user_name) + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
-    return True, user_id
-
-def get_model_internal_details(request):
-    # Extract the expected values
-    expected_fields = ["model_name", "model_version"]
-    model_values = {}
-    for field in expected_fields:
-        if field not in request:
-            return False, "Request missing field " + field
-        model_values[field] = str(request[field])
-
-    # Try to insert the model
-    model_name = model_values["model_name"]
-    models_tables = db.metadata.tables['macrostrat_kg_new.models']
-    try:
-        # Try to insert the model
-        model_insert_statement = INSERT_STATEMENT(models_tables).values(**{
-            "model_name" : model_name
-        })
-        model_insert_statement = model_insert_statement.on_conflict_do_nothing(index_elements=["model_name"])
-        db.session.execute(model_insert_statement)
-        db.session.commit()
-    except:
-        error_msg =  "Failed to insert model " + model_name + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
-    # Try to get the model id
-    data_to_return = {}
-    try:
-        # Execute the select query
-        models_select_statement = SELECT_STATEMENT(models_tables)
-        models_select_statement = models_select_statement.where(models_tables.c.model_name == model_name)
-        models_result = db.session.execute(models_select_statement).all()
-
-        # Ensure we got a result
-        if len(models_result) == 0:
-            raise Exception("Got zero rows matching query " + str(models_select_statement))
-
-        # Extract the sources id
-        first_row = models_result[0]._mapping
-        data_to_return["internal_model_id"] = str(first_row["model_id"])
-    except:
-        error_msg =  "Failed to get id for model " + model_name + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
-    # Try to insert the model version
-    model_version = model_values["model_version"]
-    versions_table = db.metadata.tables['macrostrat_kg_new.model_versions']
-    try:
-        # Try to insert the model version
-        version_insert_statement = INSERT_STATEMENT(versions_table).values(**{
-            "model_id" : data_to_return["internal_model_id"],
-            "model_version" : model_version
-        })
-        version_insert_statement = version_insert_statement.on_conflict_do_nothing(index_elements=["model_id", "model_version"])
-        db.session.execute(version_insert_statement)
-        db.session.commit()
-    except:
-        error_msg =  "Failed to insert version " + model_version + " for model " + model_name + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
-    # Try to get the model version
-    try:
-        # Execute the select query
-        version_select_statement = SELECT_STATEMENT(versions_table)
-        version_select_statement = version_select_statement.where(versions_table.c.model_id == data_to_return["internal_model_id"])
-        version_select_statement = version_select_statement.where(versions_table.c.model_version == model_version)
-        version_result = db.session.execute(version_select_statement).all()
-
-        # Ensure we got a result
-        if len(version_result) == 0:
-            raise Exception("Got zero rows matching query " + str(version_select_statement))
-
-        # Extract the sources id
-        first_row = version_result[0]._mapping
-        data_to_return["internal_version_id"] = str(first_row["version_id"])
-    except:
-        error_msg =  "Failed to get id for version " + model_version + " for model " + model_name + " due to error: " + traceback.format_exc()
-        return False, error_msg
-
-    data_to_return["model_id"] = model_name + "_" + model_version
-
-    return True, data_to_return
+                return sucessful, err_msg
+    
+    return True, None
 
 def process_input_request(request_data):
-    # Get the metadata fields
-    metadata_fields = ["run_id", "extraction_pipeline_id"]
-    metadata_values = {}
-    for field_name in metadata_fields:
-        if field_name not in request_data:
-            return False, "Request data is missing field " + str(field_name)
-        metadata_values[field_name] = request_data[field_name]
+    # Ensure that we have the required metadata fields
+    run_verify_result = verify_key_presents(request_data, ["run_id", "results"])
+    if run_verify_result is not None:
+        return False, run_verify_result
 
-    # Add the model fields to the metadata
-    sucessful, model_fields = get_model_internal_details(request_data)
-    if not sucessful:
-        return sucessful, model_fields
+    # Get the model metadata for this model
+    request_additional_data = {}
+    sucess, err_msg = get_model_metadata(request_data, request_additional_data)
+    if not sucess:
+        return sucess, err_msg
 
-    for key_name in model_fields:
-        metadata_values[key_name] = model_fields[key_name]
+    # Record each result as an independent run
+    extraction_pipeline_id = request_data["extraction_pipeline_id"]
+    all_results = request_data["results"]
+    base_model_run_id = request_data["run_id"]
+    model_run_table_name = get_complete_table_name("model_run")
+    model_run_table = db.metadata.tables[model_run_table_name]
 
-    # Determine if this is user provided feedback
-    if "user_name" in request_data:
-        sucessful, user_id = get_user_id(request_data["user_name"])
-        if not sucessful:
-            return sucessful, user_id
-        metadata_values["user_id"] = user_id
+    for idx, current_result in enumerate(all_results):
+        # First record this result as an independent run in the models table
+        model_run_id = str(base_model_run_id) + "_" + str(idx)
+        try:
+            model_run_insert_values = {
+                "run_id" : model_run_id,
+                "model_id" : request_additional_data["internal_model_id"],
+                "version_id" : request_additional_data["internal_version_id"],
+                "extraction_pipeline_id" : extraction_pipeline_id
+            }
+            model_run_insert_request = INSERT_STATEMENT(model_run_table).values(**model_run_insert_values)
+            result = db.session.execute(model_run_insert_request)
+            db.session.commit()
+        except Exception:
+            return False, "Failed to insert run for base id " + str(base_model_run_id) + " and idx " + str(idx) + " due to error: " + traceback.format_exc()
+        
+        # Now get the internal run id
+        try:
+            internal_id_select_statement = SELECT_STATEMENT(model_run_table.c.id)
+            internal_id_select_statement = internal_id_select_statement.where(model_run_table.c.run_id == model_run_id)
+            internal_id_select_statement = internal_id_select_statement.where(model_run_table.c.extraction_pipeline_id == extraction_pipeline_id)
+            internal_id_select_statement = internal_id_select_statement.where(model_run_table.c.model_id == request_additional_data["internal_model_id"])
+            internal_id_select_statement = internal_id_select_statement.where(model_run_table.c.version_id == request_additional_data["internal_version_id"])
+            internal_id_result = db.session.execute(internal_id_select_statement).all()
 
-    # Insert this run to the metadata
-    try:
-        metadata_table = db.metadata.tables['macrostrat_kg_new.metadata']
-        metadata_insert_statement = INSERT_STATEMENT(metadata_table).values(**metadata_values)
-        metadata_insert_statement = metadata_insert_statement.on_conflict_do_update(index_elements=["run_id"], set_ = {
-            "internal_model_id" : metadata_values["internal_model_id"],
-            "internal_version_id" : metadata_values["internal_version_id"]
-        })
-        db.session.execute(metadata_insert_statement)
-        db.session.commit()
-    except Exception:
-        return False, "Failed to insert run " + str(metadata_values["run_id"]) + " due to error: " + traceback.format_exc()
+            # Ensure we got a result
+            if len(internal_id_result) == 0:
+                return False, "Found zero rows in the " + model_run_table_name + " table having run id of " + model_run_id
+            first_row = internal_id_result[0]._mapping
+            request_additional_data["internal_run_id"] = first_row["id"]
+        except:
+            return False, "Failed to find internal run id for base id " + str(base_model_run_id) + " and idx " + str(idx) + " due to error: " + traceback.format_exc()
 
-    # Record the results
-    if "results" in request_data:
-        for result in request_data["results"]:
-            sucessful, error_msg = record_for_result(request_data["run_id"], result)
-            if not sucessful:
-                return sucessful, error_msg
+        # Now try to record the result
+        sucess, error_msg = record_for_result(current_result, request_additional_data)
+        if not sucess:
+            return sucess, error_msg
 
-    return True, ""
+    return True, None
 
 @app.route("/record_run", methods=["POST"])
 def record_run():
     # Record the run
-    sucessful, error_msg = process_input_request(request.get_json())
+    request_data = request.get_json()
+    print("Got request of", request_data)
+    sucessful, error_msg = process_input_request(request_data)
     if not sucessful:
         print("Returning error of", error_msg)
         return jsonify({"error" : error_msg}), 400
-
     return jsonify({"sucess" : "Sucessfully processed the run"}), 200
 
 
