@@ -68,7 +68,7 @@ Then you can launch the server using:
 $ python server.py &> server.out &
 ```
 
-which will launch the server on port `9543` as a background process. Note that the server connects to the database using the configuration specified in: `dev_macrostrat.json`, which currently just contains dummy data but should be replaced with actual connection information to connect to macrostrat DB. 
+which will launch the server on port `9543` as a background process. Note that to properly launch the server, the environment variables `uri`, and `macrostrat_xdd_schema_name` must be set to the proper values. 
 
 Once the server is launched you can make a request to the server using:
 
