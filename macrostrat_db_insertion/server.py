@@ -7,6 +7,7 @@ from sqlalchemy.dialects.postgresql import insert as INSERT_STATEMENT
 from sqlalchemy import select as SELECT_STATEMENT
 from sqlalchemy.orm import declarative_base
 from flask import Flask
+from fuzzysearch import find_near_matches
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import inspect, MetaData
 from sqlalchemy.ext.declarative import declarative_base
@@ -20,15 +21,17 @@ import os
 def load_flask_app(schema_name):
     # Create the app
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['uri']
+    uri = os.environ['uri']
+    app.config["SQLALCHEMY_DATABASE_URI"] = uri
+    print("Loading schema", schema_name, "from uri", uri)
 
     # Create the db
     Base = declarative_base(metadata = sqlalchemy.MetaData(schema = schema_name))
     db = SQLAlchemy(model_class=Base)
     db.init_app(app)
     with app.app_context():
-        db.reflect()
         db.metadata.reflect(bind = db.engine, schema = schema_name, views = True)
+    print("Finished loading schema", schema_name)
 
     return app, db
 
@@ -414,14 +417,37 @@ def get_entity_id(entity_name, entity_type, request_additional_data):
         "model_run_id" : request_additional_data["internal_run_id"],
     }
 
-    # Add in the start and end indexs
+    # See if we can get a direct match
     lower_para_text = request_additional_data["paragraph_txt"].lower()
     lower_name = entity_name.lower()
     if lower_name in lower_para_text:
         start_idx = lower_para_text.index(lower_name)
         entity_insert_request_values["start_index"] = start_idx
         entity_insert_request_values["end_index"] = start_idx + len(lower_name)
+        entity_insert_request_values["str_match_type"] = "exact"
     
+    # If not try to use fuzzy matching
+    if "str_match_type" not in entity_insert_request_values:
+        curr_max_l_dist = max(int(0.1 * len(lower_name)), 2)
+        start_idx, end_idx = -1, -1
+        while start_idx < 0:
+            matches = find_near_matches(lower_name, lower_para_text, max_l_dist = curr_max_l_dist)
+            if len(matches) > 0:
+                # Find the match with the least distance
+                best_match_idx = 0
+                for idx in range(1, len(matches)):
+                    if matches[idx].dist < matches[best_match_idx].dist:
+                        best_match_idx = idx
+                
+                # Record the idx
+                start_idx, end_idx = matches[best_match_idx].start,  matches[best_match_idx].end
+
+            curr_max_l_dist *= 2
+
+        entity_insert_request_values["start_index"] = start_idx
+        entity_insert_request_values["end_index"] = end_idx
+        entity_insert_request_values["str_match_type"] = "fuzzy"    
+
     # See if we can link to a macrostrat id
     if entity_type in ENTITY_TYPE_MAPPING:
         key_name, id_getter = ENTITY_TYPE_MAPPING[entity_type]
@@ -541,6 +567,9 @@ def record_relationship(relationship, request_additional_data):
             "src_entity_id" : src_entity_id,
             "dst_entity_id" : dst_entity_id
         }
+
+        if "reasoning" in relationship:
+            relationship_insert_values["reasoning"] = relationship["reasoning"]
         
         relationship_insert_statement = INSERT_STATEMENT(relationship_table).values(**relationship_insert_values)
         db.session.execute(relationship_insert_statement)

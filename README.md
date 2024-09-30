@@ -65,7 +65,7 @@ $ conda activate db_insert_env
 
 Then you can launch the server using:
 ```
-$ python server.py &> server.out &
+$ python -u server.py &> server_requests.log &
 ```
 
 which will launch the server on port `9543` as a background process. Note that to properly launch the server, the environment variables `uri`, and `macrostrat_xdd_schema_name` must be set to the proper values. 
