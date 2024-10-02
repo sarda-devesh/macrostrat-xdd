@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-import sqlalchemy
-from sqlalchemy.dialects.postgresql import insert as INSERT_STATEMENT
-from sqlalchemy import select as SELECT_STATEMENT
-from sqlalchemy.orm import declarative_base
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic_settings import BaseSettings
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.sql import select as SELECT_STATEMENT
+from sqlalchemy.sql import insert as INSERT_STATEMENT
 import json
 import traceback
 from datetime import datetime, timezone
@@ -12,38 +13,34 @@ import os
 
 from re_detail_adder import *
 
-ENV_VAR_PREFIX = "macrostrat_xdd"
-REQUIRED_VALUES = ["username", "password", "host", "port", "database", "schema"]
-def load_config():
-    config_values = {}
-    for required_name in REQUIRED_VALUES:
-        # Read in the environment variable
-        env_variable_name = ENV_VAR_PREFIX + "_" + required_name
-        env_variable_value = os.environ.get(env_variable_name)
-        config_values[required_name] = env_variable_value
 
-    return config_values
+class Settings(BaseSettings):
+    uri: str
+    schema: str
+    max_tries: int = 5
 
-def load_flask_app(config):
-    # Create the app
-    app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['uri']
 
-    # Create the db
-    Base = declarative_base(metadata = sqlalchemy.MetaData(schema = config["schema"]))
-    db = SQLAlchemy(model_class=Base)
-    db.init_app(app)
-    with app.app_context():
-        db.reflect()
+def load_fastapi_app():
 
-    return app, db
+    app = FastAPI()
+    settings = Settings()
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    engine = create_engine(settings.uri)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    Base = declarative_base(metadata=MetaData(schema=settings.schema))
+    Base.metadata.reflect(engine)
+
+    return app, SessionLocal, Base
 
 # Connect to the database
-MAX_TRIES = 5
-config = load_config()
-print(config)
-app, db = load_flask_app(config)
-CORS(app)
+app, SessionLocal, Base = load_fastapi_app()
 re_processor = REProcessor("id_maps")
 
 ENTITY_TYPE_TO_ID_MAP = {
@@ -51,10 +48,12 @@ ENTITY_TYPE_TO_ID_MAP = {
     "lith" : "macrostrat_lith_id",
     "lith_att" : "macrostrat_lith_att_id"
 }
-def get_db_entity_id(run_id, entity_name, entity_type, source_id):
+
+
+def get_db_entity_id(db, run_id, entity_name, entity_type, source_id):
     # Create the entity value
     entity_unique_rows = ["run_id", "entity_name", "entity_type", "source_id"]
-    entities_table = db.metadata.tables['macrostrat_kg_new.entities']
+    entities_table = Base.metadata.tables['macrostrat_kg_new.entities']
     entities_values = {
         "run_id" : run_id,
         "entity_name" : entity_name,
@@ -72,8 +71,8 @@ def get_db_entity_id(run_id, entity_name, entity_type, source_id):
     try:
         entities_insert_statement = INSERT_STATEMENT(entities_table).values(**entities_values)
         entities_insert_statement = entities_insert_statement.on_conflict_do_nothing(index_elements = entity_unique_rows)
-        db.session.execute(entities_insert_statement)
-        db.session.commit()
+        db.execute(entities_insert_statement)
+        db.commit()
     except:
         error_msg =  "Failed to insert entity " + entity_name +  " for run " + str(run_id) + " due to error: " + traceback.format_exc()
         return False, error_msg
@@ -86,7 +85,7 @@ def get_db_entity_id(run_id, entity_name, entity_type, source_id):
         entities_select_statement = entities_select_statement.where(entities_table.c.run_id == run_id)
         entities_select_statement = entities_select_statement.where(entities_table.c.entity_name == entity_name)
         entities_select_statement = entities_select_statement.where(entities_table.c.entity_type == entity_type)
-        entities_result = db.session.execute(entities_select_statement).all()
+        entities_result = db.execute(entities_select_statement).all()
 
         # Ensure we got a result
         if len(entities_result) == 0:
@@ -106,7 +105,9 @@ RELATIONSHIP_DETAILS = {
     "strat" : ("strat_to_lith", "strat_name", "lith"),
     "att" : ("lith_to_attribute", "lith", "lith_att")
 }
-def record_relationship(run_id, source_id, relationship):
+
+
+def record_relationship(db, run_id, source_id, relationship):
     # Verify the fields
     expected_fields = ["src", "relationship_type", "dst"]
     relationship_values = {}
@@ -128,11 +129,11 @@ def record_relationship(run_id, source_id, relationship):
         return True, ""
 
     # Get the entity ids
-    sucessful, src_entity_id = get_db_entity_id(run_id, relationship_values["src"], src_entity_type, source_id)
+    sucessful, src_entity_id = get_db_entity_id(db, run_id, relationship_values["src"], src_entity_type, source_id)
     if not sucessful:
         return sucessful, src_entity_id
 
-    sucessful, dst_entity_id = get_db_entity_id(run_id, relationship_values["dst"], dst_entity_type, source_id)
+    sucessful, dst_entity_id = get_db_entity_id(db, run_id, relationship_values["dst"], dst_entity_type, source_id)
     if not sucessful:
         return sucessful, dst_entity_id
 
@@ -145,12 +146,12 @@ def record_relationship(run_id, source_id, relationship):
         "relationship_type" : db_relationship_type
     }
     unique_columns = ["run_id", "src_entity_id", "dst_entity_id", "relationship_type", "source_id"]
-    relationship_tables = db.metadata.tables['macrostrat_kg_new.relationship']
+    relationship_tables = Base.metadata.tables['macrostrat_kg_new.relationship']
     try:
         relationship_insert_statement = INSERT_STATEMENT(relationship_tables).values(**db_relationship_insert_values)
         relationship_insert_statement = relationship_insert_statement.on_conflict_do_nothing(index_elements = unique_columns)
-        db.session.execute(relationship_insert_statement)
-        db.session.commit()
+        db.execute(relationship_insert_statement)
+        db.commit()
     except:
         error_msg = "Failed to insert relationship type " + str(provided_relationship_type) + " for source " + str(source_id)
         error_msg += " for run " + str(run_id) + " due to error: " + traceback.format_exc()
@@ -158,7 +159,8 @@ def record_relationship(run_id, source_id, relationship):
 
     return True, ""
 
-def record_for_result(run_id, request):
+
+def record_for_result(db, run_id, request):
     # Ensure txt exists
     if "text" not in request:
         return False, "result is missing text field"
@@ -175,13 +177,13 @@ def record_for_result(run_id, request):
     paragraph_txt = source_values["paragraph_text"]
     source_values["paragraph_text"] = paragraph_txt.encode("ascii", errors="ignore").decode()
 
-    sources_table = db.metadata.tables['macrostrat_kg_new.sources']
+    sources_table = Base.metadata.tables['macrostrat_kg_new.sources']
     try:
         # Try to insert the sources
         sources_insert_statement = INSERT_STATEMENT(sources_table).values(**source_values)
         sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements=["run_id", "weaviate_id"])
-        db.session.execute(sources_insert_statement)
-        db.session.commit()
+        db.execute(sources_insert_statement)
+        db.commit()
     except:
         error_msg =  "Failed to insert paragraph " + str(source_values["weaviate_id"])
         error_msg += " for run " + str(source_values["run_id"]) + " due to error: " + traceback.format_exc()
@@ -198,7 +200,7 @@ def record_for_result(run_id, request):
         sources_select_statement = SELECT_STATEMENT(sources_table)
         sources_select_statement = sources_select_statement.where(sources_table.c.run_id == run_id)
         sources_select_statement = sources_select_statement.where(sources_table.c.weaviate_id == source_values["weaviate_id"])
-        sources_result = db.session.execute(sources_select_statement).all()
+        sources_result = db.execute(sources_select_statement).all()
 
         # Ensure we got a result
         if len(sources_result) == 0:
@@ -215,7 +217,7 @@ def record_for_result(run_id, request):
     # Record the relationships
     if "relationships" in request:
         for relationship in request["relationships"]:
-            sucessful, message = record_relationship(run_id, source_id, relationship)
+            sucessful, message = record_relationship(db, run_id, source_id, relationship)
             if not sucessful:
                 return sucessful, message
 
@@ -234,15 +236,16 @@ def record_for_result(run_id, request):
                 continue
 
             # Record the entity
-            sucessful, entity_id = get_db_entity_id(run_id, entity_data["entity"], "strat_name", source_id)
+            sucessful, entity_id = get_db_entity_id(db, run_id, entity_data["entity"], "strat_name", source_id)
             if not sucessful:
                 return sucessful, entity_id
 
     return True, ""
 
-def get_user_id(user_name):
+
+def get_user_id(db, user_name):
     # Create the users rows
-    users_table = db.metadata.tables['macrostrat_kg_new.users']
+    users_table = Base.metadata.tables['macrostrat_kg_new.users']
     users_row_values = {
         "user_name" : user_name
     }
@@ -251,8 +254,8 @@ def get_user_id(user_name):
     try:
         users_insert_statement = INSERT_STATEMENT(users_table).values(**users_row_values)
         users_insert_statement = users_insert_statement.on_conflict_do_nothing(index_elements = ["user_name"])
-        db.session.execute(users_insert_statement)
-        db.session.commit()
+        db.execute(users_insert_statement)
+        db.commit()
     except:
         error_msg =  "Failed to insert user " + user_name + " due to error: " + traceback.format_exc()
         return False, error_msg
@@ -263,7 +266,7 @@ def get_user_id(user_name):
         # Execute the select query
         users_select_statement = SELECT_STATEMENT(users_table)
         users_select_statement = users_select_statement.where(users_table.c.user_name == user_name)
-        users_result = db.session.execute(users_select_statement).all()
+        users_result = db.execute(users_select_statement).all()
 
         # Ensure we got a result
         if len(users_result) == 0:
@@ -278,7 +281,8 @@ def get_user_id(user_name):
 
     return True, user_id
 
-def get_model_internal_details(request):
+
+def get_model_internal_details(db, request):
     # Extract the expected values
     expected_fields = ["model_name", "model_version"]
     model_values = {}
@@ -289,15 +293,15 @@ def get_model_internal_details(request):
 
     # Try to insert the model
     model_name = model_values["model_name"]
-    models_tables = db.metadata.tables['macrostrat_kg_new.models']
+    models_tables = Base.metadata.tables['macrostrat_kg_new.models']
     try:
         # Try to insert the model
         model_insert_statement = INSERT_STATEMENT(models_tables).values(**{
             "model_name" : model_name
         })
         model_insert_statement = model_insert_statement.on_conflict_do_nothing(index_elements=["model_name"])
-        db.session.execute(model_insert_statement)
-        db.session.commit()
+        db.execute(model_insert_statement)
+        db.commit()
     except:
         error_msg =  "Failed to insert model " + model_name + " due to error: " + traceback.format_exc()
         return False, error_msg
@@ -308,7 +312,7 @@ def get_model_internal_details(request):
         # Execute the select query
         models_select_statement = SELECT_STATEMENT(models_tables)
         models_select_statement = models_select_statement.where(models_tables.c.model_name == model_name)
-        models_result = db.session.execute(models_select_statement).all()
+        models_result = db.execute(models_select_statement).all()
 
         # Ensure we got a result
         if len(models_result) == 0:
@@ -323,7 +327,7 @@ def get_model_internal_details(request):
 
     # Try to insert the model version
     model_version = model_values["model_version"]
-    versions_table = db.metadata.tables['macrostrat_kg_new.model_versions']
+    versions_table = Base.metadata.tables['macrostrat_kg_new.model_versions']
     try:
         # Try to insert the model version
         version_insert_statement = INSERT_STATEMENT(versions_table).values(**{
@@ -331,8 +335,8 @@ def get_model_internal_details(request):
             "model_version" : model_version
         })
         version_insert_statement = version_insert_statement.on_conflict_do_nothing(index_elements=["model_id", "model_version"])
-        db.session.execute(version_insert_statement)
-        db.session.commit()
+        db.execute(version_insert_statement)
+        db.commit()
     except:
         error_msg =  "Failed to insert version " + model_version + " for model " + model_name + " due to error: " + traceback.format_exc()
         return False, error_msg
@@ -343,7 +347,7 @@ def get_model_internal_details(request):
         version_select_statement = SELECT_STATEMENT(versions_table)
         version_select_statement = version_select_statement.where(versions_table.c.model_id == data_to_return["internal_model_id"])
         version_select_statement = version_select_statement.where(versions_table.c.model_version == model_version)
-        version_result = db.session.execute(version_select_statement).all()
+        version_result = db.execute(version_select_statement).all()
 
         # Ensure we got a result
         if len(version_result) == 0:
@@ -360,7 +364,8 @@ def get_model_internal_details(request):
 
     return True, data_to_return
 
-def process_input_request(request_data):
+
+def process_input_request(db, request_data):
     # Get the metadata fields
     metadata_fields = ["run_id", "extraction_pipeline_id"]
     metadata_values = {}
@@ -370,7 +375,7 @@ def process_input_request(request_data):
         metadata_values[field_name] = request_data[field_name]
 
     # Add the model fields to the metadata
-    sucessful, model_fields = get_model_internal_details(request_data)
+    sucessful, model_fields = get_model_internal_details(db, request_data)
     if not sucessful:
         return sucessful, model_fields
 
@@ -379,50 +384,53 @@ def process_input_request(request_data):
 
     # Determine if this is user provided feedback
     if "user_name" in request_data:
-        sucessful, user_id = get_user_id(request_data["user_name"])
+        sucessful, user_id = get_user_id(db, request_data["user_name"])
         if not sucessful:
             return sucessful, user_id
         metadata_values["user_id"] = user_id
 
     # Insert this run to the metadata
     try:
-        metadata_table = db.metadata.tables['macrostrat_kg_new.metadata']
+        metadata_table = Base.metadata.tables['macrostrat_kg_new.metadata']
         metadata_insert_statement = INSERT_STATEMENT(metadata_table).values(**metadata_values)
         metadata_insert_statement = metadata_insert_statement.on_conflict_do_update(index_elements=["run_id"], set_ = {
             "internal_model_id" : metadata_values["internal_model_id"],
             "internal_version_id" : metadata_values["internal_version_id"]
         })
-        db.session.execute(metadata_insert_statement)
-        db.session.commit()
+        db.execute(metadata_insert_statement)
+        db.commit()
     except Exception:
         return False, "Failed to insert run " + str(metadata_values["run_id"]) + " due to error: " + traceback.format_exc()
 
     # Record the results
     if "results" in request_data:
         for result in request_data["results"]:
-            sucessful, error_msg = record_for_result(request_data["run_id"], result)
+            sucessful, error_msg = record_for_result(db, request_data["run_id"], result)
             if not sucessful:
                 return sucessful, error_msg
 
     return True, ""
 
-@app.route("/record_run", methods=["POST"])
-def record_run():
+
+@app.post("/record_run")
+async def record_run(request: Request):
     # Record the run
-    sucessful, error_msg = process_input_request(request.get_json())
-    if not sucessful:
-        print("Returning error of", error_msg)
-        return jsonify({"error" : error_msg}), 400
+    request_data = await request.json()
+    db = SessionLocal()
+    try:
+        successful, error_msg = process_input_request(db, request_data)
+        if not successful:
+            raise HTTPException(status_code=400, detail=error_msg)
+    finally:
+        db.close()
+    return JSONResponse(content={"success": "Successfully processed the run"})
 
-    return jsonify({"sucess" : "Sucessfully processed the run"}), 200
 
-
-@app.route("/health", methods=["GET"])
-def health():
-    """Health check endpoint"""
-
-    return jsonify({"status": "Server Running"}), 200
+@app.get("/health")
+async def health():
+    return JSONResponse(content={"status": "Server Running"})
 
 
 if __name__ == "__main__":
-   app.run(host = "0.0.0.0", port = 9543, debug = True)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=9543)
