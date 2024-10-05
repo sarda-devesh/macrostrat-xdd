@@ -14,6 +14,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import declarative_base
 import json
 import traceback
+import hashlib
 import requests
 from datetime import datetime, timezone
 import os
@@ -209,6 +210,8 @@ def record_publication(source_text, request_additional_data):
         db.session.commit()
     except:
         return False, "Failed to insert publication for paper " + paper_id + " into table " + publication_table_name + " due to error: " + traceback.format_exc() 
+    
+    return True, None
 
 def get_weaviate_text_id(source_text, request_additional_data):
     # Verify that we have the required fields
@@ -235,7 +238,7 @@ def get_weaviate_text_id(source_text, request_additional_data):
         sources_values["source_text_type"] = curr_text_type
         
         sources_insert_statement = INSERT_STATEMENT(sources_table).values(**sources_values)
-        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["source_text_type", "paragraph_text", "hashed_text"])
+        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["source_text_type", "paragraph_text"])
         db.session.execute(sources_insert_statement)
         db.session.commit()
     except:
@@ -245,7 +248,6 @@ def get_weaviate_text_id(source_text, request_additional_data):
     try:
         source_id_select_statement = SELECT_STATEMENT(sources_table.c.id)
         source_id_select_statement = source_id_select_statement.where(sources_table.c.source_text_type == curr_text_type)
-        source_id_select_statement = source_id_select_statement.where(sources_table.c.hashed_text == paragraph_hash)
         source_id_select_statement = source_id_select_statement.where(sources_table.c.paragraph_text == source_text["paragraph_text"])
         source_id_result = db.session.execute(source_id_select_statement).all()
 
@@ -265,6 +267,8 @@ def get_map_description_id(source_text, request_additional_data):
         return False, source_verify_result
 
     # Try to record this source
+    paragraph_text = str(source_text["paragraph_text"])
+    text_hash = str(hashlib.sha256(paragraph_text.encode("ascii")).hexdigest())
     curr_text_type = source_text["text_type"]
     sources_table_name = get_complete_table_name("source_text")
     sources_table = db.metadata.tables[sources_table_name]
@@ -274,11 +278,12 @@ def get_map_description_id(source_text, request_additional_data):
         sources_values = {
             "source_text_type": curr_text_type,
             "paragraph_text" : source_text["paragraph_text"],
-            "map_legend_id" : legend_id
+            "map_legend_id" : legend_id,
+            "hashed_text" : text_hash
         }
         
         sources_insert_statement = INSERT_STATEMENT(sources_table).values(**sources_values)
-        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["source_text_type", "paragraph_text", "hashed_text"])
+        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["source_text_type", "paragraph_text"])
         db.session.execute(sources_insert_statement)
         db.session.commit()
     except:
@@ -288,7 +293,7 @@ def get_map_description_id(source_text, request_additional_data):
     try:
         source_id_select_statement = SELECT_STATEMENT(sources_table.c.id)
         source_id_select_statement = source_id_select_statement.where(sources_table.c.source_text_type == curr_text_type)
-        source_id_select_statement = source_id_select_statement.where(sources_table.c.map_legend_id == legend_id)
+        source_id_select_statement = source_id_select_statement.where(sources_table.c.paragraph_text == source_text["paragraph_text"])
         source_id_result = db.session.execute(source_id_select_statement).all()
 
         # Ensure we got a result
@@ -404,7 +409,7 @@ def get_entity_type_id(entity_type):
     except:
         return False, "Failed to insert entity type " + entity_type + " into table " + entity_type_table_name + " due to error: " + traceback.format_exc()
 
-def get_entity_id(entity_name, entity_type, request_additional_data):
+def get_entity_id(entity_name, entity_type, request_additional_data, provided_start_idx = None, provided_end_idx = None):
     # Record the entity type
     success, entity_type_id = get_entity_type_id(entity_type)
     if not success:
@@ -417,36 +422,38 @@ def get_entity_id(entity_name, entity_type, request_additional_data):
         "model_run_id" : request_additional_data["internal_run_id"],
     }
 
-    # See if we can get a direct match
-    lower_para_text = request_additional_data["paragraph_txt"].lower()
-    lower_name = entity_name.lower()
-    if lower_name in lower_para_text:
-        start_idx = lower_para_text.index(lower_name)
-        entity_insert_request_values["start_index"] = start_idx
-        entity_insert_request_values["end_index"] = start_idx + len(lower_name)
-        entity_insert_request_values["str_match_type"] = "exact"
-    
-    # If not try to use fuzzy matching
-    if "str_match_type" not in entity_insert_request_values:
-        curr_max_l_dist = max(int(0.1 * len(lower_name)), 2)
-        start_idx, end_idx = -1, -1
-        while start_idx < 0:
-            matches = find_near_matches(lower_name, lower_para_text, max_l_dist = curr_max_l_dist)
-            if len(matches) > 0:
-                # Find the match with the least distance
-                best_match_idx = 0
-                for idx in range(1, len(matches)):
-                    if matches[idx].dist < matches[best_match_idx].dist:
-                        best_match_idx = idx
-                
-                # Record the idx
-                start_idx, end_idx = matches[best_match_idx].start,  matches[best_match_idx].end
+    entity_start_idx, entity_end_idx, str_match_type = provided_start_idx, provided_end_idx, "provided"
+    if entity_start_idx is None or entity_end_idx is None:
+        # See if we can get a direct match
+        lower_para_text = request_additional_data["paragraph_txt"].lower()
+        lower_name = entity_name.lower()
+        if lower_name in lower_para_text:
+            entity_start_idx = lower_para_text.index(lower_name)
+            entity_end_idx = entity_start_idx + len(lower_name)
+            str_match_type = "exact"
+        else:
+            curr_max_l_dist = max(int(0.1 * len(lower_name)), 2)
+            start_idx, end_idx = -1, -1
+            while start_idx < 0:
+                matches = find_near_matches(lower_name, lower_para_text, max_l_dist = curr_max_l_dist)
+                if len(matches) > 0:
+                    # Find the match with the least distance
+                    best_match_idx = 0
+                    for idx in range(1, len(matches)):
+                        if matches[idx].dist < matches[best_match_idx].dist:
+                            best_match_idx = idx
+                    
+                    # Record the idx
+                    start_idx, end_idx = matches[best_match_idx].start,  matches[best_match_idx].end
 
-            curr_max_l_dist *= 2
+                curr_max_l_dist *= 2
+            
+            # Record the results
+            entity_start_idx, entity_end_idx, str_match_type = start_idx, end_idx, "fuzzy"
 
-        entity_insert_request_values["start_index"] = start_idx
-        entity_insert_request_values["end_index"] = end_idx
-        entity_insert_request_values["str_match_type"] = "fuzzy"    
+    entity_insert_request_values["start_index"] = entity_start_idx
+    entity_insert_request_values["end_index"] = entity_end_idx
+    entity_insert_request_values["str_match_type"] = str_match_type
 
     # See if we can link to a macrostrat id
     if entity_type in ENTITY_TYPE_MAPPING:
@@ -467,25 +474,67 @@ def get_entity_id(entity_name, entity_type, request_additional_data):
     try:
         # Execute the request
         entity_insert_request = INSERT_STATEMENT(entity_table).values(**entity_insert_request_values)
+        entity_insert_request = entity_insert_request.on_conflict_do_nothing(index_elements = ["name", "model_run_id", "entity_type_id", "start_index", "end_index"])
         result = db.session.execute(entity_insert_request)
         db.session.commit()
-
-        # Get the internal id
-        result_insert_keys = result.inserted_primary_key
-        if len(result_insert_keys) == 0:
-            return False, "Insert statement " + str(entity_insert_request) + " returned zero primary keys"
-
-        return True, result_insert_keys[0]
     except:
         return False, "Failed to entity " + entity_name + " of type " + entity_type + " into table " + entity_table_name + " due to error:" + traceback.format_exc()
+    
+    # Get the entity id for the inserted value
+    try:
+        entity_select_statement = SELECT_STATEMENT(entity_table.c.id)
+        entity_select_statement = entity_select_statement.where(entity_table.c.name == entity_insert_request_values["name"])
+        entity_select_statement = entity_select_statement.where(entity_table.c.model_run_id == entity_insert_request_values["model_run_id"])
+        entity_select_statement = entity_select_statement.where(entity_table.c.entity_type_id == entity_insert_request_values["entity_type_id"])
+        entity_select_statement = entity_select_statement.where(entity_table.c.start_index == entity_insert_request_values["start_index"])
+        entity_select_statement = entity_select_statement.where(entity_table.c.end_index == entity_insert_request_values["end_index"])
+        entity_id_result = db.session.execute(entity_select_statement).all()
+
+        # Ensure we got a result
+        if len(entity_id_result) == 0:
+            return False, "Found zero rows in " + entity_table_name + " table for entity " + entity_name
+        first_row = entity_id_result[0]._mapping
+        return True, first_row["id"]
+    except:
+        return False, "Failed to find internal entity id for entity " + entity_name + " due to error: " + traceback.format_exc()
+    
+def extract_indicies(request_values, expected_prefix):
+    provided_start_idx, provided_end_idx = None, None
+    start_search_term, end_search_term = expected_prefix + "start_idx", expected_prefix + "end_idx"
+
+    if start_search_term in request_values:
+        try:
+            provided_start_idx = int(request_values[start_search_term])
+        except:
+            return False, "Failed to parse " + request_values[start_search_term] + " as an integer due an error " + traceback.format_exc()
+
+        # If the start idx is provided then end idx must also be provided
+        if end_search_term in request_values:
+            try:
+                # Also verify that end idx >= start_idx
+                provided_end_idx = int(request_values[end_search_term])
+                if provided_start_idx > provided_end_idx:
+                    return False, "Start idx of " + str(provided_start_idx) + " is greater than end idx of " + str(provided_end_idx) + " for entity " + request_values["entity"]
+            except:
+                return False, "Failed to parse " + request_values[end_search_term] + " as an integer due an error " + traceback.format_exc()
+        else:
+            return False, f'Provided {start_search_term} but not {end_search_term} for entity ' + request_values["entity"]
+    
+    return True, (provided_start_idx, provided_end_idx)
 
 def record_single_entity(entity, request_additional_data):
     # Ensure that we have the required metadata fields
     entity_required_fields = verify_key_presents(entity, ["entity", "entity_type"])
     if entity_required_fields is not None:
         return False, entity_required_fields
+    
+    # See if the range is provided
+    success, indicies_results = extract_indicies(entity, "")
+    if not success:
+        return success, indicies_results
 
-    return get_entity_id(entity["entity"], entity["entity_type"], request_additional_data)
+    provided_start_idx, provided_end_idx = indicies_results
+    return get_entity_id(entity["entity"], entity["entity_type"], request_additional_data, provided_start_idx, provided_end_idx)
 
 def get_relationship_type_id(relationship_type):
     relationship_type_table_name = get_complete_table_name("relationship_type")
@@ -547,12 +596,24 @@ def record_relationship(relationship, request_additional_data):
     if not success:
         return success, relationship_type_id
     
-    # Get the entity ids
-    success, src_entity_id = get_entity_id(relationship["src"], src_entity_type, request_additional_data)
+    # Extract the source indicies
+    success, indicies_results = extract_indicies(relationship, "src_")
+    if not success:
+        return success, indicies_results
+    src_provided_start_idx, src_provided_end_idx = indicies_results
+
+    # Get the src entity ids
+    success, src_entity_id = get_entity_id(relationship["src"], src_entity_type, request_additional_data, src_provided_start_idx, src_provided_end_idx)
     if not success:
         return success, src_entity_id
+    
+    # Extract the dest indicies
+    success, indicies_results = extract_indicies(relationship, "dst_")
+    if not success:
+        return success, indicies_results
+    dst_provided_start_idx, dst_provided_end_idx = indicies_results
 
-    success, dst_entity_id = get_entity_id(relationship["dst"], dst_entity_type, request_additional_data)
+    success, dst_entity_id = get_entity_id(relationship["dst"], dst_entity_type, request_additional_data, dst_provided_start_idx, dst_provided_end_idx)
     if not success:
         return success, dst_entity_id
 
@@ -572,11 +633,12 @@ def record_relationship(relationship, request_additional_data):
             relationship_insert_values["reasoning"] = relationship["reasoning"]
         
         relationship_insert_statement = INSERT_STATEMENT(relationship_table).values(**relationship_insert_values)
+        relationship_insert_statement = relationship_insert_statement.on_conflict_do_nothing(index_elements = ["model_run_id", "src_entity_id", "dst_entity_id", "relationship_type_id"])
         db.session.execute(relationship_insert_statement)
         db.session.commit()
     except:
         return False, "Failed to insert relationship with src " + relationship["src"] + " and dst " + relationship["dst"] + " into table " + relationship_table_name + " due to error: " + traceback.format_exc()
-    
+
     return True, None
 
 def get_previous_run(source_text_id):
@@ -634,7 +696,7 @@ def process_input_request(request_data):
         success, previous_run_id = get_previous_run(source_text_id)
         if not success:
             return success, previous_run_id
-            
+
         # First record this result as an independent run in the models table
         model_run_id = str(base_model_run_id) + "_" + str(idx)
         try:
@@ -674,8 +736,6 @@ def process_input_request(request_data):
                 sucessful, err_msg = record_single_entity(entity, request_additional_data)
                 if not sucessful:
                     return sucessful, err_msg
-        
-        break
         
     return True, None
 

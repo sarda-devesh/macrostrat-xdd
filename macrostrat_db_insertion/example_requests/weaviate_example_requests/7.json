@@ -1,0 +1,44 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620e687dad0e9c819b0c3397",
+                "hashed_text": "32ff6bf7c5a550c7bdbd815939c6293a7bae1723314e50307a4b718f6f000e4f",
+                "weaviate_id": "0002140d-8e54-4f0b-bc7a-9196254589ac",
+                "paragraph_text": "The genesis of the uranium deposits within or near the present limits of the Athabasca sandstone limits are well documented. It is worth noting that the current limits of the Athabasca sandstone near the north shore of Athabasca Lake has been moved northwards in the area around Nicholson Bay and Fish Hook Bay areas. The new locations of outliers of the sandstone, explains the location and the depositional nature of the gold and platinum group metals associated with the pitchblende deposits of both simple and complex mineralogy.\nThe compilation of exploration activities and the available information have resulted in the development of the geological environmental models for uranium, gold and goldplatinum group mineralization. It is apparent that some of the mineral occurrences may have similarities to more than one model type and indicates the complex geological setting involved."
+            },
+            "relationships": [
+                {
+                    "src": "Athabasca sandstone",
+                    "relationship_type": "strat_name_to_lith",
+                    "dst": "gold and platinum group metals",
+                    "reasoning": "The text mentions the Athabasca sandstone, which is a stratigraphic unit, and the presence of certain minerals within it, specifically 'gold and platinum group metals'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620f2eb5ad0e9c819b108c85",
+                "hashed_text": "2a045341a5b68054aaadec84db3603e81cfe6d24ef979e41f1b23245b67e243b",
+                "weaviate_id": "00022178-edf3-4de7-9242-c01a287b622b",
+                "paragraph_text": "Significant silver-lead-zinc intercepts have been reported from the US Borax drill program. However, the orientation of the drilling was not suitable for evaluating what appears to be a steeply dipping system. The orientation of mineralization and the relationship between sample length and true thickness could not be determined from the US Borax drill results. The author did not attempt any resource calculations.\nThree distinct styles of possible mineralization in the Utah Clipper area can be discerned from the work to date:\n1. An igneous assemblage of lead-antimony-silver-bismuth-zinc in rock and soil associated with vein-style lead-silver mineralization is distributed around the perimeter of an inferred intrusion situated at depth beneath the western boundary of the property. The abandoned Clipper, Utah, and Vista mines were all established to exploit these veins. Clipper and Utah mines are located on the Utah Clipper property. Vista mine is situated 250m west of the property. Surface sampling and historical mining show that high grade silver values in excess of 100 gpt Ag can be obtained from wide-spaced, very narrow (2-30cm) steeply dipping quartz-sulphide veins cutting sandstone, chert, and quartzite. US Borax conducted a program of shallow vertical rotary drilling to investigate whether near surface bulk mineable silver could be located in the Clipper mine area."
+            },
+            "relationships": [
+                {
+                    "src": "sandstone, chert, and quartzite",
+                    "relationship_type": "att_bedform",
+                    "dst": "quartz-sulphide veins",
+                    "reasoning": "The text mentions 'sandstone', 'chert', and 'quartzite' as lithologies that are cut by quartz-sulphide veins."
+                }
+            ]
+        }
+    ]
+}

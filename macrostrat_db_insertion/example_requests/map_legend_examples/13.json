@@ -1,0 +1,593 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Conglomerate, grit and minor sandstone; quartzofeldspathic sandstone, carbonaceous mudstone and coal seams.",
+                "legend_id": 13926
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Basaltic pillow breccia and tuff, with dikes, sills and stocks.",
+                "legend_id": 13928
+            },
+            "relationships": [
+                {
+                    "src": "breccia",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'breccia'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Quartzose and glauconitic sandstone and siltstone, with shellbeds and minor limestone.",
+                "legend_id": 13931
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'siltstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Quartz conglomerate, sandstone, siltstone, mudstone and coal seams.",
+                "legend_id": 13932
+            },
+            "relationships": [
+                {
+                    "src": "conglomerate",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'conglomerate'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Calcareous sandstone, siltstone and mudstone with shelly coquina limestone, minor greensand and conglomerate.",
+                "legend_id": 13933
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'sandstone', 'siltstone', and 'mudstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'sandstone', 'siltstone', and 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'sandstone', 'siltstone', and 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Subvolcanic coarse-grained, porphyritic andesite and dacite.",
+                "legend_id": 13934
+            },
+            "relationships": [
+                {
+                    "src": "andesite",
+                    "relationship_type": "att_grains",
+                    "dst": "coarse",
+                    "reasoning": "'Coarse' directly describes the grain size of 'andesite' and 'dacite'."
+                },
+                {
+                    "src": "dacite",
+                    "relationship_type": "att_grains",
+                    "dst": "coarse",
+                    "reasoning": "'Coarse' directly describes the grain size of 'andesite' and 'dacite'."
+                },
+                {
+                    "src": "andesite",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grain size of 'andesite' and 'dacite'."
+                },
+                {
+                    "src": "dacite",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grain size of 'andesite' and 'dacite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Weathered sandstone, lignite, pebbly sandstone and conglomerate.",
+                "legend_id": 13935
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "pebbly",
+                    "reasoning": "'Pebby' directly describes the grains of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mudstone, muddy sandstone, sandstone and conglomerate.",
+                "legend_id": 13936
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "muddy",
+                    "reasoning": "'Muddy' directly describes the grains of 'sandstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_grains",
+                    "dst": "muddy",
+                    "reasoning": "'Muddy' directly describes the grains of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Sandstone and mudstone; minor pebbly mudstone to conglomerate; locally includes spilitic volcanic rocks. Some deformation including broken formation and melange.",
+                "legend_id": 13939
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_grains",
+                    "dst": "pebbly",
+                    "reasoning": "'Pebbly' directly describes the grains of 'mudstone' and 'conglomerate'."
+                },
+                {
+                    "src": "conglomerate",
+                    "relationship_type": "att_grains",
+                    "dst": "pebbly",
+                    "reasoning": "'Pebbly' directly describes the grains of 'mudstone' and 'conglomerate'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Basalt and dolerite with red and green siliceous mudstone.",
+                "legend_id": 13942
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "siliceous",
+                    "reasoning": "'Siliceous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_color",
+                    "dst": "red",
+                    "reasoning": "'Red' and 'green' directly describe the colors of 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_color",
+                    "dst": "green",
+                    "reasoning": "'Red' and 'green' directly describe the colors of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Sandstone with interbedded carbonaceous mudstone and thin coal seams; basal conglomerate in places.",
+                "legend_id": 13945
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Calcareous mudstone and sandstone, and muddy limestone with interbedded tuff and volcanic conglomerate; local basalt flows and breccia.",
+                "legend_id": 13946
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone' and 'sandstone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "muddy",
+                    "reasoning": "'Muddy' directly describes the grain size of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Interbedded graded sandstone and mudstone, massive concretionary mudstone and massive sandstone; local intercalated greensand, breccia, conglomerate and bioclastic limestone.",
+                "legend_id": 13947
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' directly describes the bedform of 'mudstone' and 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' directly describes the bedform of 'mudstone' and 'sandstone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bioclastic",
+                    "reasoning": "'Bioclastic' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "concretionary",
+                    "reasoning": "'Concretionary' specifies the sedimentary structure of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Massive sandy mudstone and interbedded sandstone and mudstone with limestone and conglomerate.",
+                "legend_id": 13948
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' directly describes the bedform of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Massive or interbedded, mudstone, siltstone and sandstone with minor shelly conglomerate, limestone and tuff.",
+                "legend_id": 13949
+            },
+            "relationships": [
+                {
+                    "src": "mudstone, siltstone, and sandstone",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' describes the bedform of 'mudstone', 'siltstone', and 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Quartzite, pelitic schist, graphitic slate, pebbly sandstone and metaconglomerate.",
+                "legend_id": 13951
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "pebbly",
+                    "reasoning": "'Pebbly' directly describes the grains of 'sandstone'."
+                },
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Biotite granodiorite cut by muscovite pegmatite dikes.",
+                "legend_id": 13954
+            },
+            "relationships": [
+                {
+                    "src": "granodiorite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "biotite",
+                    "reasoning": "'Biotite' specifies the type of 'granodiorite'."
+                },
+                {
+                    "src": "pegmatite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "muscovite",
+                    "reasoning": "'Muscovite' specifies the type of 'pegmatite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Variably foliated biotite granodiorite with minor tonalite.",
+                "legend_id": 13955
+            },
+            "relationships": [
+                {
+                    "src": "granodiorite",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'granodiorite'."
+                },
+                {
+                    "src": "granodiorite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "biotite",
+                    "reasoning": "'Biotite' specifies the type of 'granodiorite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Variably foliated, greenschist to amphibolite facies volcaniclastic sandstone, tuff, breccia and conglomerate; local andesitic and dacitic lavas.",
+                "legend_id": 13957
+            },
+            "relationships": [
+                {
+                    "src": "volcaniclastic sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'volcaniclastic sandstone', 'tuff', 'breccia', and 'conglomerate'."
+                },
+                {
+                    "src": "tuff",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'volcaniclastic sandstone', 'tuff', 'breccia', and 'conglomerate'."
+                },
+                {
+                    "src": "breccia",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'volcaniclastic sandstone', 'tuff', 'breccia', and 'conglomerate'."
+                },
+                {
+                    "src": "conglomerate",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'volcaniclastic sandstone', 'tuff', 'breccia', and 'conglomerate'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Melange comprising mafic and ultramafic igneous and sedimentary rocks in a sheared serpentinitic matrix.",
+                "legend_id": 13958
+            },
+            "relationships": [
+                {
+                    "src": "igneous",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'igneous' and 'sedimentary' rocks."
+                },
+                {
+                    "src": "igneous",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'igneous' and 'sedimentary' rocks."
+                },
+                {
+                    "src": "sedimentary",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'igneous' and 'sedimentary' rocks."
+                },
+                {
+                    "src": "sedimentary",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'igneous' and 'sedimentary' rocks."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amphibolite facies pelitic and psammitic schist, quartzite, calc-silicate and amphibolite with pegmatite dikes.",
+                "legend_id": 13959
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' specifies the type of grains in 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Basaltic lava flows, pillow lava with interstitial limestone, and interbedded tuff; some basaltic-trachytic dikes and sills.",
+                "legend_id": 13963
+            },
+            "relationships": [
+                {
+                    "src": "lava flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'lava flows'."
+                },
+                {
+                    "src": "dikes and sills",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'dikes and sills'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Altered, foliated and lineated granite mylonite and orthogneiss.",
+                "legend_id": 13964
+            },
+            "relationships": [
+                {
+                    "src": "granite",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'granite'."
+                },
+                {
+                    "src": "mylonite",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'mylonite'."
+                },
+                {
+                    "src": "orthogneiss",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'orthogneiss'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Granite, quartz monzonite, quartz syenite and syenogranite.",
+                "legend_id": 13968
+            },
+            "relationships": [
+                {
+                    "src": "quartz monzonite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'quartz monzonite'."
+                },
+                {
+                    "src": "quartz syenite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'quartz syenite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Breccia, conglomerate and sandstone, locally hematitic; local basal rhyolitic tuff.",
+                "legend_id": 13970
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "hematitic",
+                    "reasoning": "'Hematitic' specifies the type of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Sandy conglomerate, minor sandstone and rare lignite.",
+                "legend_id": 13972
+            },
+            "relationships": [
+                {
+                    "src": "conglomerate",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'conglomerate'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Massive basalt, basalt pillow lava, tuff, siliceous argillite and chert.",
+                "legend_id": 13973
+            },
+            "relationships": [
+                {
+                    "src": "argillite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "siliceous",
+                    "reasoning": "'Siliceous' specifies the type of 'argillite'."
+                },
+                {
+                    "src": "basalt",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' directly describes the bedform of 'basalt'."
+                }
+            ]
+        }
+    ]
+}

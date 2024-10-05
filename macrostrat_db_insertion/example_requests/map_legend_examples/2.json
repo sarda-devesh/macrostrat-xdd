@@ -1,0 +1,35 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Nipissing mafic sills (2219 ma): mafic sills, mafic dikes and related granophyre",
+                "legend_id": 78
+            },
+            "relationships": [
+                {
+                    "src": "sills",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'sills'."
+                },
+                {
+                    "src": "dikes",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'dikes'."
+                },
+                {
+                    "src": "mafic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'mafic'."
+                }
+            ]
+        }
+    ]
+}

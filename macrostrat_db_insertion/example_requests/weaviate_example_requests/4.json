@@ -1,0 +1,44 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620c0c20ad0e9c819b02062e",
+                "hashed_text": "300c62705cbb9f4d56d12dc76abe7b8f40a3c7c81d1ad868c86993b000d39d46",
+                "weaviate_id": "000156f9-9668-4553-b2e4-3b6d9b9cff77",
+                "paragraph_text": "All core was split and approximately half of the material was bagged at mostly 1 metre intervals and sent to SGS Labs in Accra.\nDiamond drilling intersected dominantly Birimian metasediments in sequences of greywacke, siltstone and mudstones (turbidites). Locally, granite dykes and lenses were intersected. The granite is coarse-grained and porphyritic. Quartz veining tends to increase in intensity in an immediately around the granite due to its more competent nature.\nGold mineralization in generally localized with quartz veining and sulphides with high-grade mineralization typically localized in and around the narrow granodiorite dykes and lenses. The dominant sulphides reported from drilling were pyrite with variable and more local arsenopyrite. The arsenopyrite is generally very finely disseminated. Several occurrences of visible gold in quartz veins are noted on the drill logs (MO95-5 at 28.5 metres, MO95-6 at 37.2 metres and 50.0 metres)."
+            },
+            "relationships": [
+                {
+                    "src": "Birimian",
+                    "relationship_type": "strat_name_to_lith",
+                    "dst": "greywacke, siltstone, and mudstones",
+                    "reasoning": "The text describes the presence of 'greywacke, siltstone and mudstones' as a sequence of metasediments, indicating a relationship between the stratigraphic unit (Birimian) and the lithology (greywacke, siltstone, and mudstones)."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "att_grains",
+                    "dst": "coarse-grained and porphyritic",
+                    "reasoning": "The text describes the granite as 'coarse-grained and porphyritic', indicating the grain size and texture of the lithology (granite)."
+                },
+                {
+                    "src": "quartz",
+                    "relationship_type": "att_bedform",
+                    "dst": "granite",
+                    "reasoning": "The text describes the quartz veining as 'tending to increase in intensity' around the granite, indicating a relationship between the lithology (quartz) and the presence of the granite"
+                },
+                {
+                    "src": "sulphides",
+                    "relationship_type": "att_bedform",
+                    "dst": "granodiorite",
+                    "reasoning": "The text describes the sulphides as 'high-grade' and localized in and around the granodiorite dykes and lenses, indicating a relationship between the lithology (sulphides) and the presence of the granodiorite"
+                }
+            ]
+        }
+    ]
+}
