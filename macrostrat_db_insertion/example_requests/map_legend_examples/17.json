@@ -1,0 +1,626 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Quartz-mica sandstone and volcanogenic chert-rich sandstone.",
+                "legend_id": 14126
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mica",
+                    "reasoning": "'Mica' specifies the type of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Quartzite sandstone and black siliceous shale containing graptolites.",
+                "legend_id": 14130
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "black",
+                    "reasoning": "'Black' directly describes the color of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "siliceous",
+                    "reasoning": "'Siliceous' specifies the type of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Massive or banded, calcareous muddy sandstone and sandy calcareous siltstone, commonly glauconitic; basal, flaggy or cross bedded glauconitic limestone.",
+                "legend_id": 14131
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'sandstone' and 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'sandstone' and 'siltstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "muddy",
+                    "reasoning": "'Muddy' directly describes the grains of 'sandstone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'limestone', 'sandstone', and 'siltstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'limestone', 'sandstone', and 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'limestone', 'sandstone', and 'siltstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Calcareous sandy siltstone with interbedded concretionary sandstone and basal, cross-bedded or flaggy, glauconitic limestone.",
+                "legend_id": 14132
+            },
+            "relationships": [
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'siltstone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "cross-bedded",
+                    "reasoning": "'Cross-bedded' describes the sedimentary structure of 'limestone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "concretionary",
+                    "reasoning": "'Concretionary' describes the sedimentary structure of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Siltstone, sandstone and conglomerate, carbonaceous near top.",
+                "legend_id": 14133
+            },
+            "relationships": [
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'siltstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Siltstone, sandstone and conglomerate, carbonaceous near top.",
+                "legend_id": 14134
+            },
+            "relationships": [
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'siltstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "White medium-coarse-grained muscovite-biotite monzogranite with K-feldspar megacrysts.",
+                "legend_id": 14135
+            },
+            "relationships": [
+                {
+                    "src": "monzogranite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "muscovite-biotite",
+                    "reasoning": "'Muscovite-biotite' specifies the types of 'monzogranite'."
+                },
+                {
+                    "src": "monzogranite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "K-feldspar",
+                    "reasoning": "'K-feldspar' specifies the type of 'megacrysts' within 'monzogranite'."
+                },
+                {
+                    "src": "monzogranite",
+                    "relationship_type": "att_color",
+                    "dst": "white",
+                    "reasoning": "'White' directly describes the color of 'monzogranite'."
+                },
+                {
+                    "src": "monzogranite",
+                    "relationship_type": "att_grains",
+                    "dst": "medium-coarse",
+                    "reasoning": "'Medium-coarse' directly describes the grain size of 'monzogranite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Well-poorly bedded sandstone-siltstone and semi-schist to east; predominantly pelitic well foliated laminated schist to west.",
+                "legend_id": 14136
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "laminated",
+                    "reasoning": "'Laminated' describes the sedimentary structure of 'schist'."
+                },
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' describes the grains of 'schist'."
+                },
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Well-poorly bedded sandstone-siltstone and semi-schist to east; predominantly pelitic well foliated laminated schist to west.",
+                "legend_id": 14137
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "laminated",
+                    "reasoning": "'Laminated' describes the sedimentary structure of 'schist'."
+                },
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' describes the grains of 'schist'."
+                },
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Graded, coarse grained sandstone with fining and thinning up cycles; interbedded calcareous mudstone. Dark grey mudstone at base.",
+                "legend_id": 14142
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_color",
+                    "dst": "dark",
+                    "reasoning": "'Dark' directly describes the color of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Plagioclase-phyric basaltic lava flows and breccia with lenses of tuff.",
+                "legend_id": 14143
+            },
+            "relationships": [
+                {
+                    "src": "lava flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'lava flows'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Crystalline limestone and marble thin quartzite bands sparse corals and crinoids sandy limestone with conodonts.",
+                "legend_id": 14144
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Crystalline limestone and marble thin quartzite bands sparse corals and crinoids sandy limestone with conodonts.",
+                "legend_id": 14146
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Crystalline limestone and marble thin quartzite bands sparse corals and crinoids sandy limestone with conodonts.",
+                "legend_id": 14147
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Black limestone, lime mudstone with conodonts and sparse corals.",
+                "legend_id": 14148
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_color",
+                    "dst": "black",
+                    "reasoning": "'Black' directly describes the color of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Greenish-grey, sandy glauconitic mudstone; grades laterally north and west into shallow to mid-water sandstone.",
+                "legend_id": 14149
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Serpentinite and gabbro; metamorphosed with pelitic; psammitic and metabasite schist.",
+                "legend_id": 14151
+            },
+            "relationships": [
+                {
+                    "src": "grains",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the type of 'grains' in the 'metamorphosed' lithology."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Serpentinite and gabbro; metamorphosed with pelitic; psammitic and metabasite schist.",
+                "legend_id": 14153
+            },
+            "relationships": [
+                {
+                    "src": "grains",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the type of 'grains' in the 'metamorphosed' lithology."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Abundant (>10%) greenschist bands in mainly pelitic and minor psammitic greyschist, minor metachert and marble; TZIII.",
+                "legend_id": 14157
+            },
+            "relationships": [
+                {
+                    "src": "greenschist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'greenschist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Fine grained schist with widespread but thin lenses of greenschist and minor lenses of talcose schist.",
+                "legend_id": 14158
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "fine",
+                    "reasoning": "'Fine' directly describes the grain size of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Planar foliated and laminated pelitic and subordinate psammitic greyschist; minor greenschist and metachert; TZIII.",
+                "legend_id": 14159
+            },
+            "relationships": [
+                {
+                    "src": "greenschist",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'greenschist'."
+                },
+                {
+                    "src": "greenschist",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "laminated",
+                    "reasoning": "'Laminated' directly describes the sedimentary structure of 'greenschist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dominantly TZIIIA pelitic schist; derived from quartzofeldspathic sandstone and mudstone.",
+                "legend_id": 14160
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dominantly pelitic schist derived from  quartzo-feldspathic sandstone-mudstone.",
+                "legend_id": 14161
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' specifies the type of 'grains' in 'schist'."
+                },
+                {
+                    "src": "sandstone-mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartzo-feldspathic",
+                    "reasoning": "'Quartzo-feldspathic' specifies the type of 'sandstone-mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Prominently planar-foliated; psammitic/pelitic schist; subordinate greenschist layers; TZIII.",
+                "legend_id": 14164
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'schist'."
+                },
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Abundant (>10%) amphibolite bands in mainly pelitic and minor psammitic greyschist, minor metachert and marble; TZIV.",
+                "legend_id": 14166
+            },
+            "relationships": [
+                {
+                    "src": "greyschist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'greyschist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Abundant (>10%) greenschist/?amphibolite bands in mainly pelitic and minor psammitic greyschist, minor metachert and marble; TZIV.",
+                "legend_id": 14167
+            },
+            "relationships": [
+                {
+                    "src": "greenschist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'greenschist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Abundant (>10%) greenschist/amphibolite bands in mainly pelitic and minor psammitic greyschist, minor metachert and marble; TZIV.",
+                "legend_id": 14168
+            },
+            "relationships": [
+                {
+                    "src": "greenschist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'greenschist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Abundant (>10%) greenschist bands in mainly pelitic and minor psammitic greyschist, minor metachert and marble; TZIV.",
+                "legend_id": 14169
+            },
+            "relationships": [
+                {
+                    "src": "greenschist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'greenschist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Abundant epidote- to chlorite-rich greenschist with metachert bands; pelitic and psammitic schist; rare marble; TZIV.",
+                "legend_id": 14170
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' specifies the type of grains in 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Interlayered psammitic and pelitic greyschist; minor greenschist; TZIV.",
+                "legend_id": 14171
+            },
+            "relationships": [
+                {
+                    "src": "greenschist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' specifies the type of grains of 'greenschist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Fine grained schist with widespread but thin lenses of greenschist and minor lenses of talcose schist.",
+                "legend_id": 14174
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "fine",
+                    "reasoning": "'Fine' directly describes the grain size of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Very well segregated and laminated; abundant pelitic and subordinate psammitic greyschist and gneiss; minor gs-amphibolite and metachert; TZIV.",
+                "legend_id": 14175
+            },
+            "relationships": [
+                {
+                    "src": "very well segregated",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "laminated",
+                    "reasoning": "'Laminated' describes the sedimentary structure of the lithology."
+                },
+                {
+                    "src": "grains",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' describes the type of grains."
+                }
+            ]
+        }
+    ]
+}

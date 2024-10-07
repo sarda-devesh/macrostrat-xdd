@@ -1,0 +1,26 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620d913bad0e9c819b08e421",
+                "hashed_text": "6c9e281301d8e139a91bf40ae2457b58b1c9156036e54846a642a6a43523ccc3",
+                "weaviate_id": "00001aef-8619-4abc-93c8-bed94f61ff10",
+                "paragraph_text": "Figure 9.2.1  Geology of the Central Catherine, Link-Catherine Property, and 80 Foot Fall Claimblocks. Boston-Skead Gold Belt, Larder Lake Mining Division, Ontario (Modified After Ayer and Trowell, 2000).\nThe Link-Catherine Claims and near-by properties such as the Central Catherine and 80-Foot Falls Claims have historically been explored primarily for their potential to yield major vein-type gold deposits. This has been based upon the numerous auriferous quartz-carbonate veins intersected by past drilling and trenching. By-product levels of silver (Ag) and tellurium (Te) may also be associated with the gold mineralization but this has not yet been documented. There is also permissive and/or documented potential for at least four other types of mineralization; these include major and/or byproduct levels of Te, Cu, Li, Mo, and possibly Rare Earth Elements (REE). All five of the potential deposit types for which the Link-Catherine Property area is prospective are listed below."
+            },
+            "relationships": [
+                {
+                    "src": "quartz-carbonate",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "auriferouse",
+                    "reasoning": "The text mentions 'auriferous quartz-carbonate veins', which associates a mineralization type (gold) with a lithology (quartz-carbonate)."
+                }
+            ]
+        }
+    ]
+}

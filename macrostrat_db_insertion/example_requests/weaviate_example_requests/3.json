@@ -1,0 +1,32 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620e8f8fad0e9c819b0d6793",
+                "hashed_text": "dab34044cf9e7a220cedffa58125e83dbbdf3ea19e6bb8a010e0ae454ce2489c",
+                "weaviate_id": "0000bd92-ad4f-42ee-ac9b-70754158a470",
+                "paragraph_text": "Rocks in the Baie du Nord area are affected by the Brien high-strain system. The Brien high-strain system is characterized by west-northwest trending subvertical shear zones showing evidence of sinistral movement (Indares et al., 2000). These rocks are also affected by the development of tight to isoclinal folds with axes plunging gently to the east-southeast and west-northwest trending axial planes.\nAccording to Indares et al. (2000), rocks of the Boundary Zone are affected by a retrograde metamorphism to the greenschist facies with presence of chlorite and epidote near the Hart Jaune shear zone. High pressure metamorphic assemblages to the eclogite facies are preserved in mafic tectonic lenses, metapelites, anorthosites and gabbros."
+            },
+            "relationships": [
+                {
+                    "src": "greenschist facies",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "chlorite and epidote",
+                    "reasoning": "The text mentions the presence of chlorite and epidote, which are minerals that can be associated with a specific lithology or facies (greenschist facies)."
+                },
+                {
+                    "src": "eclogite facies",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic tectonic lenses, metapelites, anorthosites, and gabbros",
+                    "reasoning": "The text describes the presence of high-pressure metamorphic assemblages in certain rocks, which can be associated with a specific lithology or facies (eclogite facies)."
+                }
+            ]
+        }
+    ]
+}

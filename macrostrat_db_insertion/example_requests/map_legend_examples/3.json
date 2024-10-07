@@ -1,0 +1,686 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Metaconglomerate with minor arkosic gneiss",
+                "legend_id": 13423
+            },
+            "relationships": [
+                {
+                    "src": "gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "arkosic",
+                    "reasoning": "'Arkosic' specifies the type of 'gneiss'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Greywacke- and mudstone-derived gneiss and migmatite (Amisk Group and Wasekwan Group in part; Nokomis Group and Burntwood River Metamorphic Suite); psammitic and semi-pelitic gneiss, pelitic schist and migmatite",
+                "legend_id": 13427
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' specifies the type of grains in 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amphibolite; mafic and minor ultramafic granulite, banded iron formation, quartzite, and calc-silicate rocks",
+                "legend_id": 13430
+            },
+            "relationships": [
+                {
+                    "src": "amphibolite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'amphibolite'."
+                },
+                {
+                    "src": "granulite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' and 'ultramafic' specify the types of 'granulite'."
+                },
+                {
+                    "src": "granulite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Mafic' and 'ultramafic' specify the types of 'granulite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Metasedimentary and mafic/ultramafic metavolcanic rocks, serpentinized peridotite, serpentinite, pyroxenite and mafic/ultramafic differentiated intrusions of the Fox River belt and Ospwagan Group; (a) shale, dolomitic limestone, siltstone, sandstone, iron formation; (b) basalt and komatiite; (c) iron formation",
+                "legend_id": 13432
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "metavolcanic rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' and 'ultramafic' specify the types of 'metavolcanic rocks'."
+                },
+                {
+                    "src": "metavolcanic rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Mafic' and 'ultramafic' specify the types of 'metavolcanic rocks'."
+                },
+                {
+                    "src": "peridotite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "serpentinized",
+                    "reasoning": "'Serpentinized' specifies the type of 'peridotite' and 'serpentinite'."
+                },
+                {
+                    "src": "serpentinite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "serpentinized",
+                    "reasoning": "'Serpentinized' specifies the type of 'peridotite' and 'serpentinite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Metasedimentary and mafic/ultramafic metavolcanic rocks, serpentinized peridotite, serpentinite, pyroxenite and mafic/ultramafic differentiated intrusions of the Fox River belt and Ospwagan Group; iron formation",
+                "legend_id": 13433
+            },
+            "relationships": [
+                {
+                    "src": "metavolcanic rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' and 'ultramafic' specify the types of 'metavolcanic rocks'."
+                },
+                {
+                    "src": "metasedimentary rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' and 'ultramafic' specify the types of 'metasedimentary rocks'."
+                },
+                {
+                    "src": "peridotite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "serpentinized",
+                    "reasoning": "'Serpentinized' specifies the type of 'peridotite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Felsic granulites with minor gabbro and anorthosite: enderbite, opdalite, charnockite, and related gneiss; inclusions of units (5a) and (6)",
+                "legend_id": 13437
+            },
+            "relationships": [
+                {
+                    "src": "granulites",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'granulites'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic and intermediate metavolcanic flows, pyroclastic deposits and associated  metasediments; local ultramafic flows; andesite",
+                "legend_id": 13446
+            },
+            "relationships": [
+                {
+                    "src": "metavolcanic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'metavolcanic'."
+                },
+                {
+                    "src": "flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the 'flows'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic and intermediate metavolcanic flows, pyroclastic deposits and associated  metasediments; local ultramafic flows",
+                "legend_id": 13447
+            },
+            "relationships": [
+                {
+                    "src": "metavolcanic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'metavolcanic'."
+                },
+                {
+                    "src": "flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'flows'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic and intermediate metavolcanic flows, pyroclastic deposits and associated  metasediments; local ultramafic flows; andesite",
+                "legend_id": 13448
+            },
+            "relationships": [
+                {
+                    "src": "metavolcanic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'metavolcanic'."
+                },
+                {
+                    "src": "flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the 'flows'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic and intermediate metavolcanic flows, pyroclastic deposits and associated  metasediments; local ultramafic flows; basalt",
+                "legend_id": 13449
+            },
+            "relationships": [
+                {
+                    "src": "metavolcanic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'metavolcanic'."
+                },
+                {
+                    "src": "flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'flows'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic and intermediate metavolcanic flows, pyroclastic deposits and associated  metasediments; local ultramafic flows",
+                "legend_id": 13450
+            },
+            "relationships": [
+                {
+                    "src": "metavolcanic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'metavolcanic'."
+                },
+                {
+                    "src": "flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'flows'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Fine- to medium-grained dolomitic limestone, argillaceous limestone and dolomite; minor anhydrite, chert and red shale",
+                "legend_id": 13453
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "red",
+                    "reasoning": "'Red' directly describes the color of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Cat Head Member - chert dolomite to mottled limestone",
+                "legend_id": 13454
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_color",
+                    "dst": "mottled",
+                    "reasoning": "'Mottled' directly describes the color of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Limestone, dolomitic limestone, dolomite",
+                "legend_id": 13455
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Fort Garry Member - massive to laminated dolomite; minor argillaceous dolomite",
+                "legend_id": 13456
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' and 'laminated' describe the bedform and sedimentary structure of 'dolomite', respectively."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "laminated",
+                    "reasoning": "'Massive' and 'laminated' describe the bedform and sedimentary structure of 'dolomite', respectively."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Millwood Member - soft green bentonitic shale",
+                "legend_id": 13457
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "green",
+                    "reasoning": "'Green' directly describes the color of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Shale, siliceous and bentonitic",
+                "legend_id": 13458
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "siliceous",
+                    "reasoning": "'Siliceous' specifies the type of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Odanah Member - hard grey siliceous shale",
+                "legend_id": 13459
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "siliceous",
+                    "reasoning": "'Siliceous' specifies the type of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Coulter Member - soft grey bentonitic clayey siltstone and shale",
+                "legend_id": 13460
+            },
+            "relationships": [
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "att_grains",
+                    "dst": "clayey",
+                    "reasoning": "'Clayey' directly describes the grains of 'siltstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Limestone, dolomitic limestone and dolomite, very fine-grained, fucoidal",
+                "legend_id": 13461
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "very fine",
+                    "reasoning": "'Very fine-grained' directly describes the grain size of 'limestone' and 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_grains",
+                    "dst": "very fine",
+                    "reasoning": "'Very fine-grained' directly describes the grain size of 'limestone' and 'dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Basal red shale, argillaceous micrite, high-calcium micritic limestone, dolomite",
+                "legend_id": 13462
+            },
+            "relationships": [
+                {
+                    "src": "micrite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'micrite'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "red",
+                    "reasoning": "'Red' directly describes the color of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dolomite, fine-grained, sparcely fossiliferous; in part conglomeratic",
+                "legend_id": 13464
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_grains",
+                    "dst": "fine",
+                    "reasoning": "'Fine' directly describes the grain size of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "conglomeratic",
+                    "reasoning": "'Conglomeratic' specifies the type of 'dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Gunn and Penitentiary Members - calcareous shale, fossiliferous limestone and argillaceous dolomite",
+                "legend_id": 13465
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'shale'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "fossiliferous",
+                    "reasoning": "'Fossiliferous' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Gunton and William Members - nodular dolomite and sandy argillaceous dolomite",
+                "legend_id": 13467
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "nodular",
+                    "reasoning": "'Nodular' describes the sedimentary structure of 'dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Aphanitic to finely crystalline limestone, sparsely fossiliferous; minor argillaceous limestone and dolomite",
+                "legend_id": 13468
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "aphanitic",
+                    "reasoning": "'Aphanitic' and 'finely crystalline' directly describe the grain size of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "fossiliferous",
+                    "reasoning": "'Fossiliferous' directly describes the grains of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Sandstone, in places glauconitic; kaolinitic shale, minor lignite",
+                "legend_id": 13469
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "kaolinitic",
+                    "reasoning": "'Kaolinitic' specifies the type of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Bentonitic carbonaceous sands, silts and clays, thin lignites; grey shale",
+                "legend_id": 13470
+            },
+            "relationships": [
+                {
+                    "src": "sands",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'sands', 'silts', and 'clays'."
+                },
+                {
+                    "src": "sands",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'sands', 'silts', and 'clays'."
+                },
+                {
+                    "src": "silts",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'sands', 'silts', and 'clays'."
+                },
+                {
+                    "src": "clays",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'sands', 'silts', and 'clays'."
+                },
+                {
+                    "src": "lignites",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'sands', 'silts', and 'clays'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bentonitic",
+                    "reasoning": "'Bentonitic' specifies the type of 'shale'."
+                },
+                {
+                    "src": "sands",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'sands', 'silts', and 'clays'."
+                },
+                {
+                    "src": "silts",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'silts', and 'clays'."
+                },
+                {
+                    "src": "clays",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'silts', and 'clays'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Morden Member - black, carbonaceous shale; Boyne Member - calcareous and carbonaceous shale; Pembina Member - calcareous shale, bentonite",
+                "legend_id": 13471
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "black",
+                    "reasoning": "'Black' directly describes the color of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'shale'."
+                }
+            ]
+        }
+    ]
+}
