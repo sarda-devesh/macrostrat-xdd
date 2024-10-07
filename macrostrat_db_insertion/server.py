@@ -1,46 +1,47 @@
-from fastapi import FastAPI, Request, HTTPException
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic_settings import BaseSettings
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.sql import select as SELECT_STATEMENT
 from sqlalchemy.sql import insert as INSERT_STATEMENT
-import json
 import traceback
-from datetime import datetime, timezone
-import os
 
-from re_detail_adder import *
+from macrostrat_db_insertion.re_detail_adder import *
+from macrostrat_db_insertion.security import has_access
+from macrostrat_db_insertion.database import get_session_maker, get_base, connect_engine, dispose_engine
 
 
 class Settings(BaseSettings):
     uri: str
-    schema: str
+    SCHEMA: str
     max_tries: int = 5
 
 
-def load_fastapi_app():
+settings = Settings()
 
-    app = FastAPI()
-    settings = Settings()
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
 
-    engine = create_engine(settings.uri)
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    Base = declarative_base(metadata=MetaData(schema=settings.schema))
-    Base.metadata.reflect(engine)
+@asynccontextmanager
+async def setup_engine(a: FastAPI):
+    """Return database client instance."""
+    connect_engine(settings.uri, settings.SCHEMA)
+    yield
+    dispose_engine()
 
-    return app, SessionLocal, Base
+app = FastAPI(
+    lifespan=setup_engine
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Connect to the database
-app, SessionLocal, Base = load_fastapi_app()
 re_processor = REProcessor("id_maps")
 
 ENTITY_TYPE_TO_ID_MAP = {
@@ -53,7 +54,7 @@ ENTITY_TYPE_TO_ID_MAP = {
 def get_db_entity_id(db, run_id, entity_name, entity_type, source_id):
     # Create the entity value
     entity_unique_rows = ["run_id", "entity_name", "entity_type", "source_id"]
-    entities_table = Base.metadata.tables['macrostrat_kg_new.entities']
+    entities_table = get_base().metadata.tables['macrostrat_kg_new.entities']
     entities_values = {
         "run_id" : run_id,
         "entity_name" : entity_name,
@@ -146,7 +147,7 @@ def record_relationship(db, run_id, source_id, relationship):
         "relationship_type" : db_relationship_type
     }
     unique_columns = ["run_id", "src_entity_id", "dst_entity_id", "relationship_type", "source_id"]
-    relationship_tables = Base.metadata.tables['macrostrat_kg_new.relationship']
+    relationship_tables = get_base().metadata.tables['macrostrat_kg_new.relationship']
     try:
         relationship_insert_statement = INSERT_STATEMENT(relationship_tables).values(**db_relationship_insert_values)
         relationship_insert_statement = relationship_insert_statement.on_conflict_do_nothing(index_elements = unique_columns)
@@ -177,7 +178,7 @@ def record_for_result(db, run_id, request):
     paragraph_txt = source_values["paragraph_text"]
     source_values["paragraph_text"] = paragraph_txt.encode("ascii", errors="ignore").decode()
 
-    sources_table = Base.metadata.tables['macrostrat_kg_new.sources']
+    sources_table = get_base().metadata.tables['macrostrat_kg_new.sources']
     try:
         # Try to insert the sources
         sources_insert_statement = INSERT_STATEMENT(sources_table).values(**source_values)
@@ -245,7 +246,7 @@ def record_for_result(db, run_id, request):
 
 def get_user_id(db, user_name):
     # Create the users rows
-    users_table = Base.metadata.tables['macrostrat_kg_new.users']
+    users_table = get_base().metadata.tables['macrostrat_kg_new.users']
     users_row_values = {
         "user_name" : user_name
     }
@@ -293,7 +294,7 @@ def get_model_internal_details(db, request):
 
     # Try to insert the model
     model_name = model_values["model_name"]
-    models_tables = Base.metadata.tables['macrostrat_kg_new.models']
+    models_tables = get_base().metadata.tables['macrostrat_kg_new.models']
     try:
         # Try to insert the model
         model_insert_statement = INSERT_STATEMENT(models_tables).values(**{
@@ -327,7 +328,7 @@ def get_model_internal_details(db, request):
 
     # Try to insert the model version
     model_version = model_values["model_version"]
-    versions_table = Base.metadata.tables['macrostrat_kg_new.model_versions']
+    versions_table = get_base().metadata.tables['macrostrat_kg_new.model_versions']
     try:
         # Try to insert the model version
         version_insert_statement = INSERT_STATEMENT(versions_table).values(**{
@@ -391,7 +392,7 @@ def process_input_request(db, request_data):
 
     # Insert this run to the metadata
     try:
-        metadata_table = Base.metadata.tables['macrostrat_kg_new.metadata']
+        metadata_table = get_base().metadata.tables['macrostrat_kg_new.metadata']
         metadata_insert_statement = INSERT_STATEMENT(metadata_table).values(**metadata_values)
         metadata_insert_statement = metadata_insert_statement.on_conflict_do_update(index_elements=["run_id"], set_ = {
             "internal_model_id" : metadata_values["internal_model_id"],
@@ -413,10 +414,17 @@ def process_input_request(db, request_data):
 
 
 @app.post("/record_run")
-async def record_run(request: Request):
+async def record_run(
+        request: Request,
+        user_has_access: bool = Depends(has_access)
+):
+
+    if not user_has_access:
+        raise HTTPException(status_code=403, detail="User does not have access to record run")
+
     # Record the run
     request_data = await request.json()
-    db = SessionLocal()
+    db = get_session_maker()
     try:
         successful, error_msg = process_input_request(db, request_data)
         if not successful:
