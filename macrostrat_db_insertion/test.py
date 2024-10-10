@@ -24,7 +24,7 @@ class TestAPI:
 
     def test_insert(self, api_client: TestClient):
 
-        for file in glob.glob("example_requests/map_legend_examples/**/*.json"):
+        for file in glob.glob("example_requests/**/*.json"):
             data = json.loads(open(file, "r").read())
 
             response = api_client.post(
