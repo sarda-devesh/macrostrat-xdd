@@ -22,14 +22,17 @@ def api_client() -> TestClient:
 class TestAPI:
 
     def test_insert(self, api_client: TestClient):
-        data = json.loads(open("example_request.json", "r").read())
+        data = json.loads(open("example_requests/map_legend_examples/0.json", "r").read())
 
         response = api_client.post(
             "/record_run",
             json=data
         )
 
+        j = response.json()
+
         assert response.status_code == 200
+
 
 
 class TestSecurity:

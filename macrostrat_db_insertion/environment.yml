@@ -47,4 +47,6 @@ dependencies:
       - urllib3==2.2.1
       - werkzeug==3.0.2
       - zipp==3.18.1
+      - fuzzysearch
+      - uvicorn
 prefix: /conda/envs/db_insert_env
