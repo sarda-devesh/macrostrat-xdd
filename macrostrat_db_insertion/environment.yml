@@ -49,4 +49,28 @@ dependencies:
       - zipp==3.18.1
       - fuzzysearch
       - uvicorn
+      - fastapi
+      - starlette
+      - python-jose
+      - pytest
+      - six
+      - sniffio
+      - pydantic
+      - pydantic_core
+      - pydantic-settings
+      - pycparser
+      - pyasn1
+      - psycopg2
+      - pluggy
+      - httpx
+      - packaging
+      - iniconfig
+      - idna
+      - httpcore
+      - h11
+      - cryptography
+      - ecdsa
+      - click
+      - bcrypt
+      - annotated-types
 prefix: /conda/envs/db_insert_env
