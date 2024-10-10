@@ -1,6 +1,7 @@
 # Test the insertion of data into the macrostrat database
 
 import json
+import glob
 from types import SimpleNamespace
 
 import pytest
@@ -22,17 +23,16 @@ def api_client() -> TestClient:
 class TestAPI:
 
     def test_insert(self, api_client: TestClient):
-        data = json.loads(open("example_requests/map_legend_examples/0.json", "r").read())
 
-        response = api_client.post(
-            "/record_run",
-            json=data
-        )
+        for file in glob.glob("example_requests/map_legend_examples/**/*.json"):
+            data = json.loads(open(file, "r").read())
 
-        j = response.json()
+            response = api_client.post(
+                "/record_run",
+                json=data
+            )
 
-        assert response.status_code == 200
-
+            assert response.status_code == 200
 
 
 class TestSecurity:
