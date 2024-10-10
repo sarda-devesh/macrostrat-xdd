@@ -168,7 +168,7 @@ def find_link(bibjson):
     return None
 
 PUBLICATIONS_URL = "https://xdd.wisc.edu/api/articles"
-def record_publication(source_text, session: Session):
+def record_publication(source_text, request_additional_data, session: Session):
     # See if already have a result for this publication
     paper_id = source_text["paper_id"]
     publication_table_name = get_complete_table_name("publication")
@@ -537,7 +537,7 @@ def record_single_entity(entity, request_additional_data, session: Session):
         return success, indicies_results
 
     provided_start_idx, provided_end_idx = indicies_results
-    return get_entity_id(entity["entity"], entity["entity_type"], request_additional_data, provided_start_idx, provided_end_idx, session=session)
+    return get_entity_id(entity["entity"], entity["entity_type"], request_additional_data, session, provided_start_idx, provided_end_idx)
 
 def get_relationship_type_id(relationship_type, session: Session):
     relationship_type_table_name = get_complete_table_name("relationship_type")
@@ -606,7 +606,7 @@ def record_relationship(relationship, request_additional_data, session: Session)
     src_provided_start_idx, src_provided_end_idx = indicies_results
 
     # Get the src entity ids
-    success, src_entity_id = get_entity_id(relationship["src"], src_entity_type, request_additional_data, src_provided_start_idx, src_provided_end_idx, session=session)
+    success, src_entity_id = get_entity_id(relationship["src"], src_entity_type, request_additional_data, session, src_provided_start_idx, src_provided_end_idx)
     if not success:
         return success, src_entity_id
 
@@ -616,7 +616,7 @@ def record_relationship(relationship, request_additional_data, session: Session)
         return success, indicies_results
     dst_provided_start_idx, dst_provided_end_idx = indicies_results
 
-    success, dst_entity_id = get_entity_id(relationship["dst"], dst_entity_type, request_additional_data, dst_provided_start_idx, dst_provided_end_idx, session=session)
+    success, dst_entity_id = get_entity_id(relationship["dst"], dst_entity_type, request_additional_data, session, dst_provided_start_idx, dst_provided_end_idx)
     if not success:
         return success, dst_entity_id
 

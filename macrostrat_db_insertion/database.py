@@ -25,7 +25,7 @@ def connect_engine(uri: str, schema: str):
 
     base = declarative_base()
     base.metadata.reflect(get_engine())
-    base.metadata.reflect(get_engine(), schema=schema)
+    base.metadata.reflect(get_engine(), schema=schema, views=True)
 
 
 def dispose_engine():

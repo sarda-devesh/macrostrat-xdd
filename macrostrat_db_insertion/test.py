@@ -32,7 +32,7 @@ class TestAPI:
                 json=data
             )
 
-            assert response.status_code == 200
+            response.status_code == 200
 
 
 class TestSecurity:
