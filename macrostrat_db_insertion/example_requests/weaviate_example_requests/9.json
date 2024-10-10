@@ -1,0 +1,32 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620e8f79ad0e9c819b0d5a38",
+                "hashed_text": "5d9a50ee45dd2bfd37499e46d63c6b3bcd9ac60553ea0d2aa17c5ebe4a5cb004",
+                "weaviate_id": "0002452b-841e-447e-8f4c-556bd454dd85",
+                "paragraph_text": "Type 2 flats are subhorizontal QTC fracture-filling veins between two adjacent steep shears. These flats cross lithologies but stop abruptly at the shears. They can extend 200 to 300 m.\nType 3 flats are subhorizontal QTC veins that cross all lithologies and steep sheared veins, and are known to extend as far as 300 m. When a flat crosses a shear (30 cm www.innovexplo.com to 1 m wide), the shear will generally carry ore values for 3 to 6 m above and below the intersection.\nThe Sigma mine is located south of the Bourlamaque Batholith within the Central Pyroclastic Belt of the Val-dOr Formation (Figs. 7.5). The deposit is hosted by an andesite unit bounded to the north by the north shear, and by volcaniclastic rocks of intermediate composition to the south. The volcanics have been cut by two generations of pre-mineralization porphyry dykes, sills and a large composite stock that ranges in composition from diorite to granodiorite, and by a series of shears."
+            },
+            "relationships": [
+                {
+                    "src": "Type 2 flats",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "lithologies",
+                    "reasoning": "The text describes 'Type 2 flats' as 'subhorizontal QTC fracture-filling veins' that 'cross lithologies but stop abruptly at the shears', indicating a relationship between the lithology and the type of flat."
+                },
+                {
+                    "src": "Type 3 flats",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "lithologies",
+                    "reasoning": "The text describes 'Type 3 flats' as 'subhorizontal QTC veins that cross all lithologies and steep sheared veins', indicating a relationship between the lithology and the type of flat."
+                }
+            ]
+        }
+    ]
+}

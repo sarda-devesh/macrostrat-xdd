@@ -1,0 +1,620 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Felsic to intermediate, mainly pyroclastic volcanic rocks; some flows, minor intrusive and sedimentary rocks",
+                "legend_id": 13372
+            },
+            "relationships": [
+                {
+                    "src": "volcanic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanic' rocks."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Basalt, minor andesite, minor sedimentary and mafic intrusive rocks; ultramafic rocks (serpentinite, serpentinized peridotite, pyroxenite) and differentiated ultramafic/mafic intrusions",
+                "legend_id": 13374
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'intrusive rocks'."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'rocks'."
+                },
+                {
+                    "src": "peridotite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "serpentinized",
+                    "reasoning": "'Serpentinized' specifies the type of 'peridotite'."
+                },
+                {
+                    "src": "ultramafic rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "serpentinized",
+                    "reasoning": "'Serpentinized' specifies the type of 'ultramafic rocks'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Limestone, skeletal calcarenites; in part argillaceous and dolomitic",
+                "legend_id": 13376
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "skeletal",
+                    "reasoning": "'Skeletal' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Calcareous speckled shale; minor limestone, bentonite and oil shale",
+                "legend_id": 13378
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks; gabbro",
+                "legend_id": 13380
+            },
+            "relationships": [
+                {
+                    "src": "gabbro",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gabbro'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks; diorite",
+                "legend_id": 13381
+            },
+            "relationships": [
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'rocks'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Granite, granodiorite and tonalite; porphyritic granite and pegmatite",
+                "legend_id": 13383
+            },
+            "relationships": [
+                {
+                    "src": "granite",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grains of 'granite'."
+                },
+                {
+                    "src": "pegmatite",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grains of 'pegmatite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks; anorthositic gabbro",
+                "legend_id": 13385
+            },
+            "relationships": [
+                {
+                    "src": "gabbro",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gabbro'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks; diorite",
+                "legend_id": 13386
+            },
+            "relationships": [
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'rocks'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks; hypersthene-bearing tonalite-diorite, enderbite",
+                "legend_id": 13387
+            },
+            "relationships": [
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'rocks'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks; gabbro",
+                "legend_id": 13389
+            },
+            "relationships": [
+                {
+                    "src": "gabbro",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gabbro'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Granite, granodiorite and tonalite; hypersthene-bearing porphyritic granite-monzonite",
+                "legend_id": 13391
+            },
+            "relationships": [
+                {
+                    "src": "granite-monzonite",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grains of 'granite-monzonite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks",
+                "legend_id": 13393
+            },
+            "relationships": [
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'rocks'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Granite, granodiorite and tonalite; porphyritic granite and pegmatite",
+                "legend_id": 13394
+            },
+            "relationships": [
+                {
+                    "src": "granite",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grains of 'granite'."
+                },
+                {
+                    "src": "pegmatite",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grains of 'pegmatite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Tonalite-granodiorite; 'quartz eye' tonalite",
+                "legend_id": 13395
+            },
+            "relationships": [
+                {
+                    "src": "tonalite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'tonalite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic to intermediate rocks; tonalite-diorite",
+                "legend_id": 13396
+            },
+            "relationships": [
+                {
+                    "src": "mafic",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "lithology",
+                    "reasoning": "'Mafic' specifies the type of the lithology."
+                },
+                {
+                    "src": "lithology",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the lithology."
+                },
+                {
+                    "src": "tonalite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "diorite",
+                    "reasoning": "'Tonalite' and 'diorite' are mentioned together, suggesting a relationship between them."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Ultramafic rocks; (a) peridotite-pyroxenite; (b) serpentinite; (c) hornblendite-hornblende peridotite and pyroxenite",
+                "legend_id": 13399
+            },
+            "relationships": [
+                {
+                    "src": "hornblendite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "hornblende",
+                    "reasoning": "'Hornblende' specifies the type of 'hornblendite'."
+                },
+                {
+                    "src": "peridotite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "hornblende",
+                    "reasoning": "'Hornblende' specifies the type of 'peridotite' and 'pyroxenite'."
+                },
+                {
+                    "src": "pyroxenite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "hornblende",
+                    "reasoning": "'Hornblende' specifies the type of 'peridotite' and 'pyroxenite'."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the rocks."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Finely crystalline to aphanitic limestone; thin interbeds argillaceous silty sandy dolomite",
+                "legend_id": 13400
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "aphanitic",
+                    "reasoning": "'Aphanitic' directly describes the grain size of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Lower Member - dolomite, slightly calcareous and argillaceous; some limestone and dolomitic limestone; minor anhydrite",
+                "legend_id": 13401
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Middle Member - reddish brown to greenish grey calcareous argillaceous sandy siltstone and silty shale",
+                "legend_id": 13402
+            },
+            "relationships": [
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of the 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of the 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "silty",
+                    "reasoning": "'Silty' specifies the type of the 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "att_color",
+                    "dst": "brown",
+                    "reasoning": "'Brown' and 'reddish brown' directly describe the colors of the 'siltstone' and 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "reddish brown",
+                    "reasoning": "'Brown' and 'reddish brown' directly describe the colors of the 'siltstone' and 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Limestone, medium to dark brown, fossiliferous, bituminous, partly reefal; minor dolomite",
+                "legend_id": 13403
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "medium",
+                    "reasoning": "'Medium' directly describes the grain size of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_color",
+                    "dst": "brown",
+                    "reasoning": "'Brown' and 'dark brown' directly describe the colors of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_color",
+                    "dst": "dark brown",
+                    "reasoning": "'Brown' and 'dark brown' directly describe the colors of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_color",
+                    "dst": "dark",
+                    "reasoning": "'Dark' directly describes the color of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "fossiliferous",
+                    "reasoning": "'Fossiliferous' directly describes the grains of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mafic and felsic fragmental volcanic rocks, porphyritic mafic to felsic flows, derived sediments",
+                "legend_id": 13408
+            },
+            "relationships": [
+                {
+                    "src": "fragmental volcanic rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'fragmental volcanic rocks'."
+                },
+                {
+                    "src": "fragmental volcanic rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'fragmental volcanic rocks'."
+                },
+                {
+                    "src": "mafic to felsic flows",
+                    "relationship_type": "att_grains",
+                    "dst": "porphyritic",
+                    "reasoning": "'Porphyritic' directly describes the grains of 'mafic to felsic flows'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amphibolite and mafic gneiss; calc-silicate gneiss and interlayered amphibolite",
+                "legend_id": 13411
+            },
+            "relationships": [
+                {
+                    "src": "gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gneiss'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amphibolite and mafic gneiss",
+                "legend_id": 13412
+            },
+            "relationships": [
+                {
+                    "src": "gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gneiss'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amphibolite and mafic gneiss",
+                "legend_id": 13415
+            },
+            "relationships": [
+                {
+                    "src": "gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gneiss'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Arkose-, arenite-, and quartzite-derived gneiss and migmatite (Sickle Group, Missi Group and Sickle Metamorphic Suite); arkose, feldspathic wacke, conglomerate and quartzite",
+                "legend_id": 13416
+            },
+            "relationships": [
+                {
+                    "src": "wacke",
+                    "relationship_type": "att_grains",
+                    "dst": "feldspathic",
+                    "reasoning": "'Feldspathic' specifies the type of grains in 'wacke'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Arkose-, arenite-, and quartzite-derived gneiss and migmatite (Sickle Group, Missi Group and Sickle Metamorphic Suite); arkosic gneiss and migmatite, local arkosic wacke",
+                "legend_id": 13418
+            },
+            "relationships": [
+                {
+                    "src": "gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "arkosic",
+                    "reasoning": "'Arkosic' specifies the type of 'gneiss'."
+                },
+                {
+                    "src": "migmatite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "arkosic",
+                    "reasoning": "'Arkosic' specifies the type of 'migmatite'."
+                },
+                {
+                    "src": "wacke",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "arkosic",
+                    "reasoning": "'Arkosic' specifies the type of 'wacke'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amphibolite and mafic gneiss; calc-silicate gneiss and interlayered amphibolite",
+                "legend_id": 13419
+            },
+            "relationships": [
+                {
+                    "src": "gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gneiss'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amphibolite and mafic gneiss; calc-silicate rocks, local quartzite and/or marble",
+                "legend_id": 13420
+            },
+            "relationships": [
+                {
+                    "src": "mafic gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'gneiss'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Arkose-, arenite-, and quartzite-derived gneiss and migmatite (Sickle Group, Missi Group and Sickle Metamorphic Suite); felsic gneiss of unknown derivation",
+                "legend_id": 13421
+            },
+            "relationships": [
+                {
+                    "src": "gneiss",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'gneiss'."
+                }
+            ]
+        }
+    ]
+}

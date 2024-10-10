@@ -1,0 +1,32 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620d2308ad0e9c819b0629c9",
+                "hashed_text": "991a65a923f3a11481d9f7bc561c1dd2e32829a823b88d371fcc3814cbf8b9d9",
+                "weaviate_id": "0000e596-8fbe-452d-9220-762b4745544e",
+                "paragraph_text": "The weathered/non-weathered interface is an irregular surface ranging from 30 to 50 meters below ground level. This was defined by logging the point in each drill hole below which all the sulphides are fresh and above which most of the sulphides have been converted to rusty limonite. In most holes this is seen as a very sharp, well-defined line.\nThe sulphides (Py) above the interface have been mostly converted to oxides. In the SW zone, the oxidation process has been more limited, compared to the NE zones. In few holes scattered sulphides remain within the oxide section. These sections are generally short and irregular with little continuity."
+            },
+            "relationships": [
+                {
+                    "src": "sulphides",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "limonite",
+                    "reasoning": "The text describes the sulphides as 'fresh' below the interface and 'mostly converted to rusty limonite' above, indicating a change in the lithology."
+                },
+                {
+                    "src": "sulphides",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "oxides",
+                    "reasoning": "The text mentions the sulphides being 'mostly converted to oxides' above the interface, indicating a change in the lithology."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,599 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13624
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Predominantly a bimodal mixture of mafic and felsic volcanics; may include andesites",
+                "legend_id": 13626
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'volcanics'."
+                },
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13627
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13628
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mixed felsic, mafic and/or alkaline intrusives; may include ultramafic rocks; includes alkaline rocks such as trachyte and syenite.",
+                "legend_id": 13629
+            },
+            "relationships": [
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the rocks."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "alkaline",
+                    "reasoning": "'Alkaline' specifies the type of the rocks, including 'trachyte' and 'syenite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Trachytic to basaltic flows with associated tuff and pyroclastic breccia.",
+                "legend_id": 13635
+            },
+            "relationships": [
+                {
+                    "src": "flows",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'flows'."
+                },
+                {
+                    "src": "tuff and pyroclastic breccia",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'tuff and pyroclastic breccia'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Basalt, basaltic andesite and andesite lava, tuff and tuff breccia with lahar deposits and andesite dikes.",
+                "legend_id": 13637
+            },
+            "relationships": [
+                {
+                    "src": "basalt",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'basalt'."
+                },
+                {
+                    "src": "andesite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "basaltic",
+                    "reasoning": "'Basaltic' specifies the type of 'andesite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Olivine basalt lava, scoria and tuff.",
+                "legend_id": 13638
+            },
+            "relationships": [
+                {
+                    "src": "basalt",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "olivine",
+                    "reasoning": "'Olivine' specifies the type of 'basalt'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Allochthonous calcareous mudstone and glauconitic sandstone.",
+                "legend_id": 13640
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Allochthonous calcareous mudstone, sandstone and glauconitic sandstone, including massive greensand, and minor limestone.",
+                "legend_id": 13641
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "greensand",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' directly describes the bedform of 'greensand'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Allochthonous calcareous mudstone with thin glauconitic sandstone beds and minor limestone.",
+                "legend_id": 13642
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Allochthonous bioclastic limestone with minor calcareous sandstone and mudstone.",
+                "legend_id": 13643
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bioclastic",
+                    "reasoning": "'Bioclastic' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Allochthonous siliceous and calcareous mudstone.",
+                "legend_id": 13646
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "siliceous",
+                    "reasoning": "'Siliceous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Allochthonous, tuffaceous mudstone and sandstone with intercalated bioclastic limestone; minor breccia and conglomerate.",
+                "legend_id": 13647
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "tuffaceous",
+                    "reasoning": "'Tuffaceous' specifies the type of 'mudstone' and 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "tuffaceous",
+                    "reasoning": "'Tuffaceous' specifies the type of 'mudstone' and 'sandstone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bioclastic",
+                    "reasoning": "'Bioclastic' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Allochthonous sandstone, siltstone and mudstone, locally with calcareous mudstone, bioclastic limestone, breccia and conglomerate.",
+                "legend_id": 13648
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "bioclastic",
+                    "reasoning": "'Bioclastic' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Variably foliated biotite granite, leucogranite and granodiorite.",
+                "legend_id": 13649
+            },
+            "relationships": [
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "biotite",
+                    "reasoning": "'Biotite' specifies the type of 'granite', 'leucogranite', and 'granodiorite'."
+                },
+                {
+                    "src": "leucogranite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "biotite",
+                    "reasoning": "'Biotite' specifies the type of 'granite', 'leucogranite', and 'granodiorite'."
+                },
+                {
+                    "src": "granodiorite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "biotite",
+                    "reasoning": "'Biotite' specifies the type of 'granite', 'leucogranite', and 'granodiorite'."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'granite', 'leucogranite', and 'granodiorite'."
+                },
+                {
+                    "src": "leucogranite",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'granite', 'leucogranite', and 'granodiorite'."
+                },
+                {
+                    "src": "granodiorite",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'granite', 'leucogranite', and 'granodiorite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Sandstone and conglomerate with minor breccia, carbonaceous mudstone and coal.",
+                "legend_id": 13651
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Well foliated and laminated pelitic schist (TZIII)",
+                "legend_id": 13656
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'schist'."
+                },
+                {
+                    "src": "schist",
+                    "relationship_type": "att_sed_structure",
+                    "dst": "laminated",
+                    "reasoning": "'Laminated' directly describes the sedimentary structure of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Orthogneiss derived from granite, diorite and gabbro, locally with included ultramafic bodies and rafts of metasediment.",
+                "legend_id": 13657
+            },
+            "relationships": [
+                {
+                    "src": "bodies and rafts of metasediment",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the 'bodies and rafts of metasediment'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Semischistose (TZIIB) sandstone and mudstone with tuffaceous beds and chert; local gabbro and metabasite.",
+                "legend_id": 13658
+            },
+            "relationships": [
+                {
+                    "src": "beds",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "tuffaceous",
+                    "reasoning": "'Tuffaceous' specifies the type of 'beds'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Pelitic and psammitic schist (TZIII) with minor marble and metachert; local serpentinite, gabbro and metabasite schist.",
+                "legend_id": 13659
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Pelitic and subordinate psammitic schist (TZIV); including areas and bands of greenschist or amphibolite, and minor marble, metachert and serpentinised ultramafics.",
+                "legend_id": 13660
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Pelitic and psammitic schist (TZIII-IV) derived from quartzofeldspathic sandstone and mudstone.",
+                "legend_id": 13661
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the type of 'grains' of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Pelitic and psammitic schist (TZIII) derived from quartzofeldspathic sandstone and mudstone.",
+                "legend_id": 13662
+            },
+            "relationships": [
+                {
+                    "src": "schist",
+                    "relationship_type": "att_grains",
+                    "dst": "pelitic",
+                    "reasoning": "'Pelitic' directly describes the grains of 'schist'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Biotite granite.",
+                "legend_id": 13663
+            },
+            "relationships": [
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "biotite",
+                    "reasoning": "'Biotite' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Greywacke, conglomerate, sandstone, muddy siltstone and mudstone.",
+                "legend_id": 13664
+            },
+            "relationships": [
+                {
+                    "src": "siltstone",
+                    "relationship_type": "att_grains",
+                    "dst": "muddy",
+                    "reasoning": "'Muddy' directly describes the grains of 'siltstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "att_grains",
+                    "dst": "muddy",
+                    "reasoning": "'Muddy' directly describes the grains of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Conglomerate, breccia, sandstone and mudstone; some carbonaceous mudstone and rare coal.",
+                "legend_id": 13667
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'mudstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Massive sandstone with siltstone and conglomerate.",
+                "legend_id": 13670
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' directly describes the bedform of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Calcareous mudstone, sandy mudstone and sandstone with local conglomerate and lensoid coal seams.",
+                "legend_id": 13673
+            },
+            "relationships": [
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'mudstone'."
+                },
+                {
+                    "src": "mudstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'mudstone' and 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'sandstone'."
+                }
+            ]
+        }
+    ]
+}

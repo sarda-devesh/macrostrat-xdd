@@ -1,0 +1,26 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620f3148ad0e9c819b109f54",
+                "hashed_text": "53573a840706de5aa7398a1a5ea2341c27d02a2ea84386e2dfc91d05bfcab36f",
+                "weaviate_id": "0001bde0-3766-4f77-a58f-0d42d0283f65",
+                "paragraph_text": "Approximately 1.5 kilometres to the east, a second steeply-dipping, northwest trending fault marks the contact between Stuhini and Hazelton groups. Plugs of granodiorite to quartz monzonite, also of probable Jurassic age, intrude Stuhini volcanic rocks in the bottom of the valley immediately south of the GL2 Ridge target, and likewise in the valley bottom just north of GL2 Ridge, where it is in contact with a thick (>100 metres) limestone unit that dips shallowly to the west and contains high-grade Cu-Au-Ag skarn style mineralization (Figure 7.5). It was noted in conversation with A. Albano that the limestones are significantly more abundant in the GL2 area and on the Property overall than previously represented. This was supported by observations from the air on May 11, 2019."
+            },
+            "relationships": [
+                {
+                    "src": "limestone unit",
+                    "relationship_type": "att_bedform",
+                    "dst": "shallowly dipping",
+                    "reasoning": "The text describes a limestone unit with a specific characteristic ('high-grade Cu-Au-Ag skarn style mineralization') and a lithologic characteristic ('shallowly dipping')."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620e6879ad0e9c819b0c3000",
+                "hashed_text": "153f04d498ecaef7d045f73a9312d0b17f7072aa16fcb5bd98db17fe919b9f7f",
+                "weaviate_id": "000191ac-9c27-47e1-aaec-f0fd23ca12ee",
+                "paragraph_text": "As noted by Lang et al (2003), the early Eocene Mount Skukum volcanic complex, part of the widespread late Paleocene to early Eocene felsic to intermediate volcanism of the Skukum Group (Smith, 1982 and 1983; Pride, 1986), is a caldera sequence that underlies the western portion of the district. The Mount Skukum complex consists of up to 800 metres of mainly porphyritic andesitic flows and tuff exposed over an area of approximately 200 km2. These volcanic rocks are locally separated from pre-Tertiary rocks by curved, east- to northeasttrending structures such as Berney Creek fault and Wheaton lineament (coincident with the Wheaton River valley on Figure 5) that have been inferred to be syn-volcanic, calderabounding faults (Hart and Radloff, 1990). These and parallel structures host gold-silver mineralization in the district (Naas, 2007)."
+            },
+            "relationships": [
+                {
+                    "src": "Mount Skukum complex",
+                    "relationship_type": "strat_name_to_lith",
+                    "dst": "andesitic flows and tuff",
+                    "reasoning": "The text describes the Mount Skukum complex as consisting of 'mainly porphyritic andesitic flows and tuff', clearly associating the lithology (andesitic flows and tuff) with the stratigraphic unit (Mount Skukum complex)."
+                }
+            ]
+        }
+    ]
+}

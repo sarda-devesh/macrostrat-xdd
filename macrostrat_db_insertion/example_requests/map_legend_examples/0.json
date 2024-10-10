@@ -1,0 +1,479 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Glenwood Formation: Sandstone, siltstone, and/or shale.  St. Peter Formation: upper Tonti Member is a medium-grained, mature quartz sandstone;  basal Readstown Member is immature, consisting of red-brown shale, sandstone, and chert conglomerate.",
+                "legend_id": 12515
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "medium",
+                    "reasoning": "'Medium' directly describes the grain size of 'sandstone'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "red-brown",
+                    "reasoning": "'Red-brown' directly describes the color of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Fine to very fine, silty, shaly, and/or dolomitic quartz sandstone. Thickness varies from absent in northeastern Dane County to about 80 feet (24 m) in western Dane County. The Eau Claire is not exposed at the surface. Part of Elk Mound Group.",
+                "legend_id": 12516
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "silty",
+                    "reasoning": "'Silty', 'shaly', and 'dolomitic' specify the types of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "fine",
+                    "reasoning": "'Fine' and 'very fine' directly describe the grain size of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "very fine",
+                    "reasoning": "'Fine' and 'very fine' directly describe the grain size of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dolomitic shale and shaly dolomite, gray to very dark gray. An eroded section caps East Blue Mound and it has been tentatively identified in an isolated area of complex faulting southeast of Madison.",
+                "legend_id": 12517
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'shale'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "shaly",
+                    "reasoning": "'Shaly' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomitic shale",
+                    "relationship_type": "att_color",
+                    "dst": "gray",
+                    "reasoning": "'Gray' and 'dark gray' directly describe the colors of the 'dolomitic shale' and 'shaly dolomite'."
+                },
+                {
+                    "src": "shaly dolomite",
+                    "relationship_type": "att_color",
+                    "dst": "dark gray",
+                    "reasoning": "'Gray' and 'dark gray' directly describe the colors of the 'dolomitic shale' and 'shaly dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Primarily medium- to coarse-grained quartz sandstone, with a pebble conglomerate near the basal contact with the Precambrian. Thickness in Dane County ranges from about 300 feet (90 m) to over 600 feet (180 m). Part of the Elk Mound Group.",
+                "legend_id": 12518
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "medium",
+                    "reasoning": "'Medium' and 'coarse' directly describe the grain sizes of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "coarse",
+                    "reasoning": "'Medium' and 'coarse' directly describe the grain sizes of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dolomite, minor sandstone, cherty dolomite; vuggy, sandy, and oolitic. Consists of two formations, the Shakopee and the Oneota. It varies in thickness from 145 feet (44 m) in eastern Dane County to 220 feet (67 m) in western Dane County.",
+                "legend_id": 12519
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "cherty",
+                    "reasoning": "'Cherty' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_grains",
+                    "dst": "oolitic",
+                    "reasoning": "'Oolitic' specifies the type of 'grains' in 'dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Galena Formation: Dolomite and cherty dolomite. Massive medium-bedded crystalline dolomite with distinctive mottled weathering pattern.  Decorah Formation: Shaly dolomite.  Platteville Formation: Dolomite and shaly dolomite, fine to medium texture.",
+                "legend_id": 12520
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_bedform",
+                    "dst": "massive",
+                    "reasoning": "'Massive' directly describes the bedform of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_grains",
+                    "dst": "fine",
+                    "reasoning": "'Fine' and 'medium' directly describe the grain size of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_grains",
+                    "dst": "medium",
+                    "reasoning": "'Fine' and 'medium' directly describe the grain size of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "att_color",
+                    "dst": "mottled",
+                    "reasoning": "'Mottled' directly describes the color of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "shaly",
+                    "reasoning": "'Shaly' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "cherty",
+                    "reasoning": "'Cherty' specifies the type of 'dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Quartz sandstone, dolomitic siltstone, silty dolomite, and sandy dolomite. Consists of two formations, the Jordan and the underlying St. Lawrence, which were combined as one mapping unit. Thickness is about 75 feet (23 m) where not eroded.",
+                "legend_id": 12521
+            },
+            "relationships": [
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'siltstone'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "silty",
+                    "reasoning": "'Silty' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "sandy",
+                    "reasoning": "'Sandy' specifies the type of 'dolomite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Medium to very fine-grained quartz sandstone, locally very glauconitic. Up to 150 feet (46 m) thick.  Lone Rock Formation: very fine shaly and glauconitic, feldspathic sandstone. Mazomanie Formation: fine to medium grained, and not glauconitic.",
+                "legend_id": 12522
+            },
+            "relationships": [
+                {
+                    "src": "quartz sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "very fine",
+                    "reasoning": "'Very fine' directly describes the grain size of 'quartz sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "fine",
+                    "reasoning": "'Fine' and 'medium' directly describe the grain sizes of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "medium",
+                    "reasoning": "'Fine' and 'medium' directly describe the grain sizes of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "shaly",
+                    "reasoning": "'Shaly' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "glauconitic",
+                    "reasoning": "'Glauconitic' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "feldspathic",
+                    "reasoning": "'Feldspathic' directly describes the grains of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Quartz sandstone, medium grained, brownish yellow to white, with medium- to large-scale cross bedding commonly seen in outcrop. Reaches a maximum thickness of 165 feet (50 m) in the subsurface. Part of Elk Mound Group.",
+                "legend_id": 12523
+            },
+            "relationships": [
+                {
+                    "src": "sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "quartz",
+                    "reasoning": "'Quartz' specifies the type of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_grains",
+                    "dst": "medium",
+                    "reasoning": "'Medium' directly describes the grain size of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_color",
+                    "dst": "white",
+                    "reasoning": "'White' and 'brownish yellow' directly describe the colors of 'sandstone'."
+                },
+                {
+                    "src": "sandstone",
+                    "relationship_type": "att_color",
+                    "dst": "brownish yellow",
+                    "reasoning": "'White' and 'brownish yellow' directly describe the colors of 'sandstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Amaranth - red argillaceous dolomitic siltstone and sandstone; Reston - limestone, dolomite, shale; Melita - sandstone, shale, limestone",
+                "legend_id": 13356
+            },
+            "relationships": [
+                {
+                    "src": "siltstone and sandstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'siltstone' and 'sandstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'siltstone'."
+                },
+                {
+                    "src": "siltstone",
+                    "relationship_type": "att_color",
+                    "dst": "red",
+                    "reasoning": "'Red' directly describes the color of 'siltstone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dolomitic shale and argillaceous dolomite, red to greenish grey; local basal breccia",
+                "legend_id": 13357
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'shale'."
+                },
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "dolomitic shale and argillaceous dolomite",
+                    "relationship_type": "att_color",
+                    "dst": "red",
+                    "reasoning": "'Red' and 'greenish grey' directly describe the colors of the lithologies."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dark grey carbonaceous shale, in part bituminous; minor silt, sand and bentonite (thick bar-type sandstone)",
+                "legend_id": 13358
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "carbonaceous",
+                    "reasoning": "'Carbonaceous' specifies the type of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "dark",
+                    "reasoning": "'Dark grey' directly describes the color of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Limestone; cryptocrystalline to calcarenitic and oolitic",
+                "legend_id": 13360
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "att_grains",
+                    "dst": "oolitic",
+                    "reasoning": "'Oolitic' directly describes the type of grains of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Portage Chute Formation - basal sandstone-shale member; limestone, dolomitic and argillaceous; Surprise Creek Formation - microcrystalline dolomite",
+                "legend_id": 13362
+            },
+            "relationships": [
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'limestone'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Caution Creek and Chasm Creek Formations - limestone, dolomitic and argillaceous; Red Head Rapids Formation - dolomite",
+                "legend_id": 13364
+            },
+            "relationships": [
+                {
+                    "src": "dolomite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "dolomitic",
+                    "reasoning": "'Dolomitic' specifies the type of 'dolomite'."
+                },
+                {
+                    "src": "limestone",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "argillaceous",
+                    "reasoning": "'Argillaceous' specifies the type of 'limestone'."
+                },
+                {
+                    "src": "Red Head Rapids Formation",
+                    "relationship_type": "att_color",
+                    "dst": "red",
+                    "reasoning": "'Red' directly describes the color of 'Red Head Rapids Formation'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Basal red shale; bituminous dolomite, micritic limestone, brachiopod micrite; calcareous shale; fossiiferous coral stomatoporoid limestone",
+                "legend_id": 13365
+            },
+            "relationships": [
+                {
+                    "src": "shale",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "calcareous",
+                    "reasoning": "'Calcareous' specifies the type of 'shale'."
+                },
+                {
+                    "src": "shale",
+                    "relationship_type": "att_color",
+                    "dst": "red",
+                    "reasoning": "'Red' directly describes the color of 'shale'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Granitoid complexes; grey, foliated granodiorite and granodioritic gneiss",
+                "legend_id": 13369
+            },
+            "relationships": [
+                {
+                    "src": "granodiorite",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'granodiorite'."
+                },
+                {
+                    "src": "granodioritic gneiss",
+                    "relationship_type": "att_grains",
+                    "dst": "foliated",
+                    "reasoning": "'Foliated' directly describes the grains of 'granodioritic gneiss'."
+                }
+            ]
+        }
+    ]
+}

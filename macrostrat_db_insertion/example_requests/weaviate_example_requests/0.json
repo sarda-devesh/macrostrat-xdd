@@ -1,0 +1,26 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620ed928ad0e9c819b0f36ae",
+                "hashed_text": "7a8bcae48575eb21b76ed5073201be8788b23c5a87c4f73d6c35c7c44ae2f687",
+                "weaviate_id": "000050bd-ea19-4272-ac0d-57f6c12b0ec1",
+                "paragraph_text": "Dikes of basaltic andesite locally intrude all members of the Bonita Canyon Formation and the Underdown Tuff, but are not observed intruding the Toiyabe Quartz Latite. Bonham (1970) has suggested either a Miocene or Pliocene age for these rocks.\nNorth-south and east-west cross sections of the Vernal Project are presented as Figure 7-2. The cross sections were prepared by Ilchik (1982) and the section lines (A-A and B-B) are shown on Figure 7-1.\nThe Toiyabe Quartz Latite is juxtaposed against the rhyolite lava (unit Trl) in the extreme southern part of the map area. This is interpreted as an extension of an alluvium concealed Basin and Range type rangefront fault. Stratigraphic throw on this fault is estimated to be in excess of 1400 feet, based on offsets in the Toiyabe Quartz Latite (Bonham, 1970)."
+            },
+            "relationships": [
+                {
+                    "src": "basaltic andesite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "Bonita Canyon Formation and Underdown Tuff",
+                    "reasoning": "The text states that dikes of basaltic andesite intrude all members of the Bonita Canyon Formation and the Underdown Tuff, indicating that the lithology (basaltic andesite) is present within the stratigraphic units (Bonita Canyon Formation and Underdown Tuff)."
+                }
+            ]
+        }
+    ]
+}

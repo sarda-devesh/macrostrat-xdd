@@ -1,0 +1,26 @@
+{
+    "run_id": "TEST_RUN_2024-09-25_02:15:46",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "weaviate_text",
+                "preprocessor_id": "haystack_v0.0.2",
+                "paper_id": "620d2303ad0e9c819b062515",
+                "hashed_text": "815d35255df08eed58809525bb4fae981ae5026b502bd8b84de936c897d5db52",
+                "weaviate_id": "0001e912-92d6-40cb-8b85-29aee2525e87",
+                "paragraph_text": "Scott Wilson RPA understands that systematic density measurements were made on drill core by staff of Priargunsky, and the average value used in estimation of mineral resources of the No. 7 Deposit (the 7a horizon in the old terminology) is 2.60 g/cc (Rogov and Yurchenko, 1987).\nIn preparation for the recently completed geophysical (gravity) survey, Khan carried out a number of density measurements on various rock types in the Dornod area. The average value of two measurements of siltstones, the rock type which hosts the uranium mineralization at Dornod, is 2.575 g/cc, which is less than a 1% variance from the historical reported value. Scott Wilson RPA has retained the old value of 2.60 g/cc and used it in the current resource update."
+            },
+            "relationships": [
+                {
+                    "src": "siltstones",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "2.575 g/cc",
+                    "reasoning": "The text specifies the average density of siltstones as 2.575 g/cc, which is a property of the lithology (siltstones)."
+                }
+            ]
+        }
+    ]
+}

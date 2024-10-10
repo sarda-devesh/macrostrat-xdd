@@ -1,0 +1,554 @@
+{
+    "run_id": "TEST_RUN_2024-09-22_04:24:26",
+    "extraction_pipeline_id": "0",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_version": 0,
+    "results": [
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13476
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13477
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13478
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13479
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13480
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13481
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dolerite, gabbro and other mafic igneous rocks; commonly as dykes and sills; may include some metamorphosed mafic intrusions and subordinate ultramafic rocks.",
+                "legend_id": 13485
+            },
+            "relationships": [
+                {
+                    "src": "dolerite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'dolerite', 'gabbro', and 'igneous rocks'."
+                },
+                {
+                    "src": "igneous rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'igneous rocks'."
+                },
+                {
+                    "src": "subordinate rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'subordinate rocks'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Predominantly a bimodal mixture of mafic and felsic volcanics; may include andesites",
+                "legend_id": 13493
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'volcanics'."
+                },
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13494
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13495
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Dolerite, gabbro and other mafic igneous rocks; commonly as dykes and sills; may include some metamorphosed mafic intrusions and subordinate ultramafic rocks.",
+                "legend_id": 13496
+            },
+            "relationships": [
+                {
+                    "src": "dolerite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'dolerite', 'gabbro', and 'igneous rocks'."
+                },
+                {
+                    "src": "igneous rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of 'igneous rocks'."
+                },
+                {
+                    "src": "subordinate rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of 'subordinate rocks'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13499
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13501
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13502
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13503
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13505
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13506
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mixed felsic, mafic and/or alkaline intrusives; may include ultramafic rocks; includes alkaline rocks such as trachyte and syenite.",
+                "legend_id": 13508
+            },
+            "relationships": [
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the rocks."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "alkaline",
+                    "reasoning": "'Alkaline' specifies the type of the rocks, including 'trachyte' and 'syenite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mixed felsic, mafic and/or alkaline intrusives; may include ultramafic rocks; includes alkaline rocks such as trachyte and syenite.",
+                "legend_id": 13509
+            },
+            "relationships": [
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the rocks."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "alkaline",
+                    "reasoning": "'Alkaline' specifies the type of the rocks, including 'trachyte' and 'syenite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Predominantly a bimodal mixture of mafic and felsic volcanics; may include andesites",
+                "legend_id": 13512
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'volcanics'."
+                },
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13513
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mixed felsic, mafic and/or alkaline intrusives; may include ultramafic rocks; includes alkaline rocks such as trachyte and syenite.",
+                "legend_id": 13514
+            },
+            "relationships": [
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "intrusives",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the intrusives."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "ultramafic",
+                    "reasoning": "'Ultramafic' specifies the type of the rocks."
+                },
+                {
+                    "src": "rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "alkaline",
+                    "reasoning": "'Alkaline' specifies the type of the rocks, including 'trachyte' and 'syenite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Predominantly a bimodal mixture of mafic and felsic volcanics; may include andesites",
+                "legend_id": 13517
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "mafic",
+                    "reasoning": "'Mafic' specifies the type of the 'volcanics'."
+                },
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic volcanics, including lavas and tuffs. Association may include volcaniclastic rocks.",
+                "legend_id": 13518
+            },
+            "relationships": [
+                {
+                    "src": "volcanics",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of 'volcanics'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13519
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        },
+        {
+            "text": {
+                "text_type": "map_descriptions",
+                "paragraph_text": "Mainly felsic intrusive rocks.  Range in composition from alkali feldspar granite to tonalite; includes associated rocks such as migmatite and minor gabbro and diorite.",
+                "legend_id": 13520
+            },
+            "relationships": [
+                {
+                    "src": "intrusive rocks",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "felsic",
+                    "reasoning": "'Felsic' specifies the type of the intrusive rocks."
+                },
+                {
+                    "src": "granite",
+                    "relationship_type": "lith_to_lith_type",
+                    "dst": "feldspar",
+                    "reasoning": "'Feldspar' specifies the type of 'granite'."
+                }
+            ]
+        }
+    ]
+}
