@@ -1,0 +1,178 @@
+{
+  "nodes": [
+    {
+      "id": 308167,
+      "type": 5,
+      "name": "soil",
+      "txt_range": [
+        [
+          152,
+          156
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": 308168,
+      "type": 5,
+      "name": "sandy",
+      "txt_range": [
+        [
+          135,
+          140
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": 308170,
+      "type": 2,
+      "name": "sandstone",
+      "txt_range": [
+        [
+          0,
+          9
+        ]
+      ],
+      "reasoning": null,
+      "match": {
+        "type": "lith",
+        "id": 10
+      }
+    },
+    {
+      "id": -4,
+      "type": 5,
+      "name": "boulders",
+      "txt_range": [
+        [
+          109,
+          117
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": -5,
+      "type": 5,
+      "name": "pebbles",
+      "txt_range": [
+        [
+          122,
+          129
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": -6,
+      "type": 3,
+      "name": "yellowish-brown",
+      "txt_range": [
+        [
+          11,
+          26
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": -1,
+      "type": 3,
+      "name": "fine-grained",
+      "txt_range": [
+        [
+          41,
+          53
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": 308172,
+      "type": 3,
+      "name": "very fine",
+      "txt_range": [
+        [
+          28,
+          37
+        ]
+      ],
+      "reasoning": null,
+      "match": {
+        "type": "lith_att",
+        "id": 44
+      }
+    },
+    {
+      "id": -2,
+      "type": 3,
+      "name": "limonite-stained",
+      "txt_range": [
+        [
+          55,
+          71
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": -3,
+      "type": 3,
+      "name": "friable",
+      "txt_range": [
+        [
+          73,
+          80
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    }
+  ],
+  "edges": [
+    {
+      "source": 308167,
+      "dest": 308168
+    },
+    {
+      "source": 308170,
+      "dest": -4
+    },
+    {
+      "source": 308170,
+      "dest": -5
+    },
+    {
+      "source": 308170,
+      "dest": -6
+    },
+    {
+      "source": 308170,
+      "dest": -1
+    },
+    {
+      "source": 308170,
+      "dest": 308172
+    },
+    {
+      "source": 308170,
+      "dest": -2
+    },
+    {
+      "source": 308170,
+      "dest": -3
+    }
+  ],
+  "sourceTextId": 25186,
+  "supersedesRunIds": [
+    21858
+  ]
+}
