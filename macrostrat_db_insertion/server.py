@@ -14,7 +14,7 @@ import hashlib
 import requests
 
 from macrostrat_db_insertion.database import connect_engine, dispose_engine, get_base, get_session
-from macrostrat_db_insertion.security import has_access
+from macrostrat_db_insertion.security import has_access, get_user_id
 
 
 class Settings(BaseSettings):
@@ -747,6 +747,7 @@ def process_input_request(request_data, session):
 async def record_run(
         request: Request,
         user_has_access: bool = Depends(has_access),
+        user_id: str | None = Depends(get_user_id),
         session: Session = Depends(get_session)
 ):
 

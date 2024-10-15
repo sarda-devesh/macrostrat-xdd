@@ -105,6 +105,15 @@ def get_groups(
     return groups
 
 
+def get_user_id(user_token_data: TokenData | None = Depends(get_user_token_from_cookie)) -> str | None:
+    """Get the user id from the cookies"""
+
+    if user_token_data is None:
+        return None
+
+    return user_token_data.sub
+
+
 def has_access(groups: list[int] = Depends(get_groups)) -> bool:
     """Check if the user has access to the group"""
 
