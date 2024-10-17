@@ -22,6 +22,9 @@ RUN mkdir /macrostrat_db_insertion
 COPY . /macrostrat_db_insertion
 WORKDIR /macrostrat_db_insertion
 
+# Add the macrostrat_db_insertion directory to PYTHONPATH
+ENV PYTHONPATH=/macrostrat_db_insertion
+
 # Create and activate conda environment
 RUN conda env create -f environment.yml
 SHELL ["conda", "run", "-n", "db_insert_env", "/bin/bash", "-c"]
