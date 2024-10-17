@@ -18,17 +18,18 @@ SHELL ["/bin/bash", "-c"]
 RUN conda init
 RUN source ~/.bashrc
 
-RUN mkdir /macrostrat_db_insertion
-COPY . /macrostrat_db_insertion
-WORKDIR /macrostrat_db_insertion
-
-# Add the macrostrat_db_insertion directory to PYTHONPATH
-ENV PYTHONPATH=/macrostrat_db_insertion
+WORKDIR /app
 
 # Create and activate conda environment
+COPY environment.yml environment.yml
 RUN conda env create -f environment.yml
 SHELL ["conda", "run", "-n", "db_insert_env", "/bin/bash", "-c"]
 
+COPY . ./macrostrat_db_insertion
+
+# Add the macrostrat_db_insertion directory to PYTHONPATH
+ENV PYTHONPATH=.
+
 # The code to run when the container is started
 EXPOSE 9543
-ENTRYPOINT ["conda", "run", "-n", "db_insert_env", "python3", "server.py"]
+ENTRYPOINT ["conda", "run", "-n", "db_insert_env", "python3", "macrostrat_db_insertion/server.py"]
