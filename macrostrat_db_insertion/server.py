@@ -766,7 +766,8 @@ async def record_run(
 
 @app.get("/health")
 async def health(
-    session = Depends(get_session)
+    session = Depends(get_session),
+    user_id = Depends(get_user_id)
 ):
 
     health_checks = {}
@@ -792,7 +793,8 @@ async def health(
 
     return JSONResponse(content={
         "webserver": "ok",
-        "healthy": health_checks
+        "healthy": health_checks,
+        "Logged In `user_id`": user_id
     })
 
 
