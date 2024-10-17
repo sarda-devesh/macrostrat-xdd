@@ -18,9 +18,9 @@ SHELL ["/bin/bash", "-c"]
 RUN conda init
 RUN source ~/.bashrc
 
-RUN mkdir /working_dir
-COPY . /working_dir
-WORKDIR /working_dir
+RUN mkdir /macrostrat_db_insertion
+COPY . /macrostrat_db_insertion
+WORKDIR /macrostrat_db_insertion
 
 # Create and activate conda environment
 RUN conda env create -f environment.yml
