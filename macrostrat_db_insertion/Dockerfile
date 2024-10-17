@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-RUN apt-get update && apt update -y && apt upgrade -y
+RUN apt update -y && apt upgrade -y
 
 RUN apt install -y g++ \
          wget \
