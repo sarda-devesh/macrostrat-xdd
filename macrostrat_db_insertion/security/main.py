@@ -36,6 +36,9 @@ class OAuth2AuthorizationCodeBearerWithCookie(OAuth2AuthorizationCodeBearer):
     async def __call__(self, request: Request) -> Optional[str]:
         authorization = request.cookies.get("Authorization")  # authorization = request.headers.get("Authorization")
         scheme, param = get_authorization_scheme_param(authorization)
+
+        logging.debug(f"Authorization: {authorization}")
+        logging.debug(f"Cookies: {request.cookies}")
         if not authorization or scheme.lower() != "bearer":
             if self.auto_error:
                 raise HTTPException(
