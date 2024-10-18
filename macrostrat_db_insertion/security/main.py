@@ -34,7 +34,7 @@ class OAuth2AuthorizationCodeBearerWithCookie(OAuth2AuthorizationCodeBearer):
     """Tweak FastAPI's OAuth2AuthorizationCodeBearer to use a cookie instead of a header"""
 
     async def __call__(self, request: Request) -> Optional[str]:
-        authorization = request.cookies.get("Authorization")  # authorization = request.headers.get("Authorization")
+        authorization = request.cookies.get("access_token")  # authorization = request.headers.get("Authorization")
         scheme, param = get_authorization_scheme_param(authorization)
 
         logging.debug(f"Authorization: {authorization}")
@@ -94,7 +94,6 @@ def get_user_token_from_cookie(token: Annotated[str | None, Depends(oauth2_schem
         groups = payload.get("groups", [])
         token_data = TokenData(sub=sub, groups=groups)
     except JWTError as e:
-        logging.error(f"Error decoding token: {e}")
         return None
 
     logging.debug(f"Token data found in the cookies: {token_data.model_dump_json()}")
