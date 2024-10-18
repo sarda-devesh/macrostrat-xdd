@@ -23,7 +23,6 @@ WORKDIR /app
 # Create and activate conda environment
 COPY environment.yml environment.yml
 RUN conda env create -f environment.yml
-SHELL ["conda", "run", "-n", "db_insert_env", "/bin/bash", "-c"]
 
 COPY . ./macrostrat_db_insertion
 
@@ -32,4 +31,4 @@ ENV PYTHONPATH=.
 
 # The code to run when the container is started
 EXPOSE 9543
-ENTRYPOINT ["conda", "run", "-n", "db_insert_env", "python3", "macrostrat_db_insertion/server.py"]
+ENTRYPOINT ["conda", "run", "-n", "db_insert_env", "--no-capture-output", "python3", "macrostrat_db_insertion/server.py"]

@@ -1,6 +1,6 @@
 import os
-from datetime import datetime
 from typing import Annotated, Optional
+import logging
 
 import bcrypt
 from fastapi import APIRouter, Depends, HTTPException, Request
@@ -11,8 +11,6 @@ from fastapi.security import (
 )
 from fastapi.security.utils import get_authorization_scheme_param
 from jose import JWTError, jwt
-from pydantic import BaseModel
-from sqlalchemy import select, update
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from macrostrat_db_insertion.security.db import get_access_token
@@ -22,6 +20,14 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440  # 24 hours
 GROUP_TOKEN_LENGTH = 32
 GROUP_TOKEN_SALT = b'$2b$12$yQrslvQGWDFjwmDBMURAUe'  # Hardcode salt so hashes are consistent
+
+
+# Configure logging
+logging.basicConfig(
+    level=int(os.environ.get("LOGGING_LEVEL", logging.INFO)),
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 
 class OAuth2AuthorizationCodeBearerWithCookie(OAuth2AuthorizationCodeBearer):
@@ -76,6 +82,7 @@ def get_user_token_from_cookie(token: Annotated[str | None, Depends(oauth2_schem
 
     # If there wasn't a token include in the request
     if token is None:
+        logging.debug("No token found in the cookies")
         return None
 
     try:
@@ -86,6 +93,7 @@ def get_user_token_from_cookie(token: Annotated[str | None, Depends(oauth2_schem
     except JWTError as e:
         return None
 
+    logging.debug(f"Token data found in the cookies: {token_data.model_dump_json()}")
     return token_data
 
 
@@ -109,6 +117,7 @@ def get_user_id(user_token_data: TokenData | None = Depends(get_user_token_from_
     """Get the user id from the cookies"""
 
     if user_token_data is None:
+        logging.debug("No user token data found in the cookies")
         return None
 
     return user_token_data.sub

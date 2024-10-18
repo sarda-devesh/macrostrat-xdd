@@ -1,4 +1,3 @@
-
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, HTTPException, Depends
@@ -13,17 +12,17 @@ import traceback
 import hashlib
 import requests
 
+from macrostrat_db_insertion.settings import Settings
+from macrostrat_db_insertion.log import logging
 from macrostrat_db_insertion.database import connect_engine, dispose_engine, get_base, get_session
 from macrostrat_db_insertion.security import has_access, get_user_id
 
 
-class Settings(BaseSettings):
-    uri: str
-    SCHEMA: str
-    max_tries: int = 5
-
-
 settings = Settings()
+
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
