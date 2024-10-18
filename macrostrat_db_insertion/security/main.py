@@ -94,6 +94,7 @@ def get_user_token_from_cookie(token: Annotated[str | None, Depends(oauth2_schem
         groups = payload.get("groups", [])
         token_data = TokenData(sub=sub, groups=groups)
     except JWTError as e:
+        logging.error(f"Error decoding token: {e}")
         return None
 
     logging.debug(f"Token data found in the cookies: {token_data.model_dump_json()}")
