@@ -22,11 +22,13 @@ def make_requests():
         with open(os.path.join(args.input_dir, file_name), "r") as reader:
             request_data = json.load(reader)
 
-        # Make the request
-        request_data["run_id"] = "run_" + str(abs(hash(file_name))) + "_" + str(datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S.%f"))
         try:
+            # Make the request
             start_time = time.time()
             response = requests.post(url = request_url, json = request_data)
+            response.raise_for_status()
+
+            # Get the response value
             response_value = response.json()
             if "error" in response_value:
                 raise Exception("SERVER ERROR - " + response_value["error"])

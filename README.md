@@ -61,11 +61,13 @@ $ docker build -t db_insert:latest .
 $ docker run -d -v $CURRENT_DIR:/working_dir/ --name=db_insert --entrypoint /bin/bash -p 9543:9543 db_insert:latest -c "sleep infinity"
 $ docker exec -it db_insert bash
 $ conda activate db_insert_env
+$ pkill -9 -f "server"
+$ export PYTHONPATH="${PYTHONPATH}:/working_dir"
 ```
 
 Then you can launch the server using:
 ```
-$ python -u server.py &> server_requests.log &
+$ python3 -u server.py &> server_requests.log &
 ```
 
 which will launch the server on port `9543` as a background process. Note that to properly launch the server, the environment variables `uri`, and `macrostrat_xdd_schema_name` must be set to the proper values. 
