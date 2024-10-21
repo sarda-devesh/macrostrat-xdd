@@ -376,6 +376,9 @@ ENTITY_TYPE_MAPPING = {
 }
 
 def get_entity_type_id(entity_type, session: Session):
+    if entity_type is None:
+        return True, None
+
     entity_type_table_name = get_complete_table_name("entity_type")
     entity_type_table = get_base().metadata.tables[entity_type_table_name]
 
@@ -406,23 +409,29 @@ def get_entity_type_id(entity_type, session: Session):
         result_insert_keys = result.inserted_primary_key
         if len(result_insert_keys) == 0:
             return False, "Insert statement " + str(entity_type_insert_statement) + " returned zero primary keys"
-
         return True, result_insert_keys[0]
     except:
         return False, "Failed to insert entity type " + entity_type + " into table " + entity_type_table_name + " due to error: " + traceback.format_exc()
 
 def get_entity_id(entity_name, entity_type, request_additional_data, session: Session, provided_start_idx = None, provided_end_idx = None):
-    # Record the entity type
-    success, entity_type_id = get_entity_type_id(entity_type, session)
-    if not success:
-        return success, entity_type_id
+    # Get the entity
+    entity_type_id = None
+    if "curr_entity_type_id" in request_additional_data:
+        entity_type_id = request_additional_data["curr_entity_type_id"]
+
+    if entity_type_id is None:
+        success, entity_type_id = get_entity_type_id(entity_type, session)
+        if not success:
+            return success, entity_type_id
 
     # Determine the values to write to the entities table
     entity_insert_request_values = {
         "name" : entity_name,
-        "entity_type_id" : entity_type_id,
-        "model_run_id" : request_additional_data["internal_run_id"],
+        "run_id" : request_additional_data["internal_run_id"],
     }
+
+    if entity_type_id is not None:
+        entity_insert_request_values["entity_type_id"] = entity_type_id
 
     entity_start_idx, entity_end_idx, str_match_type = provided_start_idx, provided_end_idx, "provided"
     if entity_start_idx is None or entity_end_idx is None:
@@ -476,7 +485,7 @@ def get_entity_id(entity_name, entity_type, request_additional_data, session: Se
     try:
         # Execute the request
         entity_insert_request = INSERT_STATEMENT(entity_table).values(**entity_insert_request_values)
-        entity_insert_request = entity_insert_request.on_conflict_do_nothing(index_elements = ["name", "model_run_id", "entity_type_id", "start_index", "end_index"])
+        entity_insert_request = entity_insert_request.on_conflict_do_nothing(index_elements = ["name", "run_id", "entity_type_id", "start_index", "end_index"])
         result = session.execute(entity_insert_request)
         session.commit()
     except:
@@ -486,10 +495,11 @@ def get_entity_id(entity_name, entity_type, request_additional_data, session: Se
     try:
         entity_select_statement = SELECT_STATEMENT(entity_table.c.id)
         entity_select_statement = entity_select_statement.where(entity_table.c.name == entity_insert_request_values["name"])
-        entity_select_statement = entity_select_statement.where(entity_table.c.model_run_id == entity_insert_request_values["model_run_id"])
-        entity_select_statement = entity_select_statement.where(entity_table.c.entity_type_id == entity_insert_request_values["entity_type_id"])
+        entity_select_statement = entity_select_statement.where(entity_table.c.run_id == entity_insert_request_values["run_id"])
         entity_select_statement = entity_select_statement.where(entity_table.c.start_index == entity_insert_request_values["start_index"])
         entity_select_statement = entity_select_statement.where(entity_table.c.end_index == entity_insert_request_values["end_index"])
+        if "entity_type_id" in entity_insert_request_values:
+            entity_select_statement = entity_select_statement.where(entity_table.c.entity_type_id == entity_insert_request_values["entity_type_id"])
         entity_id_result = session.execute(entity_select_statement).all()
 
         # Ensure we got a result
@@ -526,17 +536,22 @@ def extract_indicies(request_values, expected_prefix):
 
 def record_single_entity(entity, request_additional_data, session: Session):
     # Ensure that we have the required metadata fields
-    entity_required_fields = verify_key_presents(entity, ["entity", "entity_type"])
+    entity_required_fields = verify_key_presents(entity, ["entity"])
     if entity_required_fields is not None:
         return False, entity_required_fields
+    
+    # Get the entity type
+    entity_type = None
+    if "entity_type" in entity:
+        entity_type = entity["entity_type"]
 
     # See if the range is provided
     success, indicies_results = extract_indicies(entity, "")
     if not success:
         return success, indicies_results
-
     provided_start_idx, provided_end_idx = indicies_results
-    return get_entity_id(entity["entity"], entity["entity_type"], request_additional_data, session, provided_start_idx, provided_end_idx)
+
+    return get_entity_id(entity["entity"], entity_type, request_additional_data, session, provided_start_idx, provided_end_idx)
 
 def get_relationship_type_id(relationship_type, session: Session):
     relationship_type_table_name = get_complete_table_name("relationship_type")
@@ -574,7 +589,36 @@ def get_relationship_type_id(relationship_type, session: Session):
     except:
         return False, "Failed to insert entity type " + relationship_type + " into table " + relationship_type_table_name + " due to error: " + traceback.format_exc()
 
-UNKNOWN_ENTITY_TYPE = "Unknown"
+def insert_relationship(src_entity_id, dst_entity_id, relationship_type, request_additional_data, session: Session):
+    # Record the relationship type id
+    relationship_type_id = None
+    if relationship_type is not None:
+        success, relationship_type_id = get_relationship_type_id(relationship_type, session)
+        if not success:
+            return success, relationship_type_id
+    
+    # Get the values to write
+    relationship_insert_values = {
+        "run_id" : request_additional_data["internal_run_id"],
+        "src_entity_id" : src_entity_id,
+        "dst_entity_id" : dst_entity_id
+    }
+    if relationship_type_id is not None:
+        relationship_insert_values["relationship_type_id"] = relationship_type_id
+
+    # Now record the relationship
+    relationship_table_name = get_complete_table_name("relationship")
+    relationship_table = get_base().metadata.tables[relationship_table_name]
+    try:
+        relationship_insert_statement = INSERT_STATEMENT(relationship_table).values(**relationship_insert_values)
+        relationship_insert_statement = relationship_insert_statement.on_conflict_do_nothing(index_elements = ["run_id", "src_entity_id", "dst_entity_id", "relationship_type_id"])
+        session.execute(relationship_insert_statement)
+        session.commit()
+    except:
+        return False, "Failed to insert relationship with src " + relationship["src"] + " and dst " + relationship["dst"] + " into table " + relationship_table_name + " due to error: " + traceback.format_exc()
+
+    return True, None
+
 RELATIONSHIP_DETAILS = {
     "strat" : ("strat_to_lith", "strat_name", "lith"),
     "att" : ("lith_to_attribute", "lith", "lith_att")
@@ -587,16 +631,11 @@ def record_relationship(relationship, request_additional_data, session: Session)
 
     # Extract the types
     provided_relationship_type = relationship["relationship_type"]
-    db_relationship_type, src_entity_type, dst_entity_type = provided_relationship_type, UNKNOWN_ENTITY_TYPE, UNKNOWN_ENTITY_TYPE
+    db_relationship_type, src_entity_type, dst_entity_type = provided_relationship_type, None, None
     for key_name in RELATIONSHIP_DETAILS:
         if provided_relationship_type.startswith(key_name):
             db_relationship_type, src_entity_type, dst_entity_type = RELATIONSHIP_DETAILS[key_name]
             break
-
-    # Record the relationship type
-    success, relationship_type_id = get_relationship_type_id(db_relationship_type, session)
-    if not success:
-        return success, relationship_type_id
 
     # Extract the source indicies
     success, indicies_results = extract_indicies(relationship, "src_")
@@ -619,29 +658,7 @@ def record_relationship(relationship, request_additional_data, session: Session)
     if not success:
         return success, dst_entity_id
 
-    # Now record the relationship
-    relationship_table_name = get_complete_table_name("relationship")
-    relationship_table = get_base().metadata.tables[relationship_table_name]
-    try:
-        # Get the sources values
-        relationship_insert_values = {
-            "relationship_type_id" : relationship_type_id,
-            "model_run_id" : request_additional_data["internal_run_id"],
-            "src_entity_id" : src_entity_id,
-            "dst_entity_id" : dst_entity_id
-        }
-
-        if "reasoning" in relationship:
-            relationship_insert_values["reasoning"] = relationship["reasoning"]
-
-        relationship_insert_statement = INSERT_STATEMENT(relationship_table).values(**relationship_insert_values)
-        relationship_insert_statement = relationship_insert_statement.on_conflict_do_nothing(index_elements = ["model_run_id", "src_entity_id", "dst_entity_id", "relationship_type_id"])
-        session.execute(relationship_insert_statement)
-        session.commit()
-    except:
-        return False, "Failed to insert relationship with src " + relationship["src"] + " and dst " + relationship["dst"] + " into table " + relationship_table_name + " due to error: " + traceback.format_exc()
-
-    return True, None
+    return insert_relationship(src_entity_id, dst_entity_id, db_relationship_type, request_additional_data, session)
 
 def get_previous_run(source_text_id, session: Session):
     # Load the latest run table
@@ -664,7 +681,7 @@ def get_previous_run(source_text_id, session: Session):
 
     return True, prev_run_id
 
-def process_input_request(request_data, session):
+def process_model_input_request(request_data, session):
     # Ensure that we have the required metadata fields
     run_verify_result = verify_key_presents(request_data, ["run_id", "results"])
     if run_verify_result is not None:
@@ -680,7 +697,7 @@ def process_input_request(request_data, session):
     extraction_pipeline_id = request_data["extraction_pipeline_id"]
     all_results = request_data["results"]
     base_model_run_id = request_data["run_id"]
-    model_run_table_name = get_complete_table_name("model_run")
+    model_run_table_name = get_complete_table_name("all_runs")
     model_run_table = get_base().metadata.tables[model_run_table_name]
 
     for idx, current_result in enumerate(all_results):
@@ -703,7 +720,7 @@ def process_input_request(request_data, session):
         model_run_id = str(base_model_run_id) + "_" + str(idx)
         try:
             model_run_insert_values = {
-                "extraction_job_id" : model_run_id,
+                "model_job_id" : model_run_id,
                 "model_id" : request_additional_data["internal_model_id"],
                 "version_id" : request_additional_data["internal_version_id"],
                 "extraction_pipeline_id" : extraction_pipeline_id,
@@ -741,6 +758,166 @@ def process_input_request(request_data, session):
 
     return True, None
 
+def get_internal_user_id(external_user_id : str, session : Session):
+    # First check if this user already exists
+    users_table_name = get_complete_table_name("users")
+    users_table = get_base().metadata.tables[users_table_name]
+    try:
+        user_id_select_statement = SELECT_STATEMENT(users_table)
+        user_id_select_statement = user_id_select_statement.where(users_table.c.external_user_id == external_user_id)
+        user_id_result = session.execute(user_id_select_statement).all()
+
+        # Ensure we got a result
+        if len(user_id_result) > 0:
+            first_row = user_id_result[0]._mapping
+            return True, first_row["internal_user_id"]
+    except:
+        return False, "Failed to find user " + str(external_user_id) + " in table " + str(users_table_name) + " due to error: " + traceback.format_exc()
+
+    # Try to insert the user if we saw the user for the first time
+    try:
+        user_id_insert_values = {
+            "external_user_id" : external_user_id,
+        }
+        user_insert_statement = INSERT_STATEMENT(users_table).values(**user_id_insert_values)
+        user_insert_statement = user_insert_statement.on_conflict_do_nothing(index_elements = list(user_id_insert_values.keys()))
+        result = session.execute(user_insert_statement)
+        session.commit()
+
+        # Get the internal id
+        result_insert_keys = result.inserted_primary_key
+        if len(result_insert_keys) == 0:
+            return False, "Insert statement " + str(user_insert_statement) + " returned zero primary keys"
+        return True, result_insert_keys[0]
+
+    except:
+        return False, "Failed to insert user " + str(external_user_id) + " into table " + str(users_table_name) + " due to error: " + traceback.format_exc()
+
+def is_valid_entity_type_id(entity_type_id, session : Session):
+    entity_type_table_name = get_complete_table_name("entity_type")
+    entity_type_table = get_base().metadata.tables[entity_type_table_name]
+
+    # First try to get the entity type
+    try:
+        entity_type_id_select_statement = SELECT_STATEMENT(entity_type_table)
+        entity_type_id_select_statement = entity_type_id_select_statement.where(entity_type_table.c.id == entity_type_id)
+        entity_type_result = session.execute(entity_type_id_select_statement).all()
+
+        # Return if this type is valid or not
+        return len(entity_type_result) > 0
+    except:
+        err_msg = "Failed to find type id " + str(entity_type_id) + " in table " + str(entity_type_table_name) + " due to error: " + traceback.format_exc()
+        print(err_msg)
+        return False
+
+def record_user_node_info(node_info, request_additional_data, session : Session):
+    # Ensure that we have the required metadata fields
+    run_verify_result = verify_key_presents(node_info, ["id", "name"])
+    if run_verify_result is not None:
+        return False, run_verify_result
+    
+    # Determine the entity details
+    old_node_id = node_info["id"]
+    entity_name = node_info["name"]
+    start_idx, end_idx = None, None
+    if "txt_range" in node_info:
+        txt_range_details = node_info["txt_range"]
+        if len(txt_range_details) > 0:
+            first_range = txt_range_details[0]
+            start_idx, end_idx = first_range[0], first_range[1]
+    
+    # Record if the user provided the id for an entity type
+    curr_entity_type_id = node_info["type"]
+    request_additional_data.pop("curr_entity_type_id", None)
+    if "type" in node_info and is_valid_entity_type_id(curr_entity_type_id, session):
+        request_additional_data["curr_entity_type_id"] = curr_entity_type_id
+
+    success, new_node_id = get_entity_id(entity_name, None, request_additional_data, session, start_idx, end_idx)
+    if not success:
+        return success, new_node_id
+
+    # Record the mapping
+    request_additional_data["node_id_mappings"][old_node_id] = new_node_id
+    return True, None
+
+def record_user_relationship_info(curr_edge, request_additional_data, session : Session):
+    # Ensure that we have the required metadata fields
+    run_verify_result = verify_key_presents(curr_edge, ["source", "dest"])
+    if run_verify_result is not None:
+        return False, run_verify_result
+    
+    # Get the new node ids
+    node_mappings = request_additional_data["node_id_mappings"]
+    old_source_id = curr_edge["source"]
+    if old_source_id not in node_mappings:
+        return False, "Don't have mapping for source node " + str(old_source_id)
+    new_source_id = node_mappings[old_source_id]
+
+    old_dest_id = curr_edge["dest"]
+    if old_dest_id not in node_mappings:
+        return False, "Don't have mapping for dest node " + str(old_dest_id)
+    new_dest_id = node_mappings[old_dest_id]
+
+    return insert_relationship(new_source_id, new_dest_id, None, request_additional_data, session)
+
+def process_user_feedback_input_request(request_data, session):
+    # Ensure that we have the required metadata fields
+    run_verify_result = verify_key_presents(request_data, ["sourceTextId", "supersedesRunIds", "user_id"])
+    if run_verify_result is not None:
+        return False, run_verify_result
+    
+    # Get the internal user id
+    success, user_id = get_internal_user_id(request_data["user_id"], session)
+    if not success:
+        return success, user_id
+    
+    # Then get the previous run for this result
+    source_text_id = request_data["sourceTextId"]
+    success, previous_run_id = get_previous_run(source_text_id, session)
+    if not success:
+        return success, previous_run_id
+
+    # Get the user run table
+    request_additional_data = {}
+    user_run_table_name = get_complete_table_name("all_runs")
+    user_run_table = get_base().metadata.tables[user_run_table_name]
+    try:
+        user_run_insert_values = {
+            "user_id" : user_id,
+            "source_text_id" : source_text_id
+        }
+        if previous_run_id is not None:
+            user_run_insert_values["supersedes"] = previous_run_id
+
+        user_run_insert_request = INSERT_STATEMENT(user_run_table).values(**user_run_insert_values)
+        user_run_insert_request = user_run_insert_request.on_conflict_do_update(constraint = "no_duplicate_runs", set_ = user_run_insert_values)
+        result = session.execute(user_run_insert_request)
+        session.commit()
+
+        # Now get the interal run id for this new run
+        result_insert_keys = result.inserted_primary_key
+        if len(result_insert_keys) == 0:
+            return False, "Insert statement " + str(user_run_insert_request) + " returned zero primary keys"
+        request_additional_data["internal_run_id"] = result_insert_keys[0]
+    except:
+        return False, "Failed to insert feedback for document " + str(source_text_id) + " from user " + str(user_id) + " due to error: " + traceback.format_exc()
+
+    # Record the nodes we have
+    request_additional_data["node_id_mappings"] = {}
+    if "nodes" in request_data:
+        for curr_node in request_data["nodes"]:
+            success, err_msg = record_user_node_info(curr_node, request_additional_data, session)
+            if not success:
+                return success, err_msg
+    
+    if "edges" in request_data:
+        for curr_edge in request_data["edges"]:
+            success, err_msg = record_user_relationship_info(curr_edge, request_additional_data, session)
+            if not success:
+                return success, err_msg
+
+    return True, None
+
 # Opentially take in user id
 @app.post("/record_run")
 async def record_run(
@@ -753,10 +930,19 @@ async def record_run(
     if not user_has_access:
         raise HTTPException(status_code=403, detail="User does not have access to record run")
 
-    # Record the run
+    # Get the request data
     request_data = await request.json()
+    if user_id is None:
+        user_id = "test_user"
+    request_data["user_id"] = str(user_id)
 
-    successful, error_msg = process_input_request(request_data, session)
+    # Record the run
+    successful, error_msg = False, "Request is not a model or feedback run"
+    if "run_id" in request_data:
+        successful, error_msg = process_model_input_request(request_data, session)
+    elif "sourceTextId" in request_data:
+        successful, error_msg = process_user_feedback_input_request(request_data, session)
+    
     if not successful:
         raise HTTPException(status_code=400, detail=error_msg)
 
