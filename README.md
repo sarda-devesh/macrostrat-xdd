@@ -51,9 +51,9 @@ We have developed two different LLM/ML based approaches to extract rock descript
 
 ## API Endpoint
 
-The API endpoint is a Flask server that uses SQLAlchemy to verify the input data and insert it into the macrostrat database. The code for the server can be found in the `macrostrat_db_insertion` directory. 
+The API endpoint is a Flask server that uses SQLAlchemy to verify the input data from both the models and user feedback and insert it into the macrostrat database. Specifically, the servers process the unstructured output provided (see `macrostrat_db_insertion/example_requests` for some example data), verifies and sanitizies it and maps it to a structured format so that it can be inserted into the `macrostrat_xdd` schema, as defined in `macrostrat_db_insertion/macrostrat_xdd_schema.sql`.
 
-We have provided a conda environment that contains all of the necessary dependencies which you can setup using:
+The code for the server can be found in the `macrostrat_db_insertion` directory. We have provided a docker container that contains all of the necessary dependencies which you can setup using:
 ```
 $ cd macrostrat_db_insertion
 $ export CURRENT_DIR=`pwd`
@@ -70,14 +70,8 @@ Then you can launch the server using:
 $ python3 -u server.py &> server_requests.log &
 ```
 
-which will launch the server on port `9543` as a background process. Note that to properly launch the server, the environment variables `uri`, and `macrostrat_xdd_schema_name` must be set to the proper values. 
-
-Once the server is launched you can make a request to the server using:
-
-```
-$ python insertion_test.py
-```
-which will send the request data in `example_request.json` to the server to be inserted into the DB. Note that currently have this server running at: `http://cosmos0003.chtc.wisc.edu:9543/record_run`. 
+which will launch the server on port `9543` as a background process. Note that to properly launch the server, the environment variables `uri`, and `schema` must be set to the proper values so that the server can properly communicate
+with the database. 
 
 ## Frontend React component
 
