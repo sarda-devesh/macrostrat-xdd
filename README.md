@@ -89,3 +89,5 @@ options:
   --schema SCHEMA      The schema to connect to
   --save_dir SAVE_DIR  The directory to save the results to
 ```
+
+Checkout this README on how to train the `unsupervised_kg` model on this feedback dataset: [https://github.com/UW-Macrostrat/unsupervised-kg?tab=readme-ov-file#spanbert-training](https://github.com/UW-Macrostrat/unsupervised-kg?tab=readme-ov-file#spanbert-training)
