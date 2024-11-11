@@ -1,0 +1,202 @@
+{
+    "nodes": [
+      {
+        "id": 391819,
+        "type": 2,
+        "name": "Jordan",
+        "txt_range": [
+          [
+            62,
+            68
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391821,
+        "type": 3,
+        "name": "Pryor",
+        "txt_range": [
+          [
+            73,
+            78
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391823,
+        "type": 1,
+        "name": "Single",
+        "txt_range": [
+          [
+            311,
+            317
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391822,
+        "type": 2,
+        "name": "Miall",
+        "txt_range": [
+          [
+            284,
+            289
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391824,
+        "type": 4,
+        "name": "Fig.",
+        "txt_range": [
+          [
+            385,
+            389
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391825,
+        "type": 4,
+        "name": "Bristow",
+        "txt_range": [
+          [
+            640,
+            647
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391826,
+        "type": 4,
+        "name": "Best",
+        "txt_range": [
+          [
+            652,
+            656
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391815,
+        "type": 1,
+        "name": "Pryor",
+        "txt_range": [
+          [
+            73,
+            78
+          ]
+        ],
+        "reasoning": null,
+        "match": {
+          "type": "strat_name",
+          "id": 72932
+        }
+      },
+      {
+        "id": 391816,
+        "type": 2,
+        "name": "maps",
+        "txt_range": [
+          [
+            96,
+            100
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 391818,
+        "type": 3,
+        "name": "sedimentary",
+        "txt_range": [
+          [
+            84,
+            95
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": -1,
+        "type": 2,
+        "name": "designate",
+        "txt_range": [
+          [
+            338,
+            347
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": -3,
+        "type": 11,
+        "name": "dynamic greatly",
+        "txt_range": [
+          [
+            669,
+            684
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": -2,
+        "type": 10,
+        "name": "meander belt",
+        "txt_range": [
+          [
+            133,
+            145
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      }
+    ],
+    "edges": [
+      {
+        "source": 391819,
+        "dest": 391821
+      },
+      {
+        "source": 391823,
+        "dest": 391822
+      },
+      {
+        "source": 391815,
+        "dest": 391816
+      },
+      {
+        "source": 391816,
+        "dest": 391818
+      },
+      {
+        "source": -3,
+        "dest": -2
+      }
+    ],
+    "sourceTextId": 22900,
+    "supersedesRunIds": [
+      26680
+    ]
+  }

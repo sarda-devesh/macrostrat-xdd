@@ -1,0 +1,83 @@
+{
+  "nodes": [
+    {
+      "id": 392536,
+      "type": 4,
+      "name": "Tree",
+      "txt_range": [
+        [
+          597,
+          601
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": 392535,
+      "type": 4,
+      "name": "Gowganda",
+      "txt_range": [
+        [
+          579,
+          587
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": -1,
+      "type": 1,
+      "name": "mafic",
+      "txt_range": [
+        [
+          305,
+          310
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": -2,
+      "type": 2,
+      "name": "apparent",
+      "txt_range": [
+        [
+          207,
+          215
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    },
+    {
+      "id": -3,
+      "type": 3,
+      "name": "feldspar",
+      "txt_range": [
+        [
+          64,
+          72
+        ]
+      ],
+      "reasoning": null,
+      "match": null
+    }
+  ],
+  "edges": [
+    {
+      "source": -1,
+      "dest": -2
+    },
+    {
+      "source": -2,
+      "dest": -3
+    }
+  ],
+  "sourceTextId": 22938,
+  "supersedesRunIds": [
+    26718
+  ]
+}

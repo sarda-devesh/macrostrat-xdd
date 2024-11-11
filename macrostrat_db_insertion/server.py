@@ -793,7 +793,7 @@ def get_internal_user_id(external_user_id : str, session : Session):
     except:
         return False, "Failed to insert user " + str(external_user_id) + " into table " + str(users_table_name) + " due to error: " + traceback.format_exc()
 
-def is_valid_entity_type_id(entity_type_id, session : Session):
+def get_entity_type_text(entity_type_id, session : Session):
     entity_type_table_name = get_complete_table_name("entity_type")
     entity_type_table = get_base().metadata.tables[entity_type_table_name]
 
@@ -804,15 +804,17 @@ def is_valid_entity_type_id(entity_type_id, session : Session):
         entity_type_result = session.execute(entity_type_id_select_statement).all()
 
         # Return if this type is valid or not
-        return len(entity_type_result) > 0
+        if len(entity_type_result) == 0:
+            return False, "Failed to get text for entity type id of " + str(entity_type_id)
+        
+        return True, entity_type_result[0]._mapping["name"]
     except:
         err_msg = "Failed to find type id " + str(entity_type_id) + " in table " + str(entity_type_table_name) + " due to error: " + traceback.format_exc()
-        print(err_msg)
-        return False
+        return False, err_msg
 
 def record_user_node_info(node_info, request_additional_data, session : Session):
     # Ensure that we have the required metadata fields
-    run_verify_result = verify_key_presents(node_info, ["id", "name"])
+    run_verify_result = verify_key_presents(node_info, ["id", "type", "name"])
     if run_verify_result is not None:
         return False, run_verify_result
     
@@ -829,15 +831,17 @@ def record_user_node_info(node_info, request_additional_data, session : Session)
     # Record if the user provided the id for an entity type
     curr_entity_type_id = node_info["type"]
     request_additional_data.pop("curr_entity_type_id", None)
-    if "type" in node_info and is_valid_entity_type_id(curr_entity_type_id, session):
-        request_additional_data["curr_entity_type_id"] = curr_entity_type_id
+    success, entity_type_name = get_entity_type_text(curr_entity_type_id, session)
+    if not success:
+        return success, entity_type_name
 
+    request_additional_data["curr_entity_type_id"] = curr_entity_type_id
     success, new_node_id = get_entity_id(entity_name, None, request_additional_data, session, start_idx, end_idx)
     if not success:
         return success, new_node_id
 
     # Record the mapping
-    request_additional_data["node_id_mappings"][old_node_id] = new_node_id
+    request_additional_data["node_id_mappings"][old_node_id] = (new_node_id, entity_type_name)
     return True, None
 
 def record_user_relationship_info(curr_edge, request_additional_data, session : Session):
@@ -851,14 +855,15 @@ def record_user_relationship_info(curr_edge, request_additional_data, session : 
     old_source_id = curr_edge["source"]
     if old_source_id not in node_mappings:
         return False, "Don't have mapping for source node " + str(old_source_id)
-    new_source_id = node_mappings[old_source_id]
+    new_source_id, source_type = node_mappings[old_source_id]
 
     old_dest_id = curr_edge["dest"]
     if old_dest_id not in node_mappings:
         return False, "Don't have mapping for dest node " + str(old_dest_id)
-    new_dest_id = node_mappings[old_dest_id]
+    new_dest_id, dest_type = node_mappings[old_dest_id]
 
-    return insert_relationship(new_source_id, new_dest_id, None, request_additional_data, session)
+    relationship_type = str(source_type) + "_to_" + str(dest_type)
+    return insert_relationship(new_source_id, new_dest_id, relationship_type, request_additional_data, session)
 
 def process_user_feedback_input_request(request_data, session):
     # Ensure that we have the required metadata fields
@@ -938,12 +943,13 @@ async def record_run(
 
     # Record the run
     successful, error_msg = False, "Request is not a model or feedback run"
-    if "run_id" in request_data:
-        successful, error_msg = process_model_input_request(request_data, session)
-    elif "sourceTextId" in request_data:
+    if "sourceTextId" in request_data: 
         successful, error_msg = process_user_feedback_input_request(request_data, session)
+    elif "run_id" in request_data:
+        successful, error_msg = process_model_input_request(request_data, session)
     
     if not successful:
+        print("Returning error message", error_msg)
         raise HTTPException(status_code=400, detail=error_msg)
 
     return JSONResponse(content={"success": "Successfully processed the run"})
