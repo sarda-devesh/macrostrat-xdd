@@ -161,3 +161,4 @@ cython_debug/
 
 macrostrat_db_insertion/actual_macrostrat.json
 macrostrat_db_insertion/temp_data
+retraining_runner/feedback_training_dataset

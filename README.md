@@ -76,3 +76,16 @@ with the database.
 ## Frontend React component
 
 The frontend React component can be found in this repo: [UW-Macrostrat/web-components](https://github.com/UW-Macrostrat/web-components/tree/main/packages/feedback-components). A current version of this feedback component can be found at [http://cosmos0003.chtc.wisc.edu:3000/?path=/docs/feedback-components-feedbackcomponent--docs](http://cosmos0003.chtc.wisc.edu:3000/?path=/docs/feedback-components-feedbackcomponent--docs) 
+
+## Feedback puller
+
+Our training scripts use a different format to represent the relationships than the schema defined in `macrostrat_db_insertion/macrostrat_xdd_schema.sql`. Thus we wrote a script (`retraining_runner/feedback_puller.py`) which reads in the feedback from the database and converts it to a format required by the training scripts. The followings arguments must be specified to the script:
+```
+usage: feedback_puller.py [-h] --uri URI --schema SCHEMA --save_dir SAVE_DIR
+
+options:
+  -h, --help           show this help message and exit
+  --uri URI            The URI to use to connect to the database
+  --schema SCHEMA      The schema to connect to
+  --save_dir SAVE_DIR  The directory to save the results to
+```

@@ -240,7 +240,7 @@ def get_weaviate_text_id(source_text, request_additional_data, session: Session)
         sources_values["source_text_type"] = curr_text_type
 
         sources_insert_statement = INSERT_STATEMENT(sources_table).values(**sources_values)
-        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["source_text_type", "paragraph_text"])
+        sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["source_text_type", "hashed_text"])
         session.execute(sources_insert_statement)
         session.commit()
     except:
@@ -250,7 +250,7 @@ def get_weaviate_text_id(source_text, request_additional_data, session: Session)
     try:
         source_id_select_statement = SELECT_STATEMENT(sources_table.c.id)
         source_id_select_statement = source_id_select_statement.where(sources_table.c.source_text_type == curr_text_type)
-        source_id_select_statement = source_id_select_statement.where(sources_table.c.paragraph_text == source_text["paragraph_text"])
+        source_id_select_statement = source_id_select_statement.where(sources_table.c.hashed_text == paragraph_hash)
         source_id_result = session.execute(source_id_select_statement).all()
 
         # Ensure we got a result

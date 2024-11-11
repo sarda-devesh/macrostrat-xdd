@@ -1,0 +1,127 @@
+{
+    "nodes": [
+      {
+        "id": 392659,
+        "type": 1,
+        "name": "Kubler",
+        "txt_range": [
+          [
+            204,
+            210
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 392660,
+        "type": 2,
+        "name": "The top of the sedimentary infill",
+        "txt_range": [
+          [
+            0,
+            33
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 392662,
+        "type": 3,
+        "name": "sedimentary",
+        "txt_range": [
+          [
+            15,
+            26
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": 392664,
+        "type": 3,
+        "name": "quartz",
+        "txt_range": [
+          [
+            78,
+            84
+          ]
+        ],
+        "reasoning": null,
+        "match": {
+          "type": "lith_att",
+          "id": 94
+        }
+      },
+      {
+        "id": 392668,
+        "type": 3,
+        "name": "fine",
+        "txt_range": [
+          [
+            508,
+            512
+          ]
+        ],
+        "reasoning": null,
+        "match": {
+          "type": "lith_att",
+          "id": 45
+        }
+      },
+      {
+        "id": -1,
+        "type": 2,
+        "name": "horizon",
+        "txt_range": [
+          [
+            294,
+            301
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      },
+      {
+        "id": -2,
+        "type": 3,
+        "name": "acidic",
+        "txt_range": [
+          [
+            433,
+            439
+          ]
+        ],
+        "reasoning": null,
+        "match": null
+      }
+    ],
+    "edges": [
+      {
+        "source": 392659,
+        "dest": 392660
+      },
+      {
+        "source": 392660,
+        "dest": 392662
+      },
+      {
+        "source": 392660,
+        "dest": 392664
+      },
+      {
+        "source": 392660,
+        "dest": 392668
+      },
+      {
+        "source": -1,
+        "dest": -2
+      }
+    ],
+    "sourceTextId": 22950,
+    "supersedesRunIds": [
+      26730
+    ]
+  }
