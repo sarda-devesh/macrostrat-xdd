@@ -215,6 +215,41 @@ def record_publication(source_text, request_additional_data, session: Session):
 
     return True, None
 
+def get_paper_tags(paper_id):
+    request_params = {"docid" : paper_id, "fields" : "tags"}
+    try:
+        get_result = requests.get("https://xdd.wisc.edu/api/articles", params = request_params).json()
+    except:
+        print("Got except making get request for paper", paper_id)
+        return None
+
+    # Make sure the tags fields exist
+    if "success" not in get_result:
+        print("Missing success from get result for paper", paper_id)
+        return None
+    
+    success_result = get_result["success"]
+    if "data" not in success_result:
+        print("Missing data from get result for paper", paper_id)
+        return None
+    
+    data_result = success_result["data"]
+    if len(data_result) == 0:
+        print("Data result is empty for paper", paper_id)
+        return None
+    
+    first_data_result = data_result[0]
+    if "tags" not in first_data_result:
+        print("Missing tags for paper", paper_id)
+        return None
+    
+    all_tags = first_data_result["tags"]
+    if len(all_tags) == 0:
+        print("Got empty tags for paper", paper_id)
+        return None
+    
+    return ",".join(all_tags)
+
 def get_weaviate_text_id(source_text, request_additional_data, session: Session):
     # Verify that we have the required fields
     required_source_fields = ["preprocessor_id", "paper_id", "hashed_text", "weaviate_id", "paragraph_text"]
@@ -238,6 +273,11 @@ def get_weaviate_text_id(source_text, request_additional_data, session: Session)
         for key_name in required_source_fields:
             sources_values[key_name] = source_text[key_name]
         sources_values["source_text_type"] = curr_text_type
+
+        # See if we can insert a tag
+        paper_tags = get_paper_tags(source_text["paper_id"])
+        if paper_tags is not None:
+            sources_values["xdd_tags"] = paper_tags
 
         sources_insert_statement = INSERT_STATEMENT(sources_table).values(**sources_values)
         sources_insert_statement = sources_insert_statement.on_conflict_do_nothing(index_elements = ["source_text_type", "hashed_text"])
